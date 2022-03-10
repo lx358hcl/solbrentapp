@@ -34,7 +34,16 @@ class HomeFragment : Fragment() {
             textView.text = it
         }
         return root
+
+
+        //Starte søkeaktiviteten
+        binding.searchButton.setOnClickListener{
+            true
+        }
+
     }
+
+
 
 
 
