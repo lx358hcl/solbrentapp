@@ -32,16 +32,43 @@ class HomeFragment : Fragment() {
         val textHome: TextView = binding.textHome
         val textUV: TextView = binding.textViewUV
         val textKlokke: TextView = binding.textViewKlokke
-        val textDato: TextView = binding.textViewDato
+        val textDate: TextView = binding.textViewDato
         val textLeft: TextView = binding.textViewLeft
         val textLeftMid: TextView = binding.textViewLeftMid
         val textRightMid: TextView = binding.textViewRightMid
         val textRight: TextView = binding.textViewRight
 
 
-        homeViewModel.text.observe(viewLifecycleOwner) {
+        homeViewModel.textHome.observe(viewLifecycleOwner) {
             textHome.text = it
+        }
+
+        homeViewModel.textUV.observe(viewLifecycleOwner) {
             textUV.text = it
+        }
+
+        homeViewModel.textDate.observe(viewLifecycleOwner) {
+            textDate.text = it
+        }
+
+        homeViewModel.textKlokke.observe(viewLifecycleOwner) {
+            textKlokke.text = it
+        }
+
+        homeViewModel.textLeft.observe(viewLifecycleOwner) {
+            textLeft.text = it
+        }
+
+        homeViewModel.textLeftMid.observe(viewLifecycleOwner) {
+            textLeftMid.text = it
+        }
+
+        homeViewModel.textRightMid.observe(viewLifecycleOwner) {
+            textRightMid.text = it
+        }
+
+        homeViewModel.textRight.observe(viewLifecycleOwner) {
+            textRight.text = it
         }
         return root
 
