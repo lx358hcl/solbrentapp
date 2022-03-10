@@ -29,17 +29,22 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
 
 
-        val textView: TextView = binding.textHome
+        val textHome: TextView = binding.textHome
+        val textUV: TextView = binding.textViewUV
+        val textKlokke: TextView = binding.textViewKlokke
+        val textDato: TextView = binding.textViewDato
+        val textLeft: TextView = binding.textViewLeft
+        val textLeftMid: TextView = binding.textViewLeftMid
+        val textRightMid: TextView = binding.textViewRightMid
+        val textRight: TextView = binding.textViewRight
+
+
         homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+            textHome.text = it
+            textUV.text = it
         }
         return root
 
-
-        //Starte søkeaktiviteten
-        binding.searchButton.setOnClickListener{
-            true
-        }
 
     }
 

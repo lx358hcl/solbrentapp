@@ -6,8 +6,38 @@ import androidx.lifecycle.ViewModel
 
 class HomeViewModel : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
+    private val _textHome = MutableLiveData<String>().apply {
         value = "God\nmorgen"
     }
-    val text: LiveData<String> = _text
+    val textHome: LiveData<String> = _textHome
+
+    private val _textHome = MutableLiveData<String>().apply {
+        value = "God\nmorgen"
+    }
+    val textHome: LiveData<String> = _textHome
+
+    private val _textHome = MutableLiveData<String>().apply {
+        value = "God\nmorgen"
+    }
+    val textHome: LiveData<String> = _textHome
+
+    private val _textHome = MutableLiveData<String>().apply {
+        value = "God\nmorgen"
+    }
+    val textHome: LiveData<String> = _textHome
+
+    private val _textHome = MutableLiveData<String>().apply {
+        value = "God\nmorgen"
+    }
+    val textHome: LiveData<String> = _textHome
+
+    private val _textHome = MutableLiveData<String>().apply {
+        value = "God\nmorgen"
+    }
+    val textHome: LiveData<String> = _textHome
+    private val _textHome = MutableLiveData<String>().apply {
+        value = "God\nmorgen"
+    }
+    val textHome: LiveData<String> = _textHome
+
 }
