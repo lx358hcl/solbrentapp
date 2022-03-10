@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.33" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/bg_gradient.xml" value="0.3305" />
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/ic_baseline_map_24.xml" value="0.328" />
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.328" />
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.3245" />
@@ -15,10 +16,12 @@
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.33" />
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.3305" />
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/rounded_corner.xml" value="0.5635" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/splash_background.xml" value="0.3305" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/activity_search.xml" value="0.321875" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/cardextended.xml" value="0.33" />
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/fragment_dashboard.xml" value="0.2793819655521783" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/fragment_home.xml" value="0.33" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/fragment_home.xml" value="0.12" />
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/fragment_notifications.xml" value="0.2793819655521783" />
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/menu/bottom_nav_menu.xml" value="0.5656410256410257" />
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/menu/options_menu.xml" value="0.325" />
