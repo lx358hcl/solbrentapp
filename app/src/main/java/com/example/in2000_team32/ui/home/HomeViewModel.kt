@@ -8,8 +8,8 @@ import java.util.*
 
 class HomeViewModel : ViewModel() {
 
-    var currentDate: String = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
-    var currentTime: String = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
+    private var currentDate: String = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
+    private var currentTime: String = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
 
     private val _textHome = MutableLiveData<String>().apply {
         value = "God\nmorgen"
