@@ -1,5 +1,6 @@
 package com.example.in2000_team32.ui.home
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ class HomeFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -26,9 +28,12 @@ class HomeFragment : Fragment() {
             ViewModelProvider(this).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
         val root: View = binding.root
 
 
+        val homeLayout = binding.homeLayout
+        val searchButton = binding.searchButton
         val textHome: TextView = binding.textHome
         val textUV: TextView = binding.textViewUV
         val textKlokke: TextView = binding.textViewKlokke
@@ -37,6 +42,14 @@ class HomeFragment : Fragment() {
         val textLeftMid: TextView = binding.textViewLeftMid
         val textRightMid: TextView = binding.textViewRightMid
         val textRight: TextView = binding.textViewRight
+
+
+        searchButton.setOnClickListener{
+            ObjectAnimator.ofFloat(homeLayout, "translationY", -100f).apply {
+                duration = 2000
+                start()
+            }
+        }
 
 
         homeViewModel.textHome.observe(viewLifecycleOwner) {
@@ -72,8 +85,8 @@ class HomeFragment : Fragment() {
         }
         return root
 
-
     }
+
 
 
 
