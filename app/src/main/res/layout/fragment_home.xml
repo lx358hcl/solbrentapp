@@ -10,7 +10,8 @@
     android:layout_height="match_parent"
     android:gravity="bottom"
     app:layout_constraintVertical_weight="@integer/material_motion_duration_long_2"
-    app:umanoPanelHeight="35dp"
+    app:umanoParallaxOffset="100dp"
+    app:umanoPanelHeight="130dp"
     app:umanoShadowHeight="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -122,7 +123,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:text="@string/placeholder"
-            android:textColor="@color/black"
+            android:textColor = "?android:textColorPrimary"
             android:gravity="start"
             android:textSize="64sp"
             android:textStyle="bold"
@@ -234,7 +235,7 @@
             android:text="@string/placeholder"
             android:textSize="40sp"
             android:textStyle="bold"
-            android:textColor="@color/black"
+            android:textColor = "?android:textColorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewDetaljer" />
@@ -276,7 +277,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="end"
                 android:text="@string/placeholder"
-                android:textColor="@color/black"
+                android:textColor = "?android:textColorPrimary"
                 android:textSize="40sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
