@@ -349,9 +349,9 @@
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/searchLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/searchLayout2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="80dp"
         android:background="?android:colorBackground"
         android:elevation="16dp"
@@ -359,8 +359,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45"
-        android:translationY="750dp">
+        app:layout_constraintVertical_bias="0.45">
 
         <EditText
             android:id="@+id/EditTextAddress"
