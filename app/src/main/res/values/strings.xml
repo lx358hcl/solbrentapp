@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">IN2000-TEAM32</string>
+    <string name="title_home">Hjem</string>
+    <string name="title_profile">Min Side</string>
+    <string name="title_map">Kart</string>
+    <string name="search_title">Søk</string>
+    <string name="search_hint">Skriv inn en adresse</string>
+    <string name="MorgenTekst">God Morgen</string>
+    <string name="searchButtonHelpText">Skriv inn og søk på en addresse</string>
+    <string name="solBildeAltTekst">Bilde av en sol</string>
+    <string name="placeholder">placeholder</string>
+    <string name="detaljertInfo">Detaljer</string>
+    <string name="backdrop_content">Here is your content</string>
+    <string name="søkButtonString">Søk</string>
+    <string name="søkefelthint">Skriv inn en adresse...</string>
 </resources>
