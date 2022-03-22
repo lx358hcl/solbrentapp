@@ -3,4 +3,5 @@
     <string name="backdrop_content">Here is your content</string>
     <string name="extendedTaBildeFAB">Ta bilde</string>
     <string name="innstillingerString">Innstillinger</string>
+    <string name="solforhold">Solforhold</string>
 </resources>
