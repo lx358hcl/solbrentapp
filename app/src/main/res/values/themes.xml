@@ -12,12 +12,9 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <!--
-         <item name="windowActionBar">false</item>
-         <item name="windowNoTitle">true</item>
-         <item name="android:windowFullscreen">true</item>
-        <item name="android:windowBackground">@drawable/splash_background</item>-->
+
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:colorBackground">@color/white</item>
      </style>
  </resources>

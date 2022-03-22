@@ -1,6 +1,5 @@
 package com.example.in2000_team32.ui.home
 
-import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,15 +7,21 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.in2000_team32.R
 import com.example.in2000_team32.databinding.FragmentHomeBinding
+
 
 class HomeFragment : Fragment() {
 
+    var show = false
+
     private var _binding: FragmentHomeBinding? = null
+
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
 
 
     override fun onCreateView(
@@ -30,9 +35,10 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         val root: View = binding.root
+        hideSearch()
 
 
-        val homeLayout = binding.homeLayout
+
         val searchButton = binding.searchButton
         val textHome: TextView = binding.textHome
         val textUV: TextView = binding.textViewUV
@@ -44,10 +50,12 @@ class HomeFragment : Fragment() {
         val textRight: TextView = binding.textViewRight
 
 
+
         searchButton.setOnClickListener{
-            ObjectAnimator.ofFloat(homeLayout, "translationY", -100f).apply {
-                duration = 2000
-                start()
+            if (show){
+                hideSearch()
+            } else {
+                showSearch()
             }
         }
 
@@ -88,12 +96,22 @@ class HomeFragment : Fragment() {
     }
 
 
+    fun hideSearch(){
+        var searchDistance = resources.getDimensionPixelSize(R.dimen.searchDistance).toFloat()
+        show = false
+        binding.searchLayout1.animate().translationY(searchDistance)
+    }
 
-
-
+    fun showSearch(){
+        var searchDistance = resources.getDimensionPixelSize(R.dimen.searchDistance).toFloat()
+        show = true
+        binding.searchLayout1.animate().translationY(0F)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 }
+
+
