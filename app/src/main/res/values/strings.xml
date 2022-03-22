@@ -11,6 +11,12 @@
     <string name="placeholder">placeholder</string>
     <string name="detaljertInfo">Detaljer</string>
     <string name="backdrop_content">Here is your content</string>
+
+    <string name="extendedTaBildeFAB">Ta bilde</string>
+    <string name="innstillingerString">Innstillinger</string>
+    <string name="solforhold">Solforhold</string>
+
     <string name="søkButtonString">Søk</string>
     <string name="søkefelthint">Skriv inn en adresse...</string>
+
 </resources>

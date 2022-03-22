@@ -49,5 +49,9 @@ dependencies {
     implementation 'jp.wasabeef:blurry:4.0.1'
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
     implementation 'com.google.android.material:material:1.6.0-alpha03'
+
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
     implementation 'com.android.support.constraint:constraint-layout:2.0.4'
+
 }
