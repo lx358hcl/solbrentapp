@@ -10,4 +10,5 @@
     <color name="sunny">#DFB108</color>
     <color name="grey">#808080</color>
     <color name="light_grey">#E0F2F1</color>
+    <color name="dark_grey">#1B1B1B</color>
 </resources>
