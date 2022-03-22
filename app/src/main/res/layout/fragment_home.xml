@@ -28,21 +28,20 @@
                 android:id="@+id/imageViewSun"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:contentDescription="@string/solBildeAltTekst"
                 android:src="@drawable/ic_baseline_wb_sunny_24_sunny"
-                app:layout_constraintBottom_toTopOf="@+id/textViewUV"
+                app:layout_constraintBottom_toTopOf="@+id/SolforholdTextView"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textHome"
-                app:layout_constraintVertical_bias="0.0"
+                app:layout_constraintTop_toBottomOf="@+id/text_uvi"
                 app:layout_constraintVertical_chainStyle="spread"
                 tools:ignore="ImageContrastCheck" />
 
             <TextView
-                android:id="@+id/textHome"
+                android:id="@+id/text_uvi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -65,12 +64,12 @@
                 android:text="@string/placeholder"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/textHome"
+                app:layout_constraintBottom_toBottomOf="@+id/text_uvi"
                 app:layout_constraintEnd_toStartOf="@+id/searchButton"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintStart_toEndOf="@+id/textHome"
-                app:layout_constraintTop_toTopOf="@+id/textHome" />
+                app:layout_constraintStart_toEndOf="@+id/text_uvi"
+                app:layout_constraintTop_toTopOf="@+id/text_uvi" />
 
             <ImageButton
                 android:id="@+id/searchButton"
@@ -86,100 +85,134 @@
                 app:layout_constraintTop_toTopOf="@+id/text_solstyrke" />
 
             <TextView
-                android:id="@+id/textViewLeft"
+                android:id="@+id/SolforholdTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/placeholder"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/textViewLeftMid"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewUV"
-                app:layout_constraintVertical_bias="0.23000002" />
-
-            <TextView
-                android:id="@+id/textViewLeftMid"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="@string/placeholder"
-                app:layout_constraintEnd_toStartOf="@+id/textViewRightMid"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/textViewLeft"
-                app:layout_constraintTop_toTopOf="@+id/textViewLeft" />
-
-            <TextView
-                android:id="@+id/textViewRightMid"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="@string/placeholder"
-                app:layout_constraintEnd_toStartOf="@+id/textViewRight"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/textViewLeftMid"
-                app:layout_constraintTop_toTopOf="@+id/textViewLeftMid" />
-
-            <TextView
-                android:id="@+id/textViewRight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="@string/placeholder"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/textViewRightMid"
-                app:layout_constraintTop_toTopOf="@+id/textViewRightMid" />
-
-            <TextView
-                android:id="@+id/textViewUV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:gravity="start"
                 android:text="@string/solforhold"
                 android:textColor="?android:textColorPrimary"
-                android:textSize="64sp"
+                android:textSize="40sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/imageViewSun"
-                app:layout_constraintEnd_toStartOf="@+id/textViewKlokke"
-                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textHome"
-                app:layout_constraintVertical_bias="0.84000003" />
+                app:layout_constraintTop_toBottomOf="@+id/text_uvi"
+                app:layout_constraintVertical_bias="0.62" />
 
-            <TextView
-                android:id="@+id/textViewKlokke"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/placeholder"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/toppBoks"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_corner_grey"
+                app:layout_constraintBottom_toTopOf="@+id/bunnBoks"
+                app:layout_constraintEnd_toEndOf="@+id/bunnBoks"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/bunnBoks"
+                app:layout_constraintTop_toBottomOf="@+id/SolforholdTextView"
+                app:layout_constraintVertical_bias="0.43"
+                app:layout_constraintVertical_chainStyle="packed">
+
+                <TextView
+                    android:id="@+id/textViewTopFirkantHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/placeholder"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toTopOf="@+id/textViewTopFirkant"
+                    app:layout_constraintEnd_toEndOf="@+id/textViewTopFirkant"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="@+id/textViewTopFirkant"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.5"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/textViewTopFirkant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/placeholder"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewTopFirkantHeader"
+                    app:layout_constraintVertical_bias="0.696" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bunnBoks"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/rounded_corner_grey"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/solkremBoks"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toppBoks">
+
+                <TextView
+                    android:id="@+id/textViewBunnFirkantHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/placeholder"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toTopOf="@+id/textViewBunnFirkant"
+                    app:layout_constraintEnd_toEndOf="@+id/textViewBunnFirkant"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="@+id/textViewBunnFirkant"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.5"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/textViewBunnFirkant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/placeholder"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewBunnFirkantHeader"
+                    app:layout_constraintVertical_bias="0.686" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/solkremBoks"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintBottom_toBottomOf="@+id/bunnBoks"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/textViewUV"
-                app:layout_constraintTop_toTopOf="@+id/textViewUV"
-                app:layout_constraintVertical_chainStyle="packed" />
+                app:layout_constraintStart_toEndOf="@+id/bunnBoks"
+                app:layout_constraintTop_toTopOf="@+id/toppBoks">
 
-            <TextView
-                android:id="@+id/textViewDato"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/placeholder"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/textViewKlokke"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textViewKlokke"
-                app:layout_constraintTop_toBottomOf="@+id/textViewKlokke"
-                app:layout_constraintVertical_bias="0.0" />
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/ic_suncream_uv"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -374,7 +407,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.45"
-        android:translationY="0dp">
+        android:translationY="1100dp">
 
         <EditText
             android:id="@+id/EditTextAddress"
