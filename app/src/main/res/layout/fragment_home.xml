@@ -36,13 +36,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_uvi"
+                app:layout_constraintTop_toBottomOf="@+id/textHome"
                 app:layout_constraintVertical_bias="0.0"
                 app:layout_constraintVertical_chainStyle="spread"
                 tools:ignore="ImageContrastCheck" />
 
             <TextView
-                android:id="@+id/text_uvi"
+                android:id="@+id/textHome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -64,12 +64,12 @@
                 android:text="@string/placeholder"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/text_uvi"
+                app:layout_constraintBottom_toBottomOf="@+id/textHome"
                 app:layout_constraintEnd_toStartOf="@+id/searchButton"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintStart_toEndOf="@+id/text_uvi"
-                app:layout_constraintTop_toTopOf="@+id/text_uvi" />
+                app:layout_constraintStart_toEndOf="@+id/textHome"
+                app:layout_constraintTop_toTopOf="@+id/textHome" />
 
             <ImageButton
                 android:id="@+id/searchButton"
@@ -150,7 +150,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/textViewKlokke"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_uvi"
+                app:layout_constraintTop_toBottomOf="@+id/textHome"
                 app:layout_constraintVertical_bias="0.84000003" />
 
             <TextView
