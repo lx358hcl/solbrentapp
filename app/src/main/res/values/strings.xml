@@ -18,5 +18,6 @@
 
     <string name="søkButtonString">Søk</string>
     <string name="søkefelthint">Skriv inn en adresse...</string>
+    <string name="endreHudfarge">VELG HUDFARGE</string>
 
 </resources>

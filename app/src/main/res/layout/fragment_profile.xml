@@ -9,13 +9,13 @@
 
 
     <Button
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/edit_skin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:text="@string/extendedTaBildeFAB"
+        android:text="@string/endreHudfarge"
         app:elevation="6dp"
-        app:icon="@android:drawable/ic_menu_camera"
+        app:icon="@drawable/ic_baseline_edit_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout1"
@@ -41,7 +41,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_image"
                 android:layout_width="200dp"
                 android:layout_height="match_parent"
@@ -50,17 +50,17 @@
                 android:layout_marginEnd="48dp"
                 android:layout_marginBottom="48dp"
                 android:elevation="4dp"
-                android:src="@drawable/hatkid_shiiting_paste_circular" />
+                android:src="@drawable/subaru_oyevipper" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/edit_skin"
+                android:id="@+id/floatingActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="?android:colorPrimary"
                 android:layout_alignRight="@id/profile_image"
                 android:layout_alignBottom="@id/profile_image"
-                android:src="@drawable/ic_baseline_edit_64"
-                android:elevation="8dp" />
+                android:backgroundTint="?android:colorPrimary"
+                android:elevation="8dp"
+                android:src="@drawable/ic_baseline_photo_camera_24" />
 
         </RelativeLayout>
 
@@ -73,6 +73,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.89" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView

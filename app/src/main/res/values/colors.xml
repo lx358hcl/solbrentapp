@@ -11,4 +11,15 @@
     <color name="grey">#808080</color>
     <color name="light_grey">#E0F2F1</color>
     <color name="dark_grey">#1B1B1B</color>
+
+    <array name="colors">
+        <item>#F44336</item>
+        <item>#E91E63</item>
+        <item>#3F51B5</item>
+        <item>#1E88E5</item>
+        <item>#F4511E</item>
+        <item>#546E7A</item>
+        <item>#43A047</item>
+    </array>
+    <color name="colorPrimary">#6200EE</color>
 </resources>

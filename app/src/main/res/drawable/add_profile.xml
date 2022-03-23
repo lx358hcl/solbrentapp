@@ -6,7 +6,7 @@
         </shape>
     </item>
     <item
-        android:drawable="@drawable/ic_baseline_edit_64"
+        android:drawable="@drawable/ic_baseline_photo_camera_24"
         android:bottom="@dimen/padding_12"
         android:left="@dimen/padding_12"
         android:right="@dimen/padding_12"
