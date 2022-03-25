@@ -39,8 +39,9 @@ class HomeFragment : Fragment() {
 
 
         val searchButton = binding.searchButton
+        val UVbar = binding.progressBar
 
-
+        UVbar.setProgress(100)
 
 
         searchButton.setOnClickListener{
