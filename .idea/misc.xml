@@ -3,49 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.33" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable-v24/ic_suncream_10.xml" value="0.327" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable-v24/rounded_corner.xml" value="0.3265" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/add_profile.xml" value="0.327" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/backdrop_fragment_background.xml" value="0.5295" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/bg_gradient.xml" value="0.3305" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/bg_gradient_dark.xml" value="0.3305" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/bg_gradient_fab.xml" value="0.382" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/border_set.xml" value="0.382" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.3305" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/ic_baseline_map_24.xml" value="0.328" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.328" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.3245" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/ic_baseline_wb_sunny_24.xml" value="0.33" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/ic_baseline_wb_sunny_24_sunny.xml" value="0.328" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.5635" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.5635" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/ic_launcher_background.xml" value="0.33" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.33" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.3305" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/round_button.xml" value="0.5675" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/rounded_corner.xml" value="0.5635" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/splash_background.xml" value="0.3305" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/splash_fg.xml" value="0.382" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/activity_main.xml" value="0.33" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/activity_search.xml" value="0.321875" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/backdrop_fragment.xml" value="0.4395040615647713" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/cardextended.xml" value="0.33" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/fragment_dashboard.xml" value="0.2793819655521783" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/fragment_home.xml" value="0.33" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/fragment_home_animated.xml" value="0.31295425395468146" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/fragment_map.xml" value="0.4719965797349295" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/fragment_notifications.xml" value="0.2793819655521783" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/fragment_profile.xml" value="0.4651015228426396" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/frame_layouter.xml" value="0.31295425395468146" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/homepagetest.xml" value="0.4719965797349295" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/menu/bottom_nav_menu.xml" value="0.5656410256410257" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/menu/options_menu.xml" value="0.325" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/xml/searchable.xml" value="0.325" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.14764492753623187" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.14764492753623187" />
-        <entry key="app/src/main/res/layout/fragment_map.xml" value="0.22036474164133737" />
-        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.15353260869565216" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/layout/fragment_profile.xml" value="0.264" />
       </map>
     </option>
   </component>
