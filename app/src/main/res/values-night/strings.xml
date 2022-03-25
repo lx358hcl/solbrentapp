@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="backdrop_content">Here is your content</string>
+    <string name="extendedTaBildeFAB">Ta bilde</string>
+    <string name="innstillingerString">Innstillinger</string>
+    <string name="solforhold">Solforhold</string>
+    <string name="endreHudfarge">VELG HUDFARGE</string>
 </resources>
