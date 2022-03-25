@@ -1,5 +1,6 @@
 package com.example.in2000_team32.ui.home
 
+import android.widget.TextView
 import androidx.lifecycle.ViewModel
 
 class HomeViewModel : ViewModel() {
@@ -12,4 +13,5 @@ class HomeViewModel : ViewModel() {
     }
     val textHome: LiveData<String> = _textHome
  */
+
 }

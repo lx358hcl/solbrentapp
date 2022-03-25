@@ -4,10 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.in2000_team32.api.MetDataSource
 import com.example.in2000_team32.databinding.FragmentMapBinding
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+
 class MapFragment : Fragment() {
 
     private var _binding: FragmentMapBinding? = null
@@ -31,6 +36,21 @@ class MapFragment : Fragment() {
         notificationsViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
+
+
+        // -- JUST TESTING!!! API TESTING
+        val btn: Button = binding.mapTestBtn
+        val mDataSource = MetDataSource()
+        btn.setOnClickListener {
+            runBlocking { // THIS MUST **NOT** be used in the final app!!
+                launch {
+                    mDataSource.fetchMetWeatherForecast()
+                }
+            }
+        }
+        // -- TESTING OVER --
+
+
         return root
     }
 
