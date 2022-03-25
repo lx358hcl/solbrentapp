@@ -10,7 +10,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.IN2000TEAM32">
+        android:theme="@style/Theme.IN2000TEAM32"
+
+        android:usesCleartextTraffic="true"> <!-- THIS MUST ONLY BE TRUE WHEN TESTING -->
+
         <activity
 
             android:exported="true"

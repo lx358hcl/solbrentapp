@@ -23,9 +23,12 @@ class MetDataSource {
         try {
             val response: MetResponseDto = gson.fromJson(Fuel.get(url).awaitString(), MetResponseDto::class.java)
 
+            //val tRes = Fuel.get("http://192.168.1.46:1000/weather").awaitString() // Request to test server
+
             // TODO: Handle response
             println("-------------------")
-            println(response)
+            println(response) // Actual server
+            //println(tRes) // Test server
             println("-------------------")
 
         } catch (exception: Exception) {
