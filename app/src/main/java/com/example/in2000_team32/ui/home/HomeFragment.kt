@@ -41,6 +41,7 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
 
         hideSearch()
+        hideKeyboard()
 
         val searchButton = binding.searchButton
         val UVbar = binding.progressBar
@@ -81,6 +82,7 @@ class HomeFragment : Fragment() {
         show = false
         binding.searchLayout1.animate().translationY(searchDistance)
         binding.searchButton.setBackgroundResource(R.drawable.ic_baseline_search_24)
+        binding.EditTextAddress.getText().clear()
         hideKeyboard()
     }
 
