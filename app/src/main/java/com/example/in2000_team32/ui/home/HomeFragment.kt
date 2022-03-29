@@ -72,19 +72,19 @@ class HomeFragment : Fragment() {
     fun showSearch(){
         var searchDistance = resources.getDimensionPixelSize(R.dimen.searchDistance).toFloat()
         show = true
-        binding.searchLayout1.animate().translationY(0F)
-        binding.searchButton.setBackgroundResource(R.drawable.ic_baseline_close_24)
         binding.EditTextAddress.requestFocus()
         activity?.let { showKeyboard(it) }
+        binding.searchLayout1.animate().translationY(0F)
+        binding.searchButton.setBackgroundResource(R.drawable.ic_baseline_close_24)
     }
 
     fun hideSearch(){
         var searchDistance = resources.getDimensionPixelSize(R.dimen.searchDistance).toFloat()
         show = false
-        binding.searchLayout1.animate().translationY(searchDistance)
-        binding.searchButton.setBackgroundResource(R.drawable.ic_baseline_search_24)
         binding.EditTextAddress.getText().clear()
         hideKeyboard()
+        binding.searchLayout1.animate().translationY(searchDistance)
+        binding.searchButton.setBackgroundResource(R.drawable.ic_baseline_search_24)
     }
 
     fun Fragment.hideKeyboard() {
