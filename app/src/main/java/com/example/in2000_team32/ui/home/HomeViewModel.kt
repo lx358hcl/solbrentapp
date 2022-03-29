@@ -24,17 +24,29 @@ class HomeViewModel : ViewModel() {
     // Connect Data Source Repo. to HomeViewModel
     private val dataSourceRepository = DataSourceRepository()
     private val uvData: MutableLiveData<Double> = MutableLiveData<Double>()
+    private val weatherMsg: MutableLiveData<String> = MutableLiveData<String>()
+
 
     fun getUvData(): LiveData<Double> {
         return uvData
     }
 
+    fun getWeatherMsg(): LiveData<String> {
+        return weatherMsg
+    }
+
+    // Fetch data
     fun fetchWeatherData(): Unit {
         // Do an asynchronous operation to fetch users
         viewModelScope.launch(Dispatchers.IO) {
             dataSourceRepository.getWeatherData()?.also {
+                // Set all live data variables that need to be updated
                 val uv: Double = it.properties.timeseries[0].data.instant.details.ultraviolet_index_clear_sky
                 uvData.postValue(uv)
+
+                val msg: String = it.properties.timeseries[0].data.instant.details.weather_msg
+                weatherMsg.postValue(msg)
+
             }
         }
     }

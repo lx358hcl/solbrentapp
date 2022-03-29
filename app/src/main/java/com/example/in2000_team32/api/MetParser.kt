@@ -27,4 +27,5 @@ data class ForecastDataInstantDetails(val air_pressure_at_sea_level: Double,
                                       val wind_from_direction: Double,
                                       val wind_speed: Double,
                                       val wind_speed_percentile_10: Double,
-                                      val wind_speed_percentile_90: Double)
+                                      val wind_speed_percentile_90: Double,
+                                      var weather_msg: String = "") // weather_msg is not from the API

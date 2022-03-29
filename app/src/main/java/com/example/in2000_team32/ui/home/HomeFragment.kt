@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import com.example.in2000_team32.R
 import com.example.in2000_team32.databinding.FragmentHomeBinding
@@ -70,14 +71,18 @@ class HomeFragment : Fragment() {
         // Get data
         homeViewModel.fetchWeatherData()
         // Observe changes in votes variable in viewModel
+        // Get UV data
         getActivity()?.let {
             homeViewModel.getUvData().observe(it) {
                 binding.textUvi.setText(it.toString())
             }
         }
-
-
-
+        // Get weather message
+        getActivity()?.let {
+            homeViewModel.getWeatherMsg().observe(it) { wMsg ->
+                binding.textSolstyrke.setText(wMsg)
+            }
+        }
 
 
 
