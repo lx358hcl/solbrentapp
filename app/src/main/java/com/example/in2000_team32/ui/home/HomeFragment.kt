@@ -15,7 +15,7 @@ class HomeFragment : Fragment() {
     var show = false
 
     private var _binding: FragmentHomeBinding? = null
-
+    private var uvBar = 20
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -33,14 +33,15 @@ class HomeFragment : Fragment() {
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
+
         val root: View = binding.root
+
         hideSearch()
 
-
-
         val searchButton = binding.searchButton
+        val UVbar = binding.progressBar
 
-
+        UVbar.setProgress(uvBar)
 
 
         searchButton.setOnClickListener{
@@ -66,12 +67,14 @@ class HomeFragment : Fragment() {
         var searchDistance = resources.getDimensionPixelSize(R.dimen.searchDistance).toFloat()
         show = true
         binding.searchLayout1.animate().translationY(0F)
+        binding.searchButton.setBackgroundResource(R.drawable.ic_baseline_close_24)
     }
 
     fun hideSearch(){
         var searchDistance = resources.getDimensionPixelSize(R.dimen.searchDistance).toFloat()
         show = false
         binding.searchLayout1.animate().translationY(searchDistance)
+        binding.searchButton.setBackgroundResource(R.drawable.ic_baseline_search_24)
     }
 
     override fun onDestroyView() {
