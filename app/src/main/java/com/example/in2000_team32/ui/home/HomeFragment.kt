@@ -68,6 +68,7 @@ class HomeFragment : Fragment() {
     }
 
 
+
     fun showSearch(){
         var searchDistance = resources.getDimensionPixelSize(R.dimen.searchDistance).toFloat()
         show = true
@@ -104,10 +105,6 @@ class HomeFragment : Fragment() {
             0
         )
     }
-
-
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()
