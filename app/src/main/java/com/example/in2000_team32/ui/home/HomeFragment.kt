@@ -63,8 +63,25 @@ class HomeFragment : Fragment() {
         }
          */
 
-        return root
 
+
+        // --------- Add data ---------
+
+        // Get data
+        homeViewModel.fetchWeatherData()
+        // Observe changes in votes variable in viewModel
+        getActivity()?.let {
+            homeViewModel.getUvData().observe(it) {
+                binding.textUvi.setText(it.toString())
+            }
+        }
+
+
+
+
+
+
+        return root
     }
 
 
