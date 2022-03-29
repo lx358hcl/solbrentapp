@@ -28,18 +28,18 @@ class MetDataSource {
             // Setting UV index message based on UV index
             var msg: String
             when (response.properties.timeseries[0].data.instant.details.ultraviolet_index_clear_sky.toInt()) {
-                0 -> msg = "Ingen UV stråling"
-                1 -> msg = "Ubetydelig UV stråling"
-                2 -> msg = "Noe UV stråling"
-                3 -> msg = "Noe UV stråling"
-                4 -> msg = "Litt UV stråling"
-                5 -> msg = "Litt UV stråling"
-                6 -> msg = "Endel UV stråling"
-                7 -> msg = "Mye UV stråling"
-                8 -> msg = "Mye UV stråling"
-                9 -> msg = "Veldig mye UV stråling"
-                10 -> msg = "Ekstrem UV stråling"
-                11 -> msg = "Ekstrem UV stårling!"
+                0 -> msg = "Ingen stråling"
+                1 -> msg = "Ubetydelig stråling"
+                2 -> msg = "Noe stråling"
+                3 -> msg = "Noe stråling"
+                4 -> msg = "Litt stråling"
+                5 -> msg = "Litt stråling"
+                6 -> msg = "Endel stråling"
+                7 -> msg = "Mye stråling"
+                8 -> msg = "Mye stråling"
+                9 -> msg = "Veldig mye stråling"
+                10 -> msg = "Ekstrem stråling"
+                11 -> msg = "Ekstrem stårling!"
                 else -> {
                     msg = "Feil: Ugyldig eller ingen UV"
                 }
