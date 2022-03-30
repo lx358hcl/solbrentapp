@@ -46,7 +46,6 @@ class HomeViewModel : ViewModel() {
 
                 val msg: String = it.properties.timeseries[0].data.instant.details.weather_msg
                 weatherMsg.postValue(msg)
-
             }
         }
     }

@@ -7,12 +7,9 @@ import com.google.gson.Gson
 
 
 class MetDataSource {
-
     /**
      * Fetching data from MetApi /locationforecast endpoint
-     * @return ??? (TODO: Agree on data structure of return values)
-     * -> My thoughs: we simply return the response / or null (on error) and handle formating and extracting data in the view?
-     * --> What do we save in the repository?
+     * @return MetResponseDto object
      */
     suspend fun fetchMetWeatherForecast(): MetResponseDto? {
         // Change this if we want to run a dummy server where we can control the weather
@@ -28,6 +25,7 @@ class MetDataSource {
             // Setting UV index message based on UV index
             var msg: String
             when (response.properties.timeseries[0].data.instant.details.ultraviolet_index_clear_sky.toInt()) {
+                // TODO: Flytt disse tekst strengene til en XML fil
                 0 -> msg = "Ingen stråling"
                 1 -> msg = "Ubetydelig stråling"
                 2 -> msg = "Noe stråling"
@@ -46,7 +44,6 @@ class MetDataSource {
             }
             response.properties.timeseries[0].data.instant.details.weather_msg = msg
 
-
             println("-------------------")
             println(response) // Actual server
             //println(tRes) // Test server
@@ -59,6 +56,5 @@ class MetDataSource {
 
             return null
         }
-
     }
 }

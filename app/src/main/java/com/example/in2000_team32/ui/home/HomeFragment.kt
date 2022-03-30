@@ -73,8 +73,8 @@ class HomeFragment : Fragment() {
         // Observe changes in votes variable in viewModel
         // Get UV data
         getActivity()?.let {
-            homeViewModel.getUvData().observe(it) {
-                val text: String = "$it UV"
+            homeViewModel.getUvData().observe(it) { uv ->
+                val text: String = "$uv UV"
                 binding.textUvi.setText(text)
             }
         }

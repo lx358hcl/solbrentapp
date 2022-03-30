@@ -1,5 +1,9 @@
 package com.example.in2000_team32.api
 
+import android.app.PendingIntent.getActivity
+import android.content.SharedPreferences
+import android.preference.PreferenceManager.getDefaultSharedPreferences
+
 
 /**
  * Responsible for serving weather data to viewModel.
@@ -8,6 +12,7 @@ package com.example.in2000_team32.api
 
 class DataSourceRepository {
     private val metDataSource = MetDataSource()
+    //private val sharedPreferences = getDefaultSharedPreferences
 
     /**
      * Gets data from API or cache.
@@ -20,10 +25,19 @@ class DataSourceRepository {
         var updateIsDue: Boolean = true
 
         if (!hasCache || updateIsDue) { // Test if we have to cache
-            return metDataSource.fetchMetWeatherForecast()
+            val response = metDataSource.fetchMetWeatherForecast()
+
+            // Save cache
+
+
+            return response
+
         }
 
-        // Save cache
+
+
+
+
         // https://stackoverflow.com/questions/7145606/how-do-you-save-store-objects-in-sharedpreferences-on-android
 
         return null
