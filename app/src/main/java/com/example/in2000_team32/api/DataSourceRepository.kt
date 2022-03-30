@@ -1,6 +1,7 @@
 package com.example.in2000_team32.api
 
 import android.app.PendingIntent.getActivity
+import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager.getDefaultSharedPreferences
 
@@ -10,7 +11,7 @@ import android.preference.PreferenceManager.getDefaultSharedPreferences
  * Choose between getting data from cache and MET API.
  */
 
-class DataSourceRepository {
+class DataSourceRepository(val context: Context) {
     private val metDataSource = MetDataSource()
     //private val sharedPreferences = getDefaultSharedPreferences
 
