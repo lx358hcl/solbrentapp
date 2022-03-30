@@ -18,8 +18,10 @@ class MetDataSource {
         val url = baseUrl + path
         val gson = Gson()
 
+        val runWithDummyApi: Boolean = false // Choose weather to get data from MET or Dummy API
+
         try {
-            val response: MetResponseDto = gson.fromJson(Fuel.get(url).awaitString(), MetResponseDto::class.java)
+            val response: MetResponseDto = gson.fromJson(Fuel.get(if (!runWithDummyApi) url else "http://192.168.1.46:1000/weather").awaitString(), MetResponseDto::class.java)
             //val tRes = Fuel.get("http://192.168.1.46:1000/weather").awaitString() // Request to test server
 
             // Setting UV index message based on UV index

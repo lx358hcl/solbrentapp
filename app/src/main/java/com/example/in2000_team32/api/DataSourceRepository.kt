@@ -13,6 +13,7 @@ import android.preference.PreferenceManager.getDefaultSharedPreferences
 
 class DataSourceRepository(val context: Context) {
     private val metDataSource = MetDataSource()
+    private val dsSharedPreferences = DataSourceSharedPreferences(context)
     //private val sharedPreferences = getDefaultSharedPreferences
 
     /**
@@ -29,6 +30,7 @@ class DataSourceRepository(val context: Context) {
             val response = metDataSource.fetchMetWeatherForecast()
 
             // Save cache
+            dsSharedPreferences.writeMetCache(response)
 
 
             return response
