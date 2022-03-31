@@ -1,4 +1,5 @@
 package com.example.in2000_team32.ui.map
+/*
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -59,3 +60,5 @@ class MapFragment : Fragment() {
         _binding = null
     }
 }
+
+ */
