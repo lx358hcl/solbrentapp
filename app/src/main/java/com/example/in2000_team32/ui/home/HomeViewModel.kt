@@ -39,6 +39,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
     fun fetchWeatherData(): Unit {
         // Do an asynchronous operation to fetch users
         viewModelScope.launch(Dispatchers.IO) {
+
             dataSourceRepository.getWeatherData()?.also {
                 // Set all live data variables that need to be updated
                 val uv: Double = it.properties.timeseries[0].data.instant.details.ultraviolet_index_clear_sky
@@ -46,7 +47,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
 
                 val msg: String = it.properties.timeseries[0].data.instant.details.weather_msg
                 weatherMsg.postValue(msg)
+
             }
+
         }
     }
 }

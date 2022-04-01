@@ -6,11 +6,13 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.in2000_team32.api.LocationDataSource
+import com.example.in2000_team32.api.NominatimLocationFromLatLong
 import com.example.in2000_team32.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,7 +22,6 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
 
 
         val navView: BottomNavigationView = binding.navView
@@ -34,6 +35,14 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        //Testing locationdatasource
+        val locationDataSource = LocationDataSource()
+        runBlocking {
+            var value = locationDataSource.findLocationNameFromString("Oslo")
+            println("FERDIG")
+            println(value)
+        }
     }
 
 }
