@@ -26,8 +26,7 @@ class LocationDataSource {
         try {
             val response: List<NominatimLocationFromString>? = gson.fromJson(Fuel.get(url).awaitString(), Array<NominatimLocationFromString>::class.java).toList()
             return response
-        }ash
-        catch (exception: Exception) {
+        }catch (exception: Exception) {
             return null
         }
     }
