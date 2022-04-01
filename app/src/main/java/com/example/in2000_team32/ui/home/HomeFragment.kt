@@ -73,8 +73,9 @@ class HomeFragment : Fragment() {
         // Observe changes in votes variable in viewModel
         // Get UV data
         getActivity()?.let {
-            homeViewModel.getUvData().observe(it) {
-                binding.textUvi.setText(it.toString())
+            homeViewModel.getUvData().observe(it) { uv ->
+                val text: String = "$uv UV"
+                binding.textUvi.setText(text)
             }
         }
         // Get weather message
@@ -83,7 +84,6 @@ class HomeFragment : Fragment() {
                 binding.textSolstyrke.setText(wMsg)
             }
         }
-
 
 
         return root
