@@ -14,10 +14,10 @@ class MetDataSource {
      * -> My thoughs: we simply return the response / or null (on error) and handle formating and extracting data in the view?
      * --> What do we save in the repository?
      */
-    suspend fun fetchMetWeatherForecast(): MetResponseDto? {
+    suspend fun fetchMetWeatherForecast(latitude : Double, longitude : Double): MetResponseDto? {
         // Change this if we want to run a dummy server where we can control the weather
         val baseUrl = "https://in2000-apiproxy.ifi.uio.no/weatherapi/"
-        val path = "locationforecast/2.0/complete?lat=59.911491&lon=10.757933"
+        val path = "locationforecast/2.0/complete?lat=${latitude.toString()}&lon=${longitude.toString()}"
         val url = baseUrl + path
         val gson = Gson()
 

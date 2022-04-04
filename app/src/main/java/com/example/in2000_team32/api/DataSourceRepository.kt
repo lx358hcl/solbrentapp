@@ -1,6 +1,5 @@
 package com.example.in2000_team32.api
 
-
 /**
  * Responsible for serving weather data to viewModel.
  * Choose between getting data from cache and MET API.
@@ -8,6 +7,7 @@ package com.example.in2000_team32.api
 
 class DataSourceRepository {
     private val metDataSource = MetDataSource()
+    private val locationDataSource = LocationDataSource()
 
     /**
      * Gets data from API or cache.
@@ -15,12 +15,12 @@ class DataSourceRepository {
      * If data is loaded from API, wipe cache and store
      * new data.
      */
-    suspend fun getWeatherData(): MetResponseDto? {
+    suspend fun getWeatherData(latitude: Double, longitude: Double): MetResponseDto? {
         var hasCache: Boolean = false // Is set to true once the app has loaded some data
         var updateIsDue: Boolean = true
 
         if (!hasCache || updateIsDue) { // Test if we have to cache
-            return metDataSource.fetchMetWeatherForecast()
+            return metDataSource.fetchMetWeatherForecast(latitude, longitude)
         }
 
         // Save cache
@@ -29,5 +29,12 @@ class DataSourceRepository {
         return null
     }
 
+    suspend fun getLocationData(latitude : Double, longitude : Double): String? {
+        var locationData = locationDataSource.findLocationNameFromLatLong(latitude, longitude)
+        if (locationData != null) {
+            return locationData.address?.city
+        }
+        return null
+    }
 
 }
