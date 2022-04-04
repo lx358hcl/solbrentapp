@@ -62,13 +62,7 @@ class HomeFragment : Fragment() {
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
                 ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 44)
-                Handler(Looper.getMainLooper()).postDelayed(
-                    {
-                        fusedLocationClient.getLastLocation()
-                        println("OKO123123123KOK")
-                    },
-                    10000 // value in milliseconds
-                )
+                //Her må du ha permission onResultChecker...
                 fusedLocationClient.lastLocation.addOnSuccessListener { location : Location? ->
                     if (location != null) {
                         homeViewModel.fetchLocationData(location.latitude, location.longitude)
