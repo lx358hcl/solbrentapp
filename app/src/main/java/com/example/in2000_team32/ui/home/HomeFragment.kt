@@ -58,6 +58,8 @@ class HomeFragment : Fragment() {
             }
         }
 
+        binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_15)
+
 
         /*homeViewModel.textHome.observe(viewLifecycleOwner) {
             textHome.text = it

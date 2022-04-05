@@ -212,11 +212,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/SolforholdTextView">
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/imageViewSolkrem"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:foregroundGravity="center"
-                    android:src="@drawable/solkrem_lang"
+                    android:src="@drawable/solkrem_lang_50"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
