@@ -11,17 +11,17 @@ class MetDataSource {
      * Fetching data from MetApi /locationforecast endpoint
      * @return MetResponseDto object
      */
-    suspend fun fetchMetWeatherForecast(): MetResponseDto? {
+    suspend fun fetchMetWeatherForecast(latitude : Double, longitude : Double): MetResponseDto? {
         // Change this if we want to run a dummy server where we can control the weather
         val baseUrl = "https://in2000-apiproxy.ifi.uio.no/weatherapi/"
-        val path = "locationforecast/2.0/complete?lat=59.911491&lon=10.757933"
+        val path = "locationforecast/2.0/complete?lat=${latitude.toString()}&lon=${longitude.toString()}"
         val url = baseUrl + path
         val gson = Gson()
 
         val runWithDummyApi: Boolean = false // Choose weather to get data from MET or Dummy API
 
         try {
-            val response: MetResponseDto = gson.fromJson(Fuel.get(if (!runWithDummyApi) url else "http://192.168.1.46:1000/weather").awaitString(), MetResponseDto::class.java)
+            val response: MetResponseDto = gson.fromJson(Fuel.get(if (!runWithDummyApi) url else "http://10.0.2.2:1000/weather").awaitString(), MetResponseDto::class.java)
             //val tRes = Fuel.get("http://192.168.1.46:1000/weather").awaitString() // Request to test server
 
             // Setting UV index message based on UV index

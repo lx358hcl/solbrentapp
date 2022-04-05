@@ -6,7 +6,8 @@ data class NominatimLocationAddress(
     val county: String?,
     val postcode: String?,
     val country: String?,
-    val country_code: String?
+    val country_code: String?,
+    val city: String?
 )
 
 data class NominatimLocationFromLatLong(

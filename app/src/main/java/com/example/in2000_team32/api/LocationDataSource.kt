@@ -9,7 +9,6 @@ class LocationDataSource {
     suspend fun findLocationNameFromLatLong(latitude : Number, longitude : Number) : NominatimLocationFromLatLong? {
         val url = "https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1&extratags=1"
         val gson = Gson()
-
         try {
             val response: NominatimLocationFromLatLong? = gson.fromJson(Fuel.get(url).awaitString(), NominatimLocationFromLatLong::class.java)
             return response
@@ -19,6 +18,7 @@ class LocationDataSource {
         }
     }
 
+    //Finds location-name from string and returns list of possible guesses || function is debounced
     suspend fun findLocationNameFromString(locationName : String) : List<NominatimLocationFromString>? {
         val url = "https://nominatim.openstreetmap.org/search?q=${locationName}&format=json&addressdetails=1"
         val gson = Gson()
@@ -26,10 +26,10 @@ class LocationDataSource {
         try {
             val response: List<NominatimLocationFromString>? = gson.fromJson(Fuel.get(url).awaitString(), Array<NominatimLocationFromString>::class.java).toList()
             return response
-        }catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             return null
         }
     }
-
 
 }

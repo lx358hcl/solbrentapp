@@ -63,18 +63,17 @@
 
     <TextView
         android:id="@+id/detaljerAddresse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_width="325dp"
+        android:layout_height="58dp"
         android:layout_marginBottom="16dp"
         android:gravity="start"
         android:text="@string/placeholder"
+        android:textColor="@color/black"
         android:textSize="40sp"
         android:textStyle="bold"
-        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDetaljer" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewDetaljer"
+        tools:layout_editor_absoluteX="86dp" />
 
     <TextView
         android:id="@+id/textViewDetaljer"
@@ -85,7 +84,9 @@
         android:text="@string/detaljertInfo"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/detaljerAddresse"
-        app:layout_constraintStart_toStartOf="@+id/detaljerAddresse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.093"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/handle"
         app:layout_constraintVertical_bias="0.0"
         app:layout_constraintVertical_chainStyle="packed" />
