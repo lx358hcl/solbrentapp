@@ -40,8 +40,15 @@ class DataSourceRepository(val context: Context) {
 
     suspend fun getLocationData(latitude : Double, longitude : Double): String? {
         var locationData = locationDataSource.findLocationNameFromLatLong(latitude, longitude)
+        println("LOKASJON");
+        println(locationData)
         if (locationData != null) {
-            return locationData.address?.city
+            if(locationData.address?.city != null){
+                return locationData.address?.city
+            }
+            else{
+                return locationData.address?.municipality
+            }
         }
         return null
     }

@@ -28,18 +28,18 @@ class MetDataSource {
             var msg: String
             when (response.properties.timeseries[0].data.instant.details.ultraviolet_index_clear_sky.toInt()) {
                 // TODO: Flytt disse tekst strengene til en XML fil
-                0 -> msg = "Ingen stråling"
-                1 -> msg = "Ubetydelig stråling"
-                2 -> msg = "Noe stråling"
-                3 -> msg = "Noe stråling"
-                4 -> msg = "Litt stråling"
-                5 -> msg = "Litt stråling"
-                6 -> msg = "Endel stråling"
-                7 -> msg = "Mye stråling"
-                8 -> msg = "Mye stråling"
-                9 -> msg = "Veldig mye stråling"
-                10 -> msg = "Ekstrem stråling"
-                11 -> msg = "Ekstrem stårling!"
+                0 -> msg = "ingen stråling"
+                1 -> msg = "lav stråling"
+                2 -> msg = "lav stråling"
+                3 -> msg = "moderat stråling"
+                4 -> msg = "moderat stråling"
+                5 -> msg = "moderat stråling"
+                6 -> msg = "sterk stråling"
+                7 -> msg = "sterk stråling"
+                8 -> msg = "svært sterk stråling"
+                9 -> msg = "svært sterk stråling"
+                10 -> msg = "svært sterk stråling"
+                11 -> msg = "ekstrem stråling!"
                 else -> {
                     msg = "Feil: Ugyldig eller ingen UV"
                 }

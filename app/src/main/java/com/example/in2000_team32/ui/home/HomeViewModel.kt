@@ -61,8 +61,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
     // Fetch met-data
     fun fetchLocationData(latitude : Double, longitude : Double) {
         // Do an asynchronous operation to fetch users
+        println("SKjera brusjan")
         viewModelScope.launch(Dispatchers.IO) {
             dataSourceRepository.getLocationData(latitude, longitude)?.also {
+                println("Her kommer anusen min" + it.toString())
                 locationName.postValue(it)
             }
         }
