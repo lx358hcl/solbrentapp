@@ -69,6 +69,24 @@ class HomeFragment : Fragment() {
                         homeViewModel.fetchWeatherData(location.latitude, location.longitude)
                     }
                 }
+
+        /*homeViewModel.textHome.observe(viewLifecycleOwner) {
+            textHome.text = it
+        }
+         */
+
+
+
+        // --------- Add data ---------
+
+        // Get data
+        homeViewModel.fetchWeatherData()
+        // Observe changes in votes variable in viewModel
+        // Get UV data
+        getActivity()?.let {
+            homeViewModel.getUvData().observe(it) { uv ->
+                val text: String = "$uv UV"
+                binding.textUvi.setText(text)
             }
             else {
                 fusedLocationClient.getLastLocation()
