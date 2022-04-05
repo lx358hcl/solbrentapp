@@ -69,6 +69,7 @@ class HomeFragment : Fragment() {
             ) {
                 mPermissionResult.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             } else {
+                println("Dette blir trigga")
                 grabInfo()
             }
         }
@@ -188,6 +189,7 @@ class HomeFragment : Fragment() {
                     homeViewModel.fetchLocationData(61.1122408, 10.4386779)
                     homeViewModel.fetchWeatherData(61.1122408, 10.4386779)
                 }
+                startObserverne()
             }
         }
     }
