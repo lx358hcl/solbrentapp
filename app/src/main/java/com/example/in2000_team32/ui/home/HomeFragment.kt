@@ -61,32 +61,18 @@ class HomeFragment : Fragment() {
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 44)
+                ActivityCompat.requestPermissions(
+                    activity,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    44
+                )
                 //Her må du ha permission onResultChecker...
-                fusedLocationClient.lastLocation.addOnSuccessListener { location : Location? ->
+                fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
                     if (location != null) {
                         homeViewModel.fetchLocationData(location.latitude, location.longitude)
                         homeViewModel.fetchWeatherData(location.latitude, location.longitude)
                     }
                 }
-
-        /*homeViewModel.textHome.observe(viewLifecycleOwner) {
-            textHome.text = it
-        }
-         */
-
-
-
-        // --------- Add data ---------
-
-        // Get data
-        homeViewModel.fetchWeatherData()
-        // Observe changes in votes variable in viewModel
-        // Get UV data
-        getActivity()?.let {
-            homeViewModel.getUvData().observe(it) { uv ->
-                val text: String = "$uv UV"
-                binding.textUvi.setText(text)
             }
             else {
                 fusedLocationClient.getLastLocation()
@@ -108,7 +94,6 @@ class HomeFragment : Fragment() {
                             binding.textSolstyrke.setText(wMsg)
                         }
                     }
-
                     //Updates DetaljerAddresse to Location based on GeoLocation
                     getActivity()?.let {
                         homeViewModel.getLocationName().observe(it) { it ->

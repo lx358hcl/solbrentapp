@@ -18,7 +18,7 @@ class MetDataSource {
         val url = baseUrl + path
         val gson = Gson()
 
-        val runWithDummyApi: Boolean = true // Choose weather to get data from MET or Dummy API
+        val runWithDummyApi: Boolean = false // Choose weather to get data from MET or Dummy API
 
         try {
             val response: MetResponseDto = gson.fromJson(Fuel.get(if (!runWithDummyApi) url else "http://10.0.2.2:1000/weather").awaitString(), MetResponseDto::class.java)

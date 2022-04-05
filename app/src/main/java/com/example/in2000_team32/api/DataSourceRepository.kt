@@ -4,7 +4,7 @@ import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager.getDefaultSharedPreferences
-
+/*
  * Responsible for serving weather data to viewModel.
  * Choose between getting data from cache and MET API.
  */
