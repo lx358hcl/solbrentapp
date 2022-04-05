@@ -32,22 +32,6 @@ class MapFragment : Fragment() {
 
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-
-
-        // -- JUST TESTING!!! API TESTING
-        val btn: Button = binding.mapTestBtn
-        val mDataSource = MetDataSource()
-        btn.setOnClickListener {
-            runBlocking { // THIS MUST **NOT** be used in the final app!!
-                launch {
-                    mDataSource.fetchMetWeatherForecast()
-                }
-            }
-        }
-        // -- TESTING OVER --
-
-
         return root
     }
 
