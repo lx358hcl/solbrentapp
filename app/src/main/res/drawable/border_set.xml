@@ -3,7 +3,7 @@
     <item android:gravity="bottom">
         <shape>
             <size android:height="1dp" />
-            <solid android:color="@color/grey" />
+            <solid android:color="?android:textColorPrimary"/>
         </shape>
     </item>
 </layer-list>
