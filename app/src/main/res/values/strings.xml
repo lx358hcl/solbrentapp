@@ -2,7 +2,7 @@
     <string name="app_name">IN2000-TEAM32</string>
     <string name="title_home">Hjem</string>
     <string name="title_profile">Min Side</string>
-    <string name="title_map">Kart</string>
+    <string name="title_map">Tips</string>
     <string name="search_title">Søk</string>
     <string name="search_hint">Skriv inn en adresse</string>
     <string name="MorgenTekst">God Morgen</string>
@@ -25,6 +25,15 @@
     <string name="jeg_har_brent_meg">Jeg har brent meg!</string>
     <string name="tid_til_neste_p_sm_ring">Tid til neste påsmøring:</string>
     <string name="klokkeplaceholder">00:00.00</string>
+    <string name="p_f_r_alltid_ny_solkrem_etter_bading">Påfør alltid ny solkrem etter bading</string>
+    <string name="ta_en_kj_lig_dusj">Ta en kjølig dusj.</string>
+    <string name="bruk_kj_lende_kremer_for_eksempel_aftersun_eller_aloe_vera_for_lindre_plager">Bruk kjølende kremer, for eksempel aftersun eller aloe vera, for å lindre plager.</string>
+    <string name="legg_gjerne_p_kalde_omslag_for_eksempel_v_te_h_ndkl_r">Legg gjerne på kalde omslag, for eksempel våte håndklær.</string>
+    <string name="xylocain_er_en_reseptfri_lokalbed_vende_salve_som_demper_smerte_og_kl_e_og_kan_brukes_noen_f_dager_ved_st_rre_plager_kan_brukes_av_voksne_og_barn">Xylocain er en reseptfri, lokalbedøvende salve som demper smerte og kløe, og kan brukes noen få dager ved større plager. Kan brukes av voksne og barn.</string>
+    <string name="hydrokortison_er_en_reseptfri_kortisonkrem_som_kan_brukes_for_dempe_betennelse_i_huden_hydrokortison_kan_p_sm_res_i_tynt_lag_1_2_ganger_daglig_i_en_kort_periode">Hydrokortison er en reseptfri kortisonkrem som kan brukes for å dempe betennelse i huden. Hydrokortison kan påsmøres i tynt lag 1-2 ganger daglig i en kort periode.</string>
+    <string name="metode_mentolsalve_kan_brukes_for_lindre_smerter_og_ubehag">Metode mentolsalve kan brukes for å lindre smerter og ubehag.</string>
+    <string name="er_smertene_store_kan_du_eventuelt_bruke_smertestillende_midler_i_en_kort_periode_f_rstevalget_er_smertestillende_som_inneholder_paracetamol_kontakt_legen_hvis_smertene_ikke_gir_seg">Er smertene store kan du eventuelt bruke smertestillende midler i en kort periode. Førstevalget er smertestillende som inneholder paracetamol. Kontakt legen hvis smertene ikke gir seg.</string>
+    <string name="i_dagene_etter_at_du_har_blitt_solbrent_b_r_du_holde_deg_unna_sola_i_noen_dager_hvis_du_m_ut_i_sola_b_r_du_dekke_deg_til_med_kl_r_og_bruke_h_y_solfaktor">I dagene etter at du har blitt solbrent bør du holde deg unna sola i noen dager. Hvis du må ut i sola bør du dekke deg til med klær og bruke høy solfaktor.</string>
     <string name="vitamin_d_pr_time">Vitamin-D pr. time</string>
     <string name="tid_for_solbrent">Tid for solbrent</string>
 

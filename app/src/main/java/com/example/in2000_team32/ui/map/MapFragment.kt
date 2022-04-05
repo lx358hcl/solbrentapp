@@ -1,5 +1,5 @@
 package com.example.in2000_team32.ui.map
-/*
+
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -33,10 +33,6 @@ class MapFragment : Fragment() {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
 
 
         // -- JUST TESTING!!! API TESTING
@@ -61,4 +57,3 @@ class MapFragment : Fragment() {
     }
 }
 
- */

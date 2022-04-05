@@ -66,4 +66,8 @@ dependencies {
     implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
     implementation 'com.github.kittinunf.fuel:fuel-coroutines:2.3.1'
 
+    //Percentage layout
+    //noinspection GradleCompatible
+    implementation 'com.android.support:percent:22.2.0'
+
 }

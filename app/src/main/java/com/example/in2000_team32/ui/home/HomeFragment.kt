@@ -52,6 +52,8 @@ class HomeFragment : Fragment() {
             }
         }
 
+        binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_15)
+
         fun getGeoLocation(activity : Activity){
             var fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
 
