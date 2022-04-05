@@ -1,5 +1,10 @@
 package com.example.in2000_team32.ui.home
 
+import android.app.Activity
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import android.app.Application
 import android.app.PendingIntent.getActivity
 import android.content.Context
@@ -8,7 +13,6 @@ import androidx.lifecycle.*
 import com.example.in2000_team32.api.DataSourceRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.sql.DataSource
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) { // Had to change to AndroidViewModel to be able to get context
 /*
@@ -25,7 +29,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
     private val dataSourceRepository = DataSourceRepository(getApplication<Application>().applicationContext)
     private val uvData: MutableLiveData<Double> = MutableLiveData<Double>()
     private val weatherMsg: MutableLiveData<String> = MutableLiveData<String>()
-
+    private val locationName : MutableLiveData<String> = MutableLiveData<String>()
 
     fun getUvData(): LiveData<Double> {
         return uvData
@@ -35,21 +39,33 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
         return weatherMsg
     }
 
-    // Fetch data
-    fun fetchWeatherData(): Unit {
+    fun getLocationName() : LiveData<String>{
+        return locationName
+    }
+
+    // Fetch location-area-data
+    fun fetchWeatherData(latitude : Double, longitude: Double) {
         // Do an asynchronous operation to fetch users
         viewModelScope.launch(Dispatchers.IO) {
-
-            dataSourceRepository.getWeatherData()?.also {
+            dataSourceRepository.getWeatherData(latitude, longitude)?.also {
                 // Set all live data variables that need to be updated
                 val uv: Double = it.properties.timeseries[0].data.instant.details.ultraviolet_index_clear_sky
                 uvData.postValue(uv)
 
                 val msg: String = it.properties.timeseries[0].data.instant.details.weather_msg
                 weatherMsg.postValue(msg)
-
             }
-
         }
     }
+
+    // Fetch met-data
+    fun fetchLocationData(latitude : Double, longitude : Double) {
+        // Do an asynchronous operation to fetch users
+        viewModelScope.launch(Dispatchers.IO) {
+            dataSourceRepository.getLocationData(latitude, longitude)?.also {
+                locationName.postValue(it)
+            }
+        }
+    }
+
 }

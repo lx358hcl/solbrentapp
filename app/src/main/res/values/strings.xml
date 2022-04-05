@@ -25,5 +25,7 @@
     <string name="jeg_har_brent_meg">Jeg har brent meg!</string>
     <string name="tid_til_neste_p_sm_ring">Tid til neste påsmøring:</string>
     <string name="klokkeplaceholder">00:00.00</string>
+    <string name="vitamin_d_pr_time">Vitamin-D pr. time</string>
+    <string name="tid_for_solbrent">Tid for solbrent</string>
 
 </resources>
