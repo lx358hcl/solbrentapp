@@ -292,7 +292,7 @@
                 android:id="@+id/detaljerAddresse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginBottom="16dp"
                 android:gravity="start"
                 android:text="@string/placeholder"
