@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel
 class ProfileViewModel : ViewModel() {
 
     private val _profile = MutableLiveData<String>().apply {
-        value = "Min Side"
+        value = "Min Hudfarge"
     }
     val profileText: LiveData<String> = _profile
 }
