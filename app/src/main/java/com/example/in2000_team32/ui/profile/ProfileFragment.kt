@@ -69,6 +69,7 @@ class ProfileFragment : Fragment() {
         return root
     }
 
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt(COLOR_SELECTED, selectedColor)
