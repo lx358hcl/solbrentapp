@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -55,6 +56,15 @@ class ProfileFragment : Fragment() {
                     })
                 .show(getParentFragmentManager())
         }
+
+
+
+        val profileText: TextView = binding.minProfilText
+        dashboardViewModel.profileText.observe(viewLifecycleOwner) {
+            profileText.text = it
+        }
+
+
 
         return root
     }

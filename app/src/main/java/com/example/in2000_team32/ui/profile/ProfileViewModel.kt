@@ -5,11 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 
-var getCurrent
 
 class ProfileViewModel : ViewModel() {
-    private val _date = MutableLiveData<String>().apply {
-        value = currentDate
+
+    private val _profile = MutableLiveData<String>().apply {
+        value = "Min Side"
     }
-    val dateText: LiveData<String> = _date
+    val profileText: LiveData<String> = _profile
 }
