@@ -70,7 +70,7 @@ dependencies {
     //noinspection GradleCompatible
     implementation 'com.android.support:percent:22.2.0'
 
-    //Custom fonts implementatio n
+    //Custom fonts implementation
     implementation 'io.github.inflationx:calligraphy3:3.1.1'
     implementation 'io.github.inflationx:viewpump:2.0.3'
 
