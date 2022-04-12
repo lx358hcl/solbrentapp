@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.in2000_team32.api.MetDataSource
@@ -32,6 +33,16 @@ class MapFragment : Fragment() {
 
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        //Viser og gjemmer brent seg tips
+
+        binding.brentSegShow.setOnClickListener(){
+            binding.brentSegTips.isVisible = true
+        }
+
+        binding.brentSegHide.setOnClickListener(){
+            binding.brentSegTips.isVisible = false
+        }
 
         return root
     }

@@ -116,7 +116,7 @@
         android:layout_width="match_parent"
         android:background="@drawable/rounded_corner_red"
         android:layout_height="200dp"
-        android:visibility="gone"
+        android:visibility="visible"
         android:translationZ="12dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"

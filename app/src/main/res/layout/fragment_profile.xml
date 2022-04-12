@@ -25,11 +25,21 @@
         android:id="@+id/constraintLayout1"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:background="@drawable/profile_art"
+        android:background="@drawable/bg_gradient"
         app:layout_constraintBottom_toTopOf="@+id/ScrollView1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_hudfarge_bakgrunn_art"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/minProfilText"
@@ -37,8 +47,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/placeholder"
-            android:textStyle="bold"
             android:textSize="24sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
