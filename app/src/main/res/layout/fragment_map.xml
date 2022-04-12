@@ -114,35 +114,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/brentSegTips"
         android:layout_width="match_parent"
-        android:background="@drawable/rounded_corner_red"
-        android:layout_height="200dp"
-        android:visibility="gone"
-        android:translationZ="12dp"
+        android:layout_height="match_parent"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_corner_red"
+        android:translationZ="12dp"
+        android:visibility="gone"
         app:flow_verticalBias="1.0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
-
-        <ImageButton
-            android:id="@+id/brentSegHide"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="2dp"
-            android:background="@drawable/rounded_corner_grey"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/ic_baseline_close_24" />
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/brentSegHeader"
@@ -152,6 +135,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:gravity="center"
+            android:paddingBottom="8dp"
             android:text="@string/jeg_har_brent_meg"
             android:textSize="38sp"
             android:textStyle="bold"
@@ -159,16 +143,17 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            android:paddingBottom="8dp"/>
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/brentSegHeader">
+            app:layout_constraintTop_toBottomOf="@+id/brentSegHeader"
+            app:layout_constraintVertical_bias="0.0">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -239,10 +224,31 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
                     android:paddingBottom="8dp">
 
                     <TextView
-                        android:id="@+id/tips8"
+                        android:id="@+id/tips10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:gravity="center"
+                        android:text="@string/i_dagene_etter_at_du_har_blitt_solbrent_b_r_du_holde_deg_unna_sola_i_noen_dager_hvis_du_m_ut_i_sola_b_r_du_dekke_deg_til_med_kl_r_og_bruke_h_y_solfaktor"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/tips9"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -259,30 +265,82 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingBottom="8dp"/>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/border_set"
-                    android:layout_marginBottom="8dp">
+                    android:paddingBottom="8dp">
 
                     <TextView
-                        android:id="@+id/tips10"
+                        android:id="@+id/tips4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:gravity="center"
-                        android:text="@string/i_dagene_etter_at_du_har_blitt_solbrent_b_r_du_holde_deg_unna_sola_i_noen_dager_hvis_du_m_ut_i_sola_b_r_du_dekke_deg_til_med_kl_r_og_bruke_h_y_solfaktor"
+                        android:text="@string/xylocain_er_en_reseptfri_lokalbed_vende_salve_som_demper_smerte_og_kl_e_og_kan_brukes_noen_f_dager_ved_st_rre_plager_kan_brukes_av_voksne_og_barn"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/tips6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:gravity="center"
+                        android:text="@string/hydrokortison_er_en_reseptfri_kortisonkrem_som_kan_brukes_for_dempe_betennelse_i_huden_hydrokortison_kan_p_sm_res_i_tynt_lag_1_2_ganger_daglig_i_en_kort_periode"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/tips7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:gravity="center"
+                        android:text="@string/er_smertene_store_kan_du_eventuelt_bruke_smertestillende_midler_i_en_kort_periode_f_rstevalget_er_smertestillende_som_inneholder_paracetamol_kontakt_legen_hvis_smertene_ikke_gir_seg"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
             </LinearLayout>
         </ScrollView>
+
+        <Button
+            android:id="@+id/brentSegHide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/light_green"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/takk_for_tips_jeg_har_det_bedre_n"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
