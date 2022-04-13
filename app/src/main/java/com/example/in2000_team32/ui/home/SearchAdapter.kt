@@ -13,13 +13,13 @@ class SearchAdapter(searchQueryElements : MutableList<NominatimLocationFromStrin
     //Listen med alpacaparties
     var searchQueryElements : MutableList<NominatimLocationFromString> = searchQueryElements
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchAdapter.ViewHolder {
         val v : View = LayoutInflater.from(parent.context).inflate(R.layout.search_query_element, parent, false)
         return ViewHolder(v)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.searchQueryName.text = searchQueryElements[position].address?.city
+    override fun onBindViewHolder(holder: SearchAdapter.ViewHolder, position: Int) {
+        holder.searchQueryName.text = searchQueryElements[position].display_name
         holder.searchQueryCountry.text = searchQueryElements[position].address?.country
     }
 

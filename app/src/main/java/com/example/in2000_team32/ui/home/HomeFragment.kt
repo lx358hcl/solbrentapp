@@ -31,10 +31,13 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
+import androidx.annotation.UiThread
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.in2000_team32.R
@@ -43,6 +46,9 @@ import com.example.in2000_team32.api.LocationDataSource
 import com.example.in2000_team32.api.NominatimLocationFromString
 import com.example.in2000_team32.databinding.FragmentHomeBinding
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 
 class HomeFragment : Fragment() {
     var show = false
@@ -54,7 +60,7 @@ class HomeFragment : Fragment() {
 
     // This property is only valid between onCreateView and onDestroyView.
     private lateinit var homeViewModel: HomeViewModel
-    private lateinit var binding : FragmentHomeBinding
+    private lateinit var binding: FragmentHomeBinding
 
     //OnPause are used to check if the app is in the foreground or not
     override fun onPause() {
@@ -74,32 +80,34 @@ class HomeFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        var root : View
+        var root: View
 
         //Check if user has internet connection
         if (!isNetworkAvailable()) {
             Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show()
             root = View(context)
-        }
-        else{
+        } else {
             root = binding.root
         }
 
         //SearchAdapter
         //Vars som trengs
-        var searchQueryRecycler : RecyclerView? = view?.findViewById<RecyclerView>(R.id.searchQueryRecycler)
+        var searchQueryRecycler: RecyclerView = binding.searchQueryRecycler
 
         //RecyclerView initialisering og setting av adapter
-        if (searchQueryRecycler != null) {
-            searchQueryRecycler.layoutManager = LinearLayoutManager(view?.context ?: return root)
-            searchQueryRecycler.adapter = SearchAdapter(mutableListOf())
-        }
+        searchQueryRecycler.layoutManager = LinearLayoutManager(this.context)
+        searchQueryRecycler.adapter = SearchAdapter(mutableListOf())
 
         //Observator for RecyclerViewModellen
-        homeViewModel.getPlaces().observe(viewLifecycleOwner){
-            if(it != null){
+        homeViewModel.getPlaces().observe(viewLifecycleOwner) {
+            if (it != null) {
                 println("Trigger warning!!!")
-                searchQueryRecycler?.adapter = SearchAdapter(it as MutableList<NominatimLocationFromString>)
+                //Check if it is not null and if it is not empty
+                if (it.isNotEmpty()) {
+                    println("Warning triggered")
+                    //Set adapter
+                    searchQueryRecycler?.adapter = SearchAdapter(it as MutableList<NominatimLocationFromString>)
+                }
                 println(it)
             }
         }
@@ -150,7 +158,7 @@ class HomeFragment : Fragment() {
         binding.searchButton.setBackgroundResource(R.drawable.ic_baseline_search_24)
     }
 
-    fun startSearchListener(){
+    fun startSearchListener() {
         //Listen for input from EditTextAddress and print it to console
         binding.EditTextAddress.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -161,11 +169,9 @@ class HomeFragment : Fragment() {
 
             }
 
+            //Ingen debouncing atm, så ikke bruk denne for mye ellers får vi kvote-kjeft 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                var dataSource = LocationDataSource()
-                //Coroutine run on UI thread
-                var currentActivity = getActivity()
-                homeViewModel.fetchPlaces("oslo")
+                homeViewModel.fetchPlaces(s.toString())
             }
         })
     }
@@ -239,18 +245,17 @@ class HomeFragment : Fragment() {
     }
 
     //Wifi backup function
-    @SuppressLint("MissingPermission") fun getWifiPosition(){
+    @SuppressLint("MissingPermission") fun getWifiPosition() {
         var currentActivity = getActivity()
         locationManager = currentActivity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         var wifiProvider = locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER);
-        if(wifiProvider == true){
+        if (wifiProvider == true) {
             var l = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
             if (l != null) {
                 println("Gps is not enabled but network is available and location is not null")
                 location = l
                 grabInfo()
-            }
-            else {
+            } else {
                 println("Gps is not enabled but network is available and location is null")
                 getWifiPosition()
             }
@@ -292,8 +297,7 @@ class HomeFragment : Fragment() {
 
             //Show toast that no internet is available and that the app will not work without internet access and that the user should enable internet access
             Toast.makeText(context, "No internet available", Toast.LENGTH_LONG).show()
-        }
-        else {
+        } else {
             println("Internet is available")
             if (networkEnabled) {
                 println("Gps is not enabled but network is available")
@@ -302,14 +306,12 @@ class HomeFragment : Fragment() {
                     println("Gps is not enabled but network is available and location is not null")
                     location = l
                     grabInfo()
-                }
-                else {
+                } else {
                     println("Gps is not enabled but network is available and location is null")
                     getWifiPosition()
                 }
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, locationListener)
-            }
-            else if (gpsEnabled) {
+            } else if (gpsEnabled) {
                 println("Gps is enabled")
                 var l = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                 if (l != null) {
@@ -321,8 +323,7 @@ class HomeFragment : Fragment() {
                     getWifiPosition()
                 }
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener)
-            }
-            else {
+            } else {
                 //Show AlertDialog that LocationServices is disabled and that the user should enable it in settings or dismiss if they dont want to enable it
                 println("Gps is not enabled and network is not available")
                 var alertDialog = AlertDialog.Builder(context)

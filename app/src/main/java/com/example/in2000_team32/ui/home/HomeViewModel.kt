@@ -45,7 +45,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
         return locationName
     }
 
-    fun getPlaces() : MutableLiveData<List<NominatimLocationFromString>>{
+    fun getPlaces() : LiveData<List<NominatimLocationFromString>>{
         return places
     }
 
@@ -83,6 +83,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
                 // Set all live data variables that need to be updated
                 println("HERE IT COMES biiiiiiiiitch")
                 println(it)
+                println("The length of IT is " + it.size)
                 places.postValue(it)
             }
         }
