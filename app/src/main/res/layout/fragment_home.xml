@@ -57,7 +57,7 @@
                     android:layout_marginEnd="200dp"
                     android:layout_marginBottom="100dp"
                     android:contentDescription="@string/solBildeAltTekst"
-                    android:src="@drawable/regnskyhvit"
+                    android:src="@drawable/solskyh"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
