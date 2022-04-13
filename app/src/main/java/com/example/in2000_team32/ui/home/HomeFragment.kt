@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.Application
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
@@ -19,24 +20,32 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.in2000_team32.R
+import com.example.in2000_team32.api.DataSourceRepository
+import com.example.in2000_team32.api.LocationDataSource
+import com.example.in2000_team32.api.NominatimLocationFromString
 import com.example.in2000_team32.databinding.FragmentHomeBinding
-
+import kotlinx.coroutines.*
 
 class HomeFragment : Fragment() {
     var show = false
-    private var _binding: FragmentHomeBinding? = null
     private var uvBar = 50
     private lateinit var location: Location
     private var observersStarted = false
@@ -44,8 +53,8 @@ class HomeFragment : Fragment() {
     var appVisible = false
 
     // This property is only valid between onCreateView and onDestroyView.
-    private val binding get() = _binding!!
     private lateinit var homeViewModel: HomeViewModel
+    private lateinit var binding : FragmentHomeBinding
 
     //OnPause are used to check if the app is in the foreground or not
     override fun onPause() {
@@ -53,19 +62,18 @@ class HomeFragment : Fragment() {
         appVisible = false
     }
 
-
     //When user returns to activity
     //Se her for forklaring hvorfor den må plasseres her: https://cdn.djuices.com/djuices/activity-lifecycle.jpeg
     override fun onResume() {
         println("Calling resume method")
         super.onResume()
-        //Dette starter opp hele applikasjonen - Vi kan pynte på syntaks og struktur senere
+        //Dette starter opp hele applikasjonen - Vi kan pynte på syntaks og struktur senere, vi må ha det i resume fordi onCreated skjer før onResume
         startApp()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
         var root : View
 
         //Check if user has internet connection
@@ -77,6 +85,24 @@ class HomeFragment : Fragment() {
             root = binding.root
         }
 
+        //SearchAdapter
+        //Vars som trengs
+        var searchQueryRecycler : RecyclerView? = view?.findViewById<RecyclerView>(R.id.searchQueryRecycler)
+
+        //RecyclerView initialisering og setting av adapter
+        if (searchQueryRecycler != null) {
+            searchQueryRecycler.layoutManager = LinearLayoutManager(view?.context ?: return root)
+            searchQueryRecycler.adapter = SearchAdapter(mutableListOf())
+        }
+
+        //Observator for RecyclerViewModellen
+        homeViewModel.getPlaces().observe(viewLifecycleOwner){
+            if(it != null){
+                println("Trigger warning!!!")
+                searchQueryRecycler?.adapter = SearchAdapter(it as MutableList<NominatimLocationFromString>)
+                println(it)
+            }
+        }
 
         hideSearch()
         hideKeyboard()
@@ -96,16 +122,10 @@ class HomeFragment : Fragment() {
 
         binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_50pluss)
 
-        return root
-    }
+        //Start textlistener for senere
+        startSearchListener()
 
-    fun getGeoLocation(activity: Activity) {
-        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            mPermissionResult.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-        } else {
-            println("Dette blir trigga")
-            grabInfo()
-        }
+        return root
     }
 
     fun startApp() {
@@ -130,6 +150,26 @@ class HomeFragment : Fragment() {
         binding.searchButton.setBackgroundResource(R.drawable.ic_baseline_search_24)
     }
 
+    fun startSearchListener(){
+        //Listen for input from EditTextAddress and print it to console
+        binding.EditTextAddress.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                println("Text: $s")
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                var dataSource = LocationDataSource()
+                //Coroutine run on UI thread
+                var currentActivity = getActivity()
+                homeViewModel.fetchPlaces("oslo")
+            }
+        })
+    }
+
     fun Fragment.hideKeyboard() {
         view?.let { activity?.hideKeyboard(it) }
     }
@@ -142,12 +182,6 @@ class HomeFragment : Fragment() {
     fun showKeyboard(activity: FragmentActivity) {
         val inputMethodManager = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.toggleSoftInputFromWindow(activity.currentFocus!!.windowToken, InputMethodManager.SHOW_FORCED, 0)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-        locationManager.removeUpdates(locationListener)
     }
 
     private val mPermissionResult = registerForActivityResult(RequestPermission()) { result ->
@@ -204,6 +238,26 @@ class HomeFragment : Fragment() {
         return result
     }
 
+    //Wifi backup function
+    @SuppressLint("MissingPermission") fun getWifiPosition(){
+        var currentActivity = getActivity()
+        locationManager = currentActivity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        var wifiProvider = locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER);
+        if(wifiProvider == true){
+            var l = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
+            if (l != null) {
+                println("Gps is not enabled but network is available and location is not null")
+                location = l
+                grabInfo()
+            }
+            else {
+                println("Gps is not enabled but network is available and location is null")
+                getWifiPosition()
+            }
+            locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0, 0f, locationListener)
+        }
+    }
+
     fun getLocation() {
         var currentActivity = getActivity()
 
@@ -251,6 +305,7 @@ class HomeFragment : Fragment() {
                 }
                 else {
                     println("Gps is not enabled but network is available and location is null")
+                    getWifiPosition()
                 }
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, locationListener)
             }
@@ -263,6 +318,7 @@ class HomeFragment : Fragment() {
                     grabInfo()
                 } else {
                     println("Gps is enabled and location is null")
+                    getWifiPosition()
                 }
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener)
             }

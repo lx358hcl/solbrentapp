@@ -53,4 +53,10 @@ class DataSourceRepository(val context: Context) {
         return null
     }
 
+    suspend fun getLocationNamesBasedOnString(searchQuery : String): List<NominatimLocationFromString>? {
+        var locationData = locationDataSource.findLocationNamesFromString(searchQuery)
+        println("Searching from datarepository")
+        return locationData
+    }
+
 }

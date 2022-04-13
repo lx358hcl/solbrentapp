@@ -11,6 +11,7 @@ import android.content.Context
 import android.widget.TextView
 import androidx.lifecycle.*
 import com.example.in2000_team32.api.DataSourceRepository
+import com.example.in2000_team32.api.NominatimLocationFromString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -30,6 +31,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
     private val uvData: MutableLiveData<Double> = MutableLiveData<Double>()
     private val weatherMsg: MutableLiveData<String> = MutableLiveData<String>()
     private val locationName : MutableLiveData<String> = MutableLiveData<String>()
+    private val places : MutableLiveData<List<NominatimLocationFromString>> = MutableLiveData<List<NominatimLocationFromString>>()
 
     fun getUvData(): LiveData<Double> {
         return uvData
@@ -41,6 +43,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
 
     fun getLocationName() : LiveData<String>{
         return locationName
+    }
+
+    fun getPlaces() : MutableLiveData<List<NominatimLocationFromString>>{
+        return places
     }
 
     // Fetch location-area-data
@@ -66,6 +72,18 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
             dataSourceRepository.getLocationData(latitude, longitude)?.also {
                 println("Her kommer anusen min" + it.toString())
                 locationName.postValue(it)
+            }
+        }
+    }
+
+    //Fetch list of places based on string input
+    fun fetchPlaces(searchQuery : String){
+        viewModelScope.launch(Dispatchers.IO) {
+            dataSourceRepository.getLocationNamesBasedOnString(searchQuery) ?.also {
+                // Set all live data variables that need to be updated
+                println("HERE IT COMES biiiiiiiiitch")
+                println(it)
+                places.postValue(it)
             }
         }
     }
