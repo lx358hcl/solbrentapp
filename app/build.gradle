@@ -75,4 +75,7 @@ dependencies {
     implementation 'io.github.inflationx:calligraphy3:3.1.1'
     implementation 'io.github.inflationx:viewpump:2.0.3'
 
+    //Dots indicator
+    implementation 'com.tbuonomo:dotsindicator:4.2'
+
 }
