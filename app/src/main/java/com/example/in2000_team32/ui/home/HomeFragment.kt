@@ -1,11 +1,11 @@
 package com.example.in2000_team32.ui.home
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
@@ -13,7 +13,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -22,12 +21,18 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.in2000_team32.R
 import com.example.in2000_team32.databinding.FragmentHomeBinding
 import com.google.android.gms.location.LocationServices
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 
 class HomeFragment : Fragment() {
     var show = false
     private var _binding: FragmentHomeBinding? = null
     private var uvBar = 50
+    val current = LocalDateTime.now()
+    val formatter = DateTimeFormatter.ofPattern("HH", Locale.getDefault())
+    val formatted = current.format(formatter).toDouble()
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
@@ -59,7 +64,58 @@ class HomeFragment : Fragment() {
             }
         }
 
+
+        //Sett solkrem
+
         binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_50pluss)
+
+        //Sjekk om det er darkmode eller ikke og sett været
+        when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+                binding.vaermeldingSky.setImageResource(R.drawable.tordensky)
+            }
+            Configuration.UI_MODE_NIGHT_NO -> {
+                binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
+            }
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> {
+                binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
+            }
+        }
+
+        //Ser på klokken og bytter blobb
+
+        when (formatted) {
+            0.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
+            1.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
+            2.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
+            3.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
+            4.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
+            5.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
+            6.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.purple_blob)
+            7.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.purple_blob)
+            8.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.purple_blob)
+            9.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.green_blob)
+            10.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.green_blob)
+            11.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.green_blob)
+            12.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.blue_blob)
+            13.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.blue_blob)
+            14.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.blue_blob)
+            15.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.blue_blob)
+            16.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.blue_blob)
+            17.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.blue_blob)
+            18.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
+            19.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
+            20.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
+            21.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
+            22.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
+            23.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
+            else -> binding.vaermeldingBlob.setImageResource(R.drawable.blue_blob)
+        }
+
+
+
+
+
 
         fun getGeoLocation(activity: Activity) {
             if (ActivityCompat.checkSelfPermission(
