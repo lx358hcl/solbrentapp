@@ -169,7 +169,7 @@ class HomeFragment : Fragment() {
 
             }
 
-            //Ingen debouncing atm, så ikke bruk denne for mye ellers får vi kvote-kjeft 
+            //Ingen debouncing atm, så ikke bruk denne for mye ellers får vi kvote-kjeft
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 homeViewModel.fetchPlaces(s.toString())
             }
@@ -244,25 +244,6 @@ class HomeFragment : Fragment() {
         return result
     }
 
-    //Wifi backup function
-    @SuppressLint("MissingPermission") fun getWifiPosition() {
-        var currentActivity = getActivity()
-        locationManager = currentActivity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        var wifiProvider = locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER);
-        if (wifiProvider == true) {
-            var l = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
-            if (l != null) {
-                println("Gps is not enabled but network is available and location is not null")
-                location = l
-                grabInfo()
-            } else {
-                println("Gps is not enabled but network is available and location is null")
-                getWifiPosition()
-            }
-            locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0, 0f, locationListener)
-        }
-    }
-
     fun getLocation() {
         var currentActivity = getActivity()
 
@@ -308,7 +289,6 @@ class HomeFragment : Fragment() {
                     grabInfo()
                 } else {
                     println("Gps is not enabled but network is available and location is null")
-                    getWifiPosition()
                 }
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, locationListener)
             } else if (gpsEnabled) {
@@ -320,7 +300,6 @@ class HomeFragment : Fragment() {
                     grabInfo()
                 } else {
                     println("Gps is enabled and location is null")
-                    getWifiPosition()
                 }
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener)
             } else {
