@@ -37,5 +37,10 @@
     <string name="vitamin_d_pr_time">Vitamin-D pr. time</string>
     <string name="tid_for_solbrent">Tid for solbrent</string>
     <string name="takk_for_tips_jeg_har_det_bedre_n">Takk for tips, jeg har det bedre nå</string>
+    <string name="OppsummeringTekst">Slipp å bli solbrent med solbrent?-appen. Få oversikt over UV-styrke, historikk, D-vitamin opptak og påminnelser om når du bør smøre deg basert på din hudfarge!</string>
+    <string name="Appnavn">Solbrent?</string>
+    <string name="hent_posisjon">Hent posisjon</string>
+    <string name="g_til_app">Gå til app</string>
+    <string name="applogo_sol_og_m_ne">Applogo, sol og måne</string>
 
 </resources>
