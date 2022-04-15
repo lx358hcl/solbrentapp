@@ -13,12 +13,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.in2000_team32.R
+import com.example.in2000_team32.UvPinSetter
 import com.example.in2000_team32.databinding.FragmentHomeBinding
 import com.google.android.gms.location.LocationServices
 import java.time.LocalDateTime
@@ -29,7 +31,6 @@ import java.util.*
 class HomeFragment : Fragment() {
     var show = false
     private var _binding: FragmentHomeBinding? = null
-    private var uvBar = 50
     val current = LocalDateTime.now()
     val formatter = DateTimeFormatter.ofPattern("HH", Locale.getDefault())
     val formatted = current.format(formatter).toDouble()
@@ -49,9 +50,6 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
 
         val searchButton = binding.searchButton
-        val UVbar = binding.progressBar
-
-        UVbar.setProgress(uvBar)
 
         searchButton.setOnClickListener {
             if (show) {
@@ -60,6 +58,8 @@ class HomeFragment : Fragment() {
                 showSearch()
             }
         }
+
+
 
 
         //Sett solkrem
@@ -174,10 +174,6 @@ class HomeFragment : Fragment() {
         )
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 
     private val mPermissionResult = registerForActivityResult(RequestPermission()) { result ->
         if (result) {
@@ -244,5 +240,10 @@ class HomeFragment : Fragment() {
                 startObserverne()
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

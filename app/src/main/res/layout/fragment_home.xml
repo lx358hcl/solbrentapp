@@ -61,13 +61,9 @@
                         app:layout_constraintTop_toTopOf="@id/vaermeldingBlob">
 
                         <ImageView
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
                             android:id="@+id/vaermeldingSky"
-                            app:layout_widthPercent="50%"
-                            app:layout_heightPercent="50%"
-                            app:layout_marginTopPercent="0%"
-                            app:layout_marginLeftPercent="0%"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:contentDescription="@string/solBildeAltTekst"
                             android:scaleType="fitStart"
                             android:src="@drawable/solskyh"
@@ -75,6 +71,10 @@
                             app:layout_constraintEnd_toEndOf="@id/vaermeldingBlob"
                             app:layout_constraintStart_toStartOf="@id/vaermeldingBlob"
                             app:layout_constraintTop_toTopOf="@id/vaermeldingBlob"
+                            app:layout_heightPercent="50%"
+                            app:layout_marginLeftPercent="0%"
+                            app:layout_marginTopPercent="0%"
+                            app:layout_widthPercent="50%"
                             tools:ignore="ImageContrastCheck" />
 
                     </androidx.percentlayout.widget.PercentRelativeLayout>
@@ -275,7 +275,7 @@
             android:layout_height="match_parent">
 
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/progressBarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -289,36 +289,41 @@
                 app:layout_constraintTop_toBottomOf="@+id/handle"
                 app:layout_constraintVertical_bias="0.23000002">
 
-                <TextView
-                    android:id="@+id/progressTxt"
+
+                <ImageView
+                    android:id="@+id/imageViewUvSlider"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignStart="@id/progressBar"
-                    android:layout_alignTop="@id/progressBar"
-                    android:layout_alignEnd="@id/progressBar"
-                    android:layout_alignBottom="@id/progressBar"
-                    android:background="#00000000"
-                    android:text="@string/placeholder" />
-
-                <!-- txtView.setX((int) ur progress value); I koden for å få teksten til å følge-->
-
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="64dp"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="32dp"
-                    android:layout_marginBottom="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.31" />
+                    app:srcCompat="@drawable/uvslider" />
 
-            </RelativeLayout>
+                <androidx.percentlayout.widget.PercentRelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/imageViewUvPin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_heightPercent="10%"
+                        app:layout_marginLeftPercent="0%"
+                        app:layout_marginBottomPercent="10%"
+                        app:layout_widthPercent="10%"
+
+                        app:srcCompat="@drawable/uvpin" />
+                </androidx.percentlayout.widget.PercentRelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ImageView
                 android:id="@+id/handle"
