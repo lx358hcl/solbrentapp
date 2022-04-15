@@ -26,7 +26,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/vaermeldingLayout"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
@@ -39,32 +39,49 @@
 
                 <ImageView
                     android:id="@+id/vaermeldingBlob"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="64dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:adjustViewBounds="true"
                     android:contentDescription="@string/solBildeAltTekst"
+                    android:scaleType="fitEnd"
                     android:src="@drawable/blue_blob"
-                    tools:ignore="ImageContrastCheck"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
-
-                <ImageView
-                    android:id="@+id/vaermeldingSky"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="-20dp"
-                    android:layout_marginEnd="150dp"
-                    android:layout_marginBottom="100dp"
-                    android:layout_marginStart="0dp"
-                    android:contentDescription="@string/solBildeAltTekst"
-                    android:src="@drawable/solskyh"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ImageContrastCheck" />
+
+                    <androidx.percentlayout.widget.PercentRelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="@id/vaermeldingBlob"
+                        app:layout_constraintEnd_toEndOf="@id/vaermeldingBlob"
+                        app:layout_constraintStart_toStartOf="@id/vaermeldingBlob"
+                        app:layout_constraintTop_toTopOf="@id/vaermeldingBlob">
+
+                        <ImageView
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:id="@+id/vaermeldingSky"
+                            app:layout_widthPercent="50%"
+                            app:layout_heightPercent="50%"
+                            app:layout_marginTopPercent="0%"
+                            app:layout_marginLeftPercent="0%"
+                            android:contentDescription="@string/solBildeAltTekst"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/solskyh"
+                            app:layout_constraintBottom_toBottomOf="@id/vaermeldingBlob"
+                            app:layout_constraintEnd_toEndOf="@id/vaermeldingBlob"
+                            app:layout_constraintStart_toStartOf="@id/vaermeldingBlob"
+                            app:layout_constraintTop_toTopOf="@id/vaermeldingBlob"
+                            tools:ignore="ImageContrastCheck" />
+
+                    </androidx.percentlayout.widget.PercentRelativeLayout>
+
+
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
@@ -103,6 +120,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_baseline_search_24"
                 android:contentDescription="@string/searchButtonHelpText"
                 app:layout_constraintBottom_toBottomOf="@+id/text_solstyrke"
                 app:layout_constraintEnd_toEndOf="parent"

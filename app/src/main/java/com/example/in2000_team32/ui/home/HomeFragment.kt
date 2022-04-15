@@ -48,9 +48,6 @@ class HomeFragment : Fragment() {
 
         val root: View = binding.root
 
-        hideSearch()
-        hideKeyboard()
-
         val searchButton = binding.searchButton
         val UVbar = binding.progressBar
 
@@ -75,7 +72,7 @@ class HomeFragment : Fragment() {
                 binding.vaermeldingSky.setImageResource(R.drawable.tordensky)
             }
             Configuration.UI_MODE_NIGHT_NO -> {
-                binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
+                binding.vaermeldingSky.setImageResource(R.drawable.alleskyerh)
             }
             Configuration.UI_MODE_NIGHT_UNDEFINED -> {
                 binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
@@ -141,24 +138,23 @@ class HomeFragment : Fragment() {
     }
 
     fun showSearch() {
-        var searchDistance = resources.getDimensionPixelSize(R.dimen.searchDistance).toFloat()
         show = true
         binding.EditTextAddress.requestFocus()
         activity?.let { showKeyboard(it) }
         binding.searchLayout1.animate().translationY(0F)
-        binding.searchButton.setBackgroundResource(R.drawable.ic_baseline_close_24)
+        binding.searchButton.setImageResource(R.drawable.ic_baseline_close_24)
     }
 
     fun hideSearch() {
-        var searchDistance = resources.getDimensionPixelSize(R.dimen.searchDistance).toFloat()
+        val searchDistance = resources.getDimensionPixelSize(R.dimen.searchDistance).toFloat()
         show = false
         binding.EditTextAddress.getText().clear()
         hideKeyboard()
         binding.searchLayout1.animate().translationY(searchDistance)
-        binding.searchButton.setBackgroundResource(R.drawable.ic_baseline_search_24)
+        binding.searchButton.setImageResource(R.drawable.ic_baseline_search_24)
     }
 
-    fun Fragment.hideKeyboard() {
+    private fun Fragment.hideKeyboard() {
         view?.let { activity?.hideKeyboard(it) }
     }
 
@@ -168,7 +164,7 @@ class HomeFragment : Fragment() {
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    fun showKeyboard(activity: FragmentActivity) {
+    private fun showKeyboard(activity: FragmentActivity) {
         val inputMethodManager =
             activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.toggleSoftInputFromWindow(
