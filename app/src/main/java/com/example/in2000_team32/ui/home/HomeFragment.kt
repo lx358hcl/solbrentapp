@@ -13,27 +13,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.percentlayout.widget.PercentRelativeLayout
 import com.example.in2000_team32.R
-import com.example.in2000_team32.UvPinSetter
 import com.example.in2000_team32.databinding.FragmentHomeBinding
 import com.google.android.gms.location.LocationServices
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.math.roundToInt
 
 
 class HomeFragment : Fragment() {
     var show = false
     private var _binding: FragmentHomeBinding? = null
-    val current = LocalDateTime.now()
-    val formatter = DateTimeFormatter.ofPattern("HH", Locale.getDefault())
-    val formatted = current.format(formatter).toDouble()
+    private val current: LocalDateTime = LocalDateTime.now()
+    private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("HH", Locale.getDefault())
+    private val formatted: Double = current.format(formatter).toDouble()
+
+    private var uvStyrke: Int = 11
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
@@ -110,6 +112,18 @@ class HomeFragment : Fragment() {
         }
 
 
+        val view: View = root.findViewById(R.id.imageViewUvPin)
+        val params = view.layoutParams as PercentRelativeLayout.LayoutParams
+// This will currently return null, if it was not constructed from XML.
+// This will currently return null, if it was not constructed from XML.
+        val info = params.percentLayoutInfo
+        info.startMarginPercent = 0.0818f
+        view.requestLayout()
+
+
+
+
+
 
 
 
@@ -134,6 +148,53 @@ class HomeFragment : Fragment() {
         }
 
         //Usikker på hva denne gjør
+
+        //Setter UV pin og tekst i detjalert view
+        fun setUvPin(f: Float) {
+            val view: View = root.findViewById(R.id.imageViewUvPin)
+            val params = view.layoutParams as PercentRelativeLayout.LayoutParams
+            val info = params.percentLayoutInfo
+            info.startMarginPercent = f
+            view.requestLayout()
+        }
+
+        fun setUvPinTekst(f: Float, i: Int) {
+            val view: View = root.findViewById(R.id.textViewUvPinTall)
+            val params = view.layoutParams as PercentRelativeLayout.LayoutParams
+            val info = params.percentLayoutInfo
+            info.startMarginPercent = f
+            binding.textViewUvPinTall.text = i.toString()
+            view.requestLayout()
+        }
+
+        fun setUvAlle(f: Float, i: Int) {
+            setUvPin(f)
+            setUvPinTekst(f, i)
+        }
+
+        fun setUvBar(uv: Int){
+            when(uv){
+                0 -> setUvAlle(0.0f, 0)
+                1 -> setUvAlle(0.0818f, 1)
+                2 -> setUvAlle(0.1636f, 2)
+                3 -> setUvAlle(0.2454f, 3)
+                4 -> setUvAlle(0.3272f, 4)
+                5 -> setUvAlle(0.4090f, 5)
+                6 -> setUvAlle(0.4909f, 6)
+                7 -> setUvAlle(0.5727f, 7)
+                8 -> setUvAlle(0.6545f, 8)
+                9 -> setUvAlle(0.7363f, 9)
+                10 -> setUvAlle(0.8181f, 10)
+                11 -> setUvAlle(0.9f, 11)
+            }
+        }
+
+        setUvBar(uvStyrke)
+
+
+
+
+
         return root
     }
 
@@ -191,6 +252,7 @@ class HomeFragment : Fragment() {
         getActivity()?.let {
             homeViewModel.getUvData().observe(it) {
                 binding.textUvi.setText(it.toString() + " uvi")
+                uvStyrke = it.roundToInt()
             }
         }
         // Get weather message
@@ -241,6 +303,7 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
