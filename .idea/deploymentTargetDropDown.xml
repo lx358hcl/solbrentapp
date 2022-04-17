@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="deploymentTargetDropDown">
-    <targetSelectedWithDropDown>
+    <runningDeviceTargetSelectedWithDropDown>
       <Target>
-        <type value="QUICK_BOOT_TARGET" />
+        <type value="RUNNING_DEVICE_TARGET" />
         <deviceKey>
           <Key>
-            <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\ErikS\.android\avd\Pixel_5_API_31.avd" />
+            <type value="SERIAL_NUMBER" />
+            <value value="adb-R5CRB0JF3FD-U6SK1W._adb-tls-connect._tcp" />
           </Key>
         </deviceKey>
       </Target>
-    </targetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2022-04-16T15:33:08.072276100Z" />
+    </runningDeviceTargetSelectedWithDropDown>
+    <timeTargetWasSelectedWithDropDown value="2022-04-17T14:00:47.434449700Z" />
     <runningDeviceTargetsSelectedWithDialog>
       <Target>
         <type value="RUNNING_DEVICE_TARGET" />
         <deviceKey>
           <Key>
-            <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\ErikS\.android\avd\7.6_Fold-in_with_outer_display_API_31_Portrait.avd" />
+            <type value="SERIAL_NUMBER" />
+            <value value="adb-R5CRB0JF3FD-U6SK1W._adb-tls-connect._tcp" />
           </Key>
         </deviceKey>
       </Target>
@@ -27,8 +27,8 @@
         <type value="RUNNING_DEVICE_TARGET" />
         <deviceKey>
           <Key>
-            <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\ErikS\.android\avd\Pixel_C_API_31_Tablet_Landscape.avd" />
+            <type value="SERIAL_NUMBER" />
+            <value value="27bba114f20d7ece" />
           </Key>
         </deviceKey>
       </Target>
@@ -43,24 +43,6 @@
       </Target>
     </runningDeviceTargetsSelectedWithDialog>
     <targetsSelectedWithDialog>
-      <Target>
-        <type value="QUICK_BOOT_TARGET" />
-        <deviceKey>
-          <Key>
-            <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\ErikS\.android\avd\7.6_Fold-in_with_outer_display_API_31_Portrait.avd" />
-          </Key>
-        </deviceKey>
-      </Target>
-      <Target>
-        <type value="QUICK_BOOT_TARGET" />
-        <deviceKey>
-          <Key>
-            <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\ErikS\.android\avd\Pixel_C_API_31_Tablet_Landscape.avd" />
-          </Key>
-        </deviceKey>
-      </Target>
       <Target>
         <type value="QUICK_BOOT_TARGET" />
         <deviceKey>
