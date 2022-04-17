@@ -175,7 +175,7 @@ class HomeFragment : Fragment() {
         getActivity()?.let {
             homeViewModel.getUvData().observe(it) {
                 binding.textUvi.setText(it.toString() + " uvi")
-                setUvBar(0.4.roundToInt(), 0.4)
+                setUvBar(it.roundToInt(), it)
             }
         }
         // Get weather message
