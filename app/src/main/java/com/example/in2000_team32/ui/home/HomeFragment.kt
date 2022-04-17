@@ -9,12 +9,15 @@ import android.content.res.Configuration
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
+import androidx.core.view.marginStart
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
@@ -172,7 +175,7 @@ class HomeFragment : Fragment() {
         getActivity()?.let {
             homeViewModel.getUvData().observe(it) {
                 binding.textUvi.setText(it.toString() + " uvi")
-                setUvBar(it.roundToInt(), it)
+                setUvBar(0.4.roundToInt(), 0.4)
             }
         }
         // Get weather message
@@ -240,6 +243,9 @@ class HomeFragment : Fragment() {
 
         if(d >= 10.5){
             info.startMarginPercent = f - 0.10f
+        } else if(d <= 0.4){
+            info.startMarginPercent = 0.0f
+            binding.textViewUvPinTall.gravity = Gravity.START
         } else {
             info.startMarginPercent = f - 0.05f
         }
