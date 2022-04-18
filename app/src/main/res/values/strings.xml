@@ -42,6 +42,11 @@
     <string name="hent_posisjon">Hent posisjon</string>
     <string name="g_til_app">Gå til app</string>
     <string name="applogo_sol_og_m_ne">Applogo, sol og måne</string>
+    <string name="avbryt">Avbryt</string>
+    <string name="jeg_har_smurt_meg_igjen">Jeg har smurt meg igjen</string>
+    <string name="stopp_jeg_soler_ikke_lenger">Stopp, jeg soler ikke lenger</string>
+    <string name="spinner_for_velge_spf">Spinner for å velge SPF</string>
+    <string name="avbryt_ingen_sol">avbryt, ingen sol</string>
 
     <string-array name="spfSpinnerValues">
         <item>Velg SPF</item>

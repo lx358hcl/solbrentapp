@@ -31,6 +31,8 @@ class MapFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    var tidGår = true
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -128,7 +130,28 @@ class MapFragment : Fragment() {
 
          */
 
+        binding.smurtSegButton.setOnClickListener{
+            timer()
+        }
+        binding.smurtSegAvbryt.setOnClickListener{
+            stoppTimer()
+        }
+
         return root
+    }
+
+    fun timer(){
+        binding.smurtSegButton.visibility = View.GONE
+        binding.spfSpinner.visibility = View.GONE
+        binding.smurtSegAvbryt.visibility = View.VISIBLE
+        binding.smurtSegIgjen.visibility = View.VISIBLE
+    }
+
+    fun stoppTimer(){
+        binding.smurtSegButton.visibility = View.VISIBLE
+        binding.spfSpinner.visibility = View.VISIBLE
+        binding.smurtSegAvbryt.visibility = View.GONE
+        binding.smurtSegIgjen.visibility = View.GONE
     }
 
     override fun onDestroyView() {

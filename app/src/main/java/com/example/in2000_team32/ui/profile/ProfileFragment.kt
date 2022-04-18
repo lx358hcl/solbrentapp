@@ -29,6 +29,8 @@ class ProfileFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+
+
     private var selectedColor: Int = ColorSheet.NO_COLOR
     private var noColorOption = false
 
@@ -73,6 +75,8 @@ class ProfileFragment : Fragment() {
 
         return root
     }
+
+
 
 
     override fun onSaveInstanceState(outState: Bundle) {

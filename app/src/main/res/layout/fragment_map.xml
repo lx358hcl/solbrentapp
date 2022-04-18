@@ -62,12 +62,13 @@
             android:textSize="48sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/smurtSegButton"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tidIgjenTekst" />
 
         <Button
             android:id="@+id/smurtSegButton"
+            android:visibility="visible"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -78,7 +79,61 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/spfSpinner"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.88" />
+            app:layout_constraintVertical_bias="0.9" />
+
+        <Spinner
+            android:id="@+id/spfSpinner"
+            android:visibility="visible"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/rounded_corner_grey"
+            android:backgroundTint="?android:colorSecondary"
+            android:contentDescription="@string/spinner_for_velge_spf"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:translationZ="2dp"
+            app:layout_constraintBottom_toBottomOf="@+id/smurtSegButton"
+            app:layout_constraintEnd_toStartOf="@+id/smurtSegButton"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/smurtSegButton" />
+
+        <Button
+            android:id="@+id/smurtSegAvbryt"
+            android:visibility="gone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+            android:text="@string/avbryt_ingen_sol"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/smurtSegIgjen"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.9" />
+
+        <Button
+            android:id="@+id/smurtSegIgjen"
+            android:visibility="gone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:text="@string/jeg_har_smurt_meg_igjen"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/smurtSegAvbryt"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.9" />
 
         <TextView
             android:id="@+id/textView"
@@ -91,29 +146,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/smurtSegButton" />
-
-        <Spinner
-            android:id="@+id/spfSpinner"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="6dp"
-            android:gravity="center"
-            android:textAlignment="center"
-
-            android:translationZ="2dp"
-            android:background="@drawable/rounded_corner_grey"
-            android:backgroundTint="?android:colorSecondary"
-            app:layout_constraintBottom_toBottomOf="@+id/smurtSegButton"
-            app:layout_constraintEnd_toStartOf="@+id/smurtSegButton"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/smurtSegButton">
-
-        </Spinner>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
