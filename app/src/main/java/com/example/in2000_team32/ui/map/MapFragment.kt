@@ -3,21 +3,25 @@ package com.example.in2000_team32.ui.map
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import androidx.core.view.isVisible
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.in2000_team32.api.MetDataSource
+import com.example.in2000_team32.R
 import com.example.in2000_team32.databinding.FragmentMapBinding
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+
+import android.widget.TextView
+
+
+
 
 class MapFragment : Fragment() {
 
@@ -99,6 +103,30 @@ class MapFragment : Fragment() {
             }
 
         }
+
+        val spinner: Spinner = binding.spfSpinner
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.spfSpinnerValues,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
+        /*
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val spinnerSelected = spinner.getSelectedItem().toString()
+                TODO("Not yet implemented")
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+
+        }
+
+         */
 
         return root
     }

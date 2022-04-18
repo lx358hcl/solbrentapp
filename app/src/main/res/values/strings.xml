@@ -43,4 +43,15 @@
     <string name="g_til_app">Gå til app</string>
     <string name="applogo_sol_og_m_ne">Applogo, sol og måne</string>
 
+    <string-array name="spfSpinnerValues">
+        <item>Velg SPF</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+        <item>50</item>
+        <item>50+</item>
+    </string-array>
+
 </resources>
