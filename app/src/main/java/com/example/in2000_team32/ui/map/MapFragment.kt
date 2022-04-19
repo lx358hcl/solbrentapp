@@ -3,9 +3,16 @@ package com.example.in2000_team32.ui.map
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.app.*
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import android.content.Context.NOTIFICATION_SERVICE
+import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
@@ -19,13 +26,19 @@ import com.example.in2000_team32.R
 import com.example.in2000_team32.databinding.FragmentMapBinding
 
 import android.widget.TextView
-
-
+import java.util.*
 
 
 class MapFragment : Fragment() {
 
     private var _binding: FragmentMapBinding? = null
+
+    private var VARSEL_TID: Long = 10000
+    private var tidText : TextView? = null
+    private var cdTimer: CountDownTimer? = null
+    private var cdtRunning: Boolean = false
+    private var cdtTimeLeft: Long = VARSEL_TID
+    private var cdtEndTime: Long? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -137,6 +150,36 @@ class MapFragment : Fragment() {
             stoppTimer()
         }
 
+        createNotificationChannel()
+        val searchButton = binding.smurtSegButton
+        tidText = binding.tidIgjenTid
+
+
+        searchButton.setOnClickListener {
+
+            //Setter opp notification
+            val intent = Intent(activity, Notification::class.java)
+
+            val pendingIntent = PendingIntent.getBroadcast(activity, 1, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+
+            val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+            val timeAtBtnClick = System.currentTimeMillis()
+            val tenSecondsInMillis = VARSEL_TID
+
+            alarmManager.set(AlarmManager.RTC_WAKEUP, timeAtBtnClick + tenSecondsInMillis, pendingIntent)
+
+
+            //Setter opp nedtelling i appen
+            if (cdtRunning) {
+                restartTimer()
+            } else {
+                cdtTimeLeft = VARSEL_TID
+                startTimer()
+            }
+
+        }
+
         return root
     }
 
@@ -157,6 +200,112 @@ class MapFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        val prefs: SharedPreferences? = activity?.getSharedPreferences("tidIgjen", MODE_PRIVATE)
+
+        with (prefs!!.edit()) {
+            putLong("millisLeft", cdtTimeLeft)
+            putBoolean("timerRunning", cdtRunning)
+            putLong("endTime", cdtEndTime!!)
+            apply()
+        }
+
+        if (cdTimer != null){
+            cdTimer!!.cancel()
+        }
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        //Henter nedtellings data
+        val prefs: SharedPreferences? = activity?.getSharedPreferences("tidIgjen", MODE_PRIVATE)
+        cdtTimeLeft = prefs!!.getLong("millisLeft", VARSEL_TID)
+        cdtRunning = prefs.getBoolean("timerRunning", false)
+
+        //Oppdaterer texten på siden
+        var minutes = ((cdtTimeLeft / 1000) / 60).toInt()
+        var seconds = ((cdtTimeLeft / 1000) % 60).toInt()
+        var timeLeft = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
+        tidText!!.setText(timeLeft)
+
+        if (cdtRunning){
+            cdtEndTime = prefs.getLong("endTime", 0)
+            cdtTimeLeft = cdtEndTime!! - System.currentTimeMillis()
+
+            if (cdtTimeLeft < 0){
+                cdtTimeLeft = 0
+                cdtRunning = false
+
+                minutes = ((cdtTimeLeft / 1000) / 60).toInt()
+                seconds = ((cdtTimeLeft / 1000) % 60).toInt()
+                timeLeft = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
+                tidText!!.setText(timeLeft)
+            } else {
+                startTimer()
+            }
+
+        }
+
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "Solbrent notification"
+            val descriptionText = "påminner bruker om å ta på mer solkrem"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel("notifySolbrent", name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager = activity?.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun startTimer() {
+
+        cdtEndTime = System.currentTimeMillis() + cdtTimeLeft
+        cdTimer?.cancel()
+
+        cdTimer = object: CountDownTimer(cdtTimeLeft, 1000){
+            override fun onTick(millisUntillFinished: Long) {
+                cdtTimeLeft = millisUntillFinished
+                val minutes = ((cdtTimeLeft / 1000) / 60).toInt()
+                val seconds = ((cdtTimeLeft / 1000) % 60).toInt()
+
+                val timeLeft = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
+
+                tidText!!.setText(timeLeft)
+            }
+
+            override fun onFinish() {
+                cdtRunning = false
+                cdtTimeLeft = VARSEL_TID
+            }
+
+        }.start()
+
+        cdtRunning = true
+    }
+
+    private fun restartTimer() {
+        cdtTimeLeft = VARSEL_TID
+        cdTimer?.cancel()
+        startTimer()
+
+        /*val minutes = ((cdtTimeLeft / 1000) / 60).toInt()
+        val seconds = ((cdtTimeLeft / 1000) % 60).toInt()
+        val timeLeft = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
+        Log.d("TEST", "Tid igjen: " + timeLeft)
+        tidText!!.setText(timeLeft)
+        */
+
     }
 }
 

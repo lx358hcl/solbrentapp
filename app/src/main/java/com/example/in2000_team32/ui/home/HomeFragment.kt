@@ -313,6 +313,21 @@ import kotlinx.coroutines.flow.callbackFlow
         var networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         var wifiEnabled = locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER);
 
+        fun useWifi(){
+            println("wifi is enabled")
+            //Make toast with message that wifi is enabled and that the app will not work without gps
+            Toast.makeText(context, "Wifi is WUBBA WUBBA", Toast.LENGTH_LONG).show()
+            var l = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
+            if (l != null) {
+                println("wifi is enabled and location is not null")
+                location = l
+                grabInfo()
+            } else {
+                println("wifi is enabled and location is null")
+            }
+            locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0, 0f, locationListener)
+        }
+
         //Check if internet is available and if gps is enabled if not ask user to enable it or use network provider if available and if not ask user to enable
         if (!isNetworkAvailable()) {
             //If this happens just add a spinner to the entire page and make it impossible to use because no internet is present
@@ -332,9 +347,11 @@ import kotlinx.coroutines.flow.callbackFlow
                     grabInfo()
                 } else {
                     println("Gps is not enabled but network is available and location is null")
+                    useWifi();
                 }
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, locationListener)
-            } else if (gpsEnabled) {
+            }
+            else if (gpsEnabled) {
                 println("Gps is enabled")
                 var l = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                 if (l != null) {
@@ -343,11 +360,14 @@ import kotlinx.coroutines.flow.callbackFlow
                     grabInfo()
                 } else {
                     println("Gps is enabled and location is null")
+                    useWifi();
                 }
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener)
             }
             else if(wifiEnabled){
                 println("wifi is enabled")
+                //Make toast with message that wifi is enabled and that the app will not work without gps
+                Toast.makeText(context, "Wifi is WUBBA WUBBA", Toast.LENGTH_LONG).show()
                 var l = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
                 if (l != null) {
                     println("wifi is enabled and location is not null")
@@ -355,6 +375,7 @@ import kotlinx.coroutines.flow.callbackFlow
                     grabInfo()
                 } else {
                     println("wifi is enabled and location is null")
+                    useWifi();
                 }
                 locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0, 0f, locationListener)
             }
