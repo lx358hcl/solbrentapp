@@ -7,7 +7,6 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.profile.ProfileFragment">
     android:id="@+id/profileFragment"
-
     <Button
         android:id="@+id/edit_skin"
         android:layout_width="wrap_content"
@@ -19,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout1"
-        app:layout_constraintBottom_toTopOf="@+id/ScrollView1"/>
+        app:layout_constraintBottom_toTopOf="@+id/InnstillingerHeader"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout1"
@@ -29,53 +28,53 @@
         app:layout_constraintBottom_toTopOf="@+id/ScrollView1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        <!---
-        <RelativeLayout
-            android:id="@+id/RelativeLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_hudfarge_bakgrunn_art"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_image"
-                android:layout_width="200dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="48dp"
-                android:layout_marginEnd="48dp"
-                android:layout_marginBottom="48dp"
-                android:elevation="4dp"
-                android:src="@drawable/subaru_oyevipper" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/floatingActionButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignRight="@id/profile_image"
-                android:layout_alignBottom="@id/profile_image"
-                android:backgroundTint="?android:colorPrimary"
-                android:elevation="8dp"
-                android:src="@drawable/ic_baseline_photo_camera_24" />
-
-        </RelativeLayout>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textDashboard"
+            android:id="@+id/minProfilText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/placeholder"
+            android:textSize="24sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.89" />
-            -->
+            app:layout_constraintVertical_bias="0.0" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/InnstillingerHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center"
+        android:text="@string/innstillingerString"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/ScrollView1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout1" />
 
     <ScrollView
         android:id="@+id/ScrollView1"
@@ -85,7 +84,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout1">
+        app:layout_constraintTop_toBottomOf="@+id/InnstillingerHeader">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -94,35 +93,11 @@
             android:baselineAligned="true"
             android:divider="@color/black"
             android:gravity="center"
-            android:paddingTop="40dp"
+
             >
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="64dp">
-
-                <TextView
-                    android:id="@+id/InnstillingerHeader"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:gravity="center"
-                    android:text="@string/innstillingerString"
-                    android:textColor="?android:textColorPrimary"
-                    android:textSize="40sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_goneMarginLeft="16dp" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:layout_marginTop="-1dp"
                 android:background="@drawable/border_set">
@@ -379,8 +354,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
-                android:layout_marginTop="-1dp"
-                android:background="@drawable/border_set">
+                android:layout_marginTop="-1dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -426,13 +400,6 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
         </LinearLayout>
-
-
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

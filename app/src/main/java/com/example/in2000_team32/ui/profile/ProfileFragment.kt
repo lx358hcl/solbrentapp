@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -25,6 +28,8 @@ class ProfileFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+
 
     private var selectedColor: Int = ColorSheet.NO_COLOR
     private var noColorOption = false
@@ -56,8 +61,23 @@ class ProfileFragment : Fragment() {
                 .show(getParentFragmentManager())
         }
 
+
+
+        val profileText: TextView = binding.minProfilText
+        dashboardViewModel.profileText.observe(viewLifecycleOwner) {
+            profileText.text = it
+        }
+
+
+
+
+
+
         return root
     }
+
+
+
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)

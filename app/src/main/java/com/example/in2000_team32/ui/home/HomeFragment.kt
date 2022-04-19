@@ -1,7 +1,6 @@
 package com.example.in2000_team32.ui.home
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Application
@@ -11,6 +10,7 @@ import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.graphics.Color
 import android.location.Location
 import android.location.LocationListener
@@ -23,20 +23,25 @@ import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
+import androidx.constraintlayout.widget.ConstraintLayout
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.annotation.UiThread
 import androidx.core.app.ActivityCompat
+import androidx.core.view.marginStart
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.percentlayout.widget.PercentRelativeLayout
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -45,13 +50,22 @@ import com.example.in2000_team32.api.DataSourceRepository
 import com.example.in2000_team32.api.LocationDataSource
 import com.example.in2000_team32.api.NominatimLocationFromString
 import com.example.in2000_team32.databinding.FragmentHomeBinding
+import com.google.android.gms.location.LocationServices
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.math.roundToInt
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
+@Suppress("DEPRECATION")
 class HomeFragment : Fragment() {
     var show = false
+    private val current: LocalDateTime = LocalDateTime.now()
+    private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("HH", Locale.getDefault())
+    private val formatted: Double = current.format(formatter).toDouble()
     private var uvBar = 50
     private lateinit var location: Location
     private var observersStarted = false
@@ -112,14 +126,9 @@ class HomeFragment : Fragment() {
             }
         }
 
-        hideSearch()
-        hideKeyboard()
 
+        //If som åpner og lukker søkefeltet
         val searchButton = binding.searchButton
-        val UVbar = binding.progressBar
-
-        UVbar.setProgress(uvBar)
-
         searchButton.setOnClickListener {
             if (show) {
                 hideSearch()
@@ -127,11 +136,41 @@ class HomeFragment : Fragment() {
                 showSearch()
             }
         }
+        //End of if som åpner og lukker søkefeltet
 
+
+
+
+        //Sett solkrem
         binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_50pluss)
+        //End of sett solkrem
+
+        //Sjekk om det er darkmode eller ikke og sett været
+        when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+                binding.vaermeldingSky.setImageResource(R.drawable.tordensky)
+            }
+            Configuration.UI_MODE_NIGHT_NO -> {
+                binding.vaermeldingSky.setImageResource(R.drawable.alleskyerh)
+            }
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> {
+                binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
+            }
+        }
+        //End of sjekk om det er darkmode eller ikke og sett været
+
+        //Ser på klokken og bytter blobb
+        settBlobb()
+        //End of se på klokken og bytter blobb
 
         //Start textlistener for senere
         startSearchListener()
+
+        //Dette starter opp hele applikasjonen - Vi kan pynte på syntaks og struktur senere
+        var currentActivity = getActivity()
+        if (currentActivity != null) {
+            getGeoLocation(currentActivity)
+        }
 
         return root
     }
@@ -141,23 +180,23 @@ class HomeFragment : Fragment() {
     }
 
     fun showSearch() {
-        var searchDistance = resources.getDimensionPixelSize(R.dimen.searchDistance).toFloat()
         show = true
         binding.EditTextAddress.requestFocus()
         activity?.let { showKeyboard(it) }
         binding.searchLayout1.animate().translationY(0F)
-        binding.searchButton.setBackgroundResource(R.drawable.ic_baseline_close_24)
+        binding.searchButton.setImageResource(R.drawable.ic_baseline_close_24)
     }
 
     fun hideSearch() {
-        var searchDistance = resources.getDimensionPixelSize(R.dimen.searchDistance).toFloat()
+        val searchDistance = resources.getDimensionPixelSize(R.dimen.searchDistance).toFloat()
         show = false
         binding.EditTextAddress.getText().clear()
         hideKeyboard()
         binding.searchLayout1.animate().translationY(searchDistance)
-        binding.searchButton.setBackgroundResource(R.drawable.ic_baseline_search_24)
+        binding.searchButton.setImageResource(R.drawable.ic_baseline_search_24)
     }
 
+    private fun Fragment.hideKeyboard() {
     fun startSearchListener() {
         //Listen for input from EditTextAddress and print it to console
         binding.EditTextAddress.addTextChangedListener(object : TextWatcher {
@@ -183,6 +222,16 @@ class HomeFragment : Fragment() {
     fun Context.hideKeyboard(view: View) {
         val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    private fun showKeyboard(activity: FragmentActivity) {
+        val inputMethodManager =
+            activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.toggleSoftInputFromWindow(
+            activity.currentFocus!!.windowToken,
+            InputMethodManager.SHOW_FORCED,
+            0
+        )
     }
 
     fun showKeyboard(activity: FragmentActivity) {
@@ -327,6 +376,7 @@ class HomeFragment : Fragment() {
         getActivity()?.let {
             homeViewModel.getUvData().observe(it) {
                 binding.textUvi.setText(it.toString() + " uvi")
+                setUvBar(it.roundToInt(), it)
             }
         }
         // Get weather message
@@ -354,6 +404,86 @@ class HomeFragment : Fragment() {
                 observersStarted = true
             }
             return
+        }
+    }
+
+    //Setter UV pin og tekst i detjalert view
+    fun setUvPin(f: Float) {
+        val view: View = binding.imageViewUvPin
+        val params = view.layoutParams as PercentRelativeLayout.LayoutParams
+        val info = params.percentLayoutInfo
+        info.startMarginPercent = f
+        view.requestLayout()
+    }
+
+    fun setUvPinTekst(f: Float, d: Double) {
+        val view: View = binding.textViewUvPinTall
+        val params = view.layoutParams as PercentRelativeLayout.LayoutParams
+        val info = params.percentLayoutInfo
+
+        if(d >= 10.5){
+            info.startMarginPercent = f - 0.10f
+        } else if(d <= 0.4){
+            info.startMarginPercent = 0.0f
+            binding.textViewUvPinTall.gravity = Gravity.START
+        } else {
+            info.startMarginPercent = f - 0.05f
+        }
+        binding.textViewUvPinTall.text = d.toString()
+        view.requestLayout()
+    }
+
+    fun setUvAlle(f: Float, d: Double) {
+        setUvPin(f)
+        setUvPinTekst(f, d)
+    }
+
+    fun setUvBar(uv: Int, d: Double){
+        when(uv){
+            0 -> setUvAlle(0.0f, d)
+            1 -> setUvAlle(0.0818f, d)
+            2 -> setUvAlle(0.1636f, d)
+            3 -> setUvAlle(0.2454f, d)
+            4 -> setUvAlle(0.3272f, d)
+            5 -> setUvAlle(0.4090f, d)
+            6 -> setUvAlle(0.4909f, d)
+            7 -> setUvAlle(0.5727f, d)
+            8 -> setUvAlle(0.6545f, d)
+            9 -> setUvAlle(0.7363f, d)
+            10 -> setUvAlle(0.8181f, d)
+            11 -> setUvAlle(0.9f, d)
+        }
+    }
+    //End of set UV pin og UV tekst
+
+    //Ser på klokken og bytter blobb
+    fun settBlobb(){
+        when (formatted) {
+            0.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
+            1.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
+            2.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
+            3.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
+            4.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
+            5.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
+            6.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.purple_blob)
+            7.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.purple_blob)
+            8.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.purple_blob)
+            9.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.green_blob)
+            10.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.green_blob)
+            11.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.green_blob)
+            12.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.blue_blob)
+            13.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.blue_blob)
+            14.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.blue_blob)
+            15.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.blue_blob)
+            16.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.blue_blob)
+            17.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.blue_blob)
+            18.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
+            19.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
+            20.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
+            21.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
+            22.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
+            23.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
+            else -> binding.vaermeldingBlob.setImageResource(R.drawable.blue_blob)
         }
     }
 }
