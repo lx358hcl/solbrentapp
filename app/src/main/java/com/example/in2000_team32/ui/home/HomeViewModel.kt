@@ -35,7 +35,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
     private val uvDataForecast: MutableLiveData<List<Double>> = MutableLiveData<List<Double>>()
     private val uvStartTimeForecast: MutableLiveData<Int> = MutableLiveData<Int>()
 
-
     private val weatherMsg: MutableLiveData<String> = MutableLiveData<String>()
     private val locationName : MutableLiveData<String> = MutableLiveData<String>()
     private val places : MutableLiveData<List<NominatimLocationFromString>> = MutableLiveData<List<NominatimLocationFromString>>()
@@ -55,8 +54,12 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
         return uvDataForecast
     }
 
-    //fun getUvForecastStartTime(): LiveData<Int> {
-    //}
+    /**
+     * @return First hour of UV data forecast
+     */
+    fun getUvForecastStartTime(): LiveData<Int> {
+        return uvStartTimeForecast
+    }
 
     fun getWeatherMsg(): LiveData<String> {
         return weatherMsg
@@ -90,8 +93,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
 
                 // Set start time variable
                 val uvForecastStartTime: String = it.properties.timeseries[0].time
-                SimpleDateFormat("HH").format(uvForecastStartTime)
-                println("------------->")
+                println("------------->" + SimpleDateFormat("HH").format(uvForecastStartTime).toString())
             }
         }
     }

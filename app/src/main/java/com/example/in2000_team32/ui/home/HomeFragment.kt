@@ -344,8 +344,7 @@ import kotlinx.coroutines.flow.callbackFlow
                     println("Gps is enabled and location is null")
                 }
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener)
-            }
-            else if(wifiEnabled){
+            } else if(wifiEnabled){
                 println("wifi is enabled")
                 var l = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
                 if (l != null) {
@@ -449,9 +448,11 @@ import kotlinx.coroutines.flow.callbackFlow
 
         getActivity()?.let {
         homeViewModel.getUvForecastData().observe(it) { uvDataForecast ->
+            homeViewModel.getUvForecastStartTime().observe(it) { startTime ->
                 // Call UvForecastGraphView addData
                 val gv = binding.uvForecastGraph
-                gv.addData(uvDataForecast, 10)
+                gv.addData(uvDataForecast, startTime)
+                }
             }
         }
 
