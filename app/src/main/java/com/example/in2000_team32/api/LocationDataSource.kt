@@ -19,7 +19,7 @@ class LocationDataSource {
     }
 
     //Finds location-name from string and returns list of possible guesses || function is debounced
-    suspend fun findLocationNameFromString(locationName : String) : List<NominatimLocationFromString>? {
+    suspend fun findLocationNamesFromString(locationName : String) : List<NominatimLocationFromString>? {
         val url = "https://nominatim.openstreetmap.org/search?q=${locationName}&format=json&addressdetails=1"
         val gson = Gson()
 
