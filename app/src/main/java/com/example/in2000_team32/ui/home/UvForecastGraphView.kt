@@ -87,7 +87,7 @@ class UvForecastGraphView(context: Context?, attrs: AttributeSet?): View(context
 
             barHeight = data[i] * blockHeight
 
-            if (data[i] < 12) paint.color = context.getColor(R.color.graph_purple).toInt()
+            paint.color = context.getColor(R.color.graph_purple).toInt()
             if (data[i] < 10) paint.color = context.getColor(R.color.graph_purple).toInt()
             if (data[i] < 8) paint.color = context.getColor(R.color.graph_red).toInt()
             if (data[i] < 6) paint.color = context.getColor(R.color.graph_orange).toInt()
