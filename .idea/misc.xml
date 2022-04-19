@@ -6,19 +6,41 @@
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable-v24/rounded_corner_green.xml" value="0.2645" />
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable-v24/rounded_corner_grey.xml" value="0.2645" />
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable-v24/rounded_corner_red.xml" value="0.2645" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable/add_profile.xml" value="0.116" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable/bg_gradient.xml" value="0.253" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable/bg_gradient_nightly.xml" value="0.253" />
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable/border_set.xml" value="0.2645" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable/gradient_animation_123.xml" value="0.1" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable/gradient_animation_1234.xml" value="0.253" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable/gradient_animation_456.xml" value="0.231" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable/gradient_animation_789.xml" value="0.231" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable/gradient_background1.xml" value="0.253" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable/gradient_background1_nightly.xml" value="0.253" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable/gradient_background2.xml" value="0.253" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable/gradient_background2_nightly.xml" value="0.253" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable/gradient_background3.xml" value="0.253" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable/gradient_background3_nightly.xml" value="0.253" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable/gradient_background4.xml" value="0.253" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable/gradient_background4_nightly.xml" value="0.253" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable/gradient_background5.xml" value="0.253" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable/gradient_background6.xml" value="0.253" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable/gradient_background7.xml" value="0.116" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable/gradient_background8.xml" value="0.116" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable/gradient_background9.xml" value="0.116" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable/ic_hudfarge_bakgrunn_art.xml" value="0.181" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/drawable/ic_liten_sol.xml" value="0.181" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/layout/activity_onboarding.xml" value="0.1" />
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/layout/activity_search.xml" value="0.259375" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/layout/brent_seg_view_kladd.xml" value="0.17239583333333333" />
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/layout/cardextended.xml" value="0.1" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/layout/fragment_home.xml" value="0.12" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/layout/fragment_home.xml" value="0.264" />
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/layout/fragment_map.xml" value="0.1" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/layout/fragment_profile.xml" value="0.1" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/border_set.xml" value="0.5675" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/ic_baseline_fire_extinguisher_24.xml" value="0.3295" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/cardextended.xml" value="0.3973468098547063" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/fragment_home.xml" value="0.14" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/fragment_map.xml" value="0.2875" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/fragment_profile.xml" value="0.26849080803762293" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/menu/bottom_nav_menu.xml" value="0.26849080803762293" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/layout/fragment_profile.xml" value="0.128" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/layout/slider.xml" value="0.264" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/layout/tips_kladd.xml" value="0.128" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.182518115942029" />
         <entry key="app/src/main/res/layout/cardextended.xml" value="0.14311043566362716" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1875" />
