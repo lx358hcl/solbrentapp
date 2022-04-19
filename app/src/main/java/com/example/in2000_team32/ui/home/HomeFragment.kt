@@ -472,6 +472,7 @@ import kotlinx.coroutines.flow.callbackFlow
             }
         }
 
+        // Update UV forecast graph
         getActivity()?.let {
         homeViewModel.getUvForecastData().observe(it) { uvDataForecast ->
             homeViewModel.getUvForecastStartTime().observe(it) { startTime ->
@@ -479,6 +480,16 @@ import kotlinx.coroutines.flow.callbackFlow
                 val gv = binding.uvForecastGraph
                 gv.addData(uvDataForecast, startTime)
                 }
+            }
+        }
+
+        // Update current temp in card
+        getActivity()?.let {
+            homeViewModel.getCurrentTemp().observe(it) { temp ->
+                val formatedTemp: String = "$temp °C"
+
+                binding.detaljerTemperatur.setText(formatedTemp)
+
             }
         }
 

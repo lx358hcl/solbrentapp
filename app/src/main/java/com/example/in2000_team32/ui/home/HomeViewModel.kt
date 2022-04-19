@@ -37,6 +37,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
 
     private val uvDataForecast: MutableLiveData<List<Double>> = MutableLiveData<List<Double>>()
     private val uvStartTimeForecast: MutableLiveData<Int> = MutableLiveData<Int>()
+    private val currentTemp: MutableLiveData<Double> = MutableLiveData<Double>()
 
     private val weatherMsg: MutableLiveData<String> = MutableLiveData<String>()
     private val locationName : MutableLiveData<String> = MutableLiveData<String>()
@@ -47,6 +48,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
      */
     fun getUvData(): LiveData<Double> {
         return uvData
+    }
+
+    fun getCurrentTemp(): LiveData<Double> {
+        return currentTemp
     }
 
     /**
@@ -83,18 +88,23 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
         viewModelScope.launch(Dispatchers.IO) {
             dataSourceRepository.getWeatherData(latitude, longitude)?.also {
                 // Set all live data variables that need to be updated
+
+                // Post
                 val uv: Double = it.properties.timeseries[0].data.instant.details.ultraviolet_index_clear_sky
                 uvData.postValue(uv)
 
+                // Post weather msg
                 val msg: String = it.properties.timeseries[0].data.instant.details.weather_msg
                 weatherMsg.postValue(msg)
 
+                // Post uv forecast
                 var uvForecast: MutableList<Double> = mutableListOf()
                 for (ts: TimeSeries in it.properties.timeseries) {
                     uvForecast.add(ts.data.instant.details.ultraviolet_index_clear_sky)
                 }
                 uvDataForecast.postValue(uvForecast)
 
+                // Post start time
                 // Set start time variable
                 val rawStartTime: String = it.properties.timeseries[0].time
                 val formatter: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
@@ -102,6 +112,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
                 val startHour = date.hours.toInt()
                 //println("-------------> raw: $rawStartTime, startHour: $startHour")
                 uvStartTimeForecast.postValue(startHour)
+
+                // Post current temp
+                val temp: Double = it.properties.timeseries[0].data.instant.details.air_temperature
+                currentTemp.postValue(temp)
             }
         }
     }
