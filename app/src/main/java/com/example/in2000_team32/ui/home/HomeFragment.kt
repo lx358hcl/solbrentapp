@@ -29,7 +29,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.constraintlayout.widget.ConstraintLayout
 import android.widget.Spinner
 import android.widget.Toast
@@ -60,8 +59,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
-@Suppress("DEPRECATION")
-class HomeFragment : Fragment() {
+@Suppress("DEPRECATION") class HomeFragment : Fragment() {
     var show = false
     private val current: LocalDateTime = LocalDateTime.now()
     private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("HH", Locale.getDefault())
@@ -139,8 +137,6 @@ class HomeFragment : Fragment() {
         //End of if som åpner og lukker søkefeltet
 
 
-
-
         //Sett solkrem
         binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_50pluss)
         //End of sett solkrem
@@ -166,12 +162,6 @@ class HomeFragment : Fragment() {
         //Start textlistener for senere
         startSearchListener()
 
-        //Dette starter opp hele applikasjonen - Vi kan pynte på syntaks og struktur senere
-        var currentActivity = getActivity()
-        if (currentActivity != null) {
-            getGeoLocation(currentActivity)
-        }
-
         return root
     }
 
@@ -196,7 +186,6 @@ class HomeFragment : Fragment() {
         binding.searchButton.setImageResource(R.drawable.ic_baseline_search_24)
     }
 
-    private fun Fragment.hideKeyboard() {
     fun startSearchListener() {
         //Listen for input from EditTextAddress and print it to console
         binding.EditTextAddress.addTextChangedListener(object : TextWatcher {
@@ -224,22 +213,12 @@ class HomeFragment : Fragment() {
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    private fun showKeyboard(activity: FragmentActivity) {
-        val inputMethodManager =
-            activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.toggleSoftInputFromWindow(
-            activity.currentFocus!!.windowToken,
-            InputMethodManager.SHOW_FORCED,
-            0
-        )
-    }
-
     fun showKeyboard(activity: FragmentActivity) {
         val inputMethodManager = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.toggleSoftInputFromWindow(activity.currentFocus!!.windowToken, InputMethodManager.SHOW_FORCED, 0)
     }
 
-    private val mPermissionResult = registerForActivityResult(RequestPermission()) { result ->
+    val mPermissionResult = registerForActivityResult(RequestPermission()) { result ->
         if (result) {
             Log.e(TAG, "onActivityResult: PERMISSION GRANTED")
             println("Getting permissions")
@@ -251,11 +230,25 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private val locationListener = LocationListener { l ->
+    val locationListener = LocationListener { l ->
         location = l
         println("Received a location")
         println(location)
         grabInfo()
+    }
+
+    fun grabInfo() {
+        var currentActivity = getActivity()
+        if (currentActivity != null) {
+            homeViewModel.fetchLocationData(location.latitude, location.longitude)
+            homeViewModel.fetchWeatherData(location.latitude, location.longitude)
+
+            if (observersStarted == false) {
+                startObserverne()
+                observersStarted = true
+            }
+            return
+        }
     }
 
     fun isNetworkAvailable(): Boolean {
@@ -318,7 +311,7 @@ class HomeFragment : Fragment() {
         locationManager = currentActivity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         var gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         var networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
+        var wifiEnabled = locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER);
 
         //Check if internet is available and if gps is enabled if not ask user to enable it or use network provider if available and if not ask user to enable
         if (!isNetworkAvailable()) {
@@ -327,7 +320,8 @@ class HomeFragment : Fragment() {
 
             //Show toast that no internet is available and that the app will not work without internet access and that the user should enable internet access
             Toast.makeText(context, "No internet available", Toast.LENGTH_LONG).show()
-        } else {
+        }
+        else {
             println("Internet is available")
             if (networkEnabled) {
                 println("Gps is not enabled but network is available")
@@ -351,7 +345,20 @@ class HomeFragment : Fragment() {
                     println("Gps is enabled and location is null")
                 }
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener)
-            } else {
+            }
+            else if(wifiEnabled){
+                println("wifi is enabled")
+                var l = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
+                if (l != null) {
+                    println("wifi is enabled and location is not null")
+                    location = l
+                    grabInfo()
+                } else {
+                    println("wifi is enabled and location is null")
+                }
+                locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0, 0f, locationListener)
+            }
+            else{
                 //Show AlertDialog that LocationServices is disabled and that the user should enable it in settings or dismiss if they dont want to enable it
                 println("Gps is not enabled and network is not available")
                 var alertDialog = AlertDialog.Builder(context)
@@ -370,6 +377,55 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
+    //Setter UV pin og tekst i detjalert view
+    fun setUvPin(f: Float) {
+        val view: View = binding.imageViewUvPin
+        val params = view.layoutParams as PercentRelativeLayout.LayoutParams
+        val info = params.percentLayoutInfo
+        info.startMarginPercent = f
+        view.requestLayout()
+    }
+
+    fun setUvPinTekst(f: Float, d: Double) {
+        val view: View = binding.textViewUvPinTall
+        val params = view.layoutParams as PercentRelativeLayout.LayoutParams
+        val info = params.percentLayoutInfo
+
+        if (d >= 10.5) {
+            info.startMarginPercent = f - 0.10f
+        } else if (d <= 0.4) {
+            info.startMarginPercent = 0.0f
+            binding.textViewUvPinTall.gravity = Gravity.START
+        } else {
+            info.startMarginPercent = f - 0.05f
+        }
+        binding.textViewUvPinTall.text = d.toString()
+        view.requestLayout()
+    }
+
+    fun setUvAlle(f: Float, d: Double) {
+        setUvPin(f)
+        setUvPinTekst(f, d)
+    }
+
+    fun setUvBar(uv: Int, d: Double) {
+        when (uv) {
+            0 -> setUvAlle(0.0f, d)
+            1 -> setUvAlle(0.0818f, d)
+            2 -> setUvAlle(0.1636f, d)
+            3 -> setUvAlle(0.2454f, d)
+            4 -> setUvAlle(0.3272f, d)
+            5 -> setUvAlle(0.4090f, d)
+            6 -> setUvAlle(0.4909f, d)
+            7 -> setUvAlle(0.5727f, d)
+            8 -> setUvAlle(0.6545f, d)
+            9 -> setUvAlle(0.7363f, d)
+            10 -> setUvAlle(0.8181f, d)
+            11 -> setUvAlle(0.9f, d)
+        }
+    }
+    //End of set UV pin og UV tekst
 
     fun startObserverne() {
         // Get UV data
@@ -393,71 +449,8 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun grabInfo() {
-        var currentActivity = getActivity()
-        if (currentActivity != null) {
-            homeViewModel.fetchLocationData(location.latitude, location.longitude)
-            homeViewModel.fetchWeatherData(location.latitude, location.longitude)
-
-            if (observersStarted == false) {
-                startObserverne()
-                observersStarted = true
-            }
-            return
-        }
-    }
-
-    //Setter UV pin og tekst i detjalert view
-    fun setUvPin(f: Float) {
-        val view: View = binding.imageViewUvPin
-        val params = view.layoutParams as PercentRelativeLayout.LayoutParams
-        val info = params.percentLayoutInfo
-        info.startMarginPercent = f
-        view.requestLayout()
-    }
-
-    fun setUvPinTekst(f: Float, d: Double) {
-        val view: View = binding.textViewUvPinTall
-        val params = view.layoutParams as PercentRelativeLayout.LayoutParams
-        val info = params.percentLayoutInfo
-
-        if(d >= 10.5){
-            info.startMarginPercent = f - 0.10f
-        } else if(d <= 0.4){
-            info.startMarginPercent = 0.0f
-            binding.textViewUvPinTall.gravity = Gravity.START
-        } else {
-            info.startMarginPercent = f - 0.05f
-        }
-        binding.textViewUvPinTall.text = d.toString()
-        view.requestLayout()
-    }
-
-    fun setUvAlle(f: Float, d: Double) {
-        setUvPin(f)
-        setUvPinTekst(f, d)
-    }
-
-    fun setUvBar(uv: Int, d: Double){
-        when(uv){
-            0 -> setUvAlle(0.0f, d)
-            1 -> setUvAlle(0.0818f, d)
-            2 -> setUvAlle(0.1636f, d)
-            3 -> setUvAlle(0.2454f, d)
-            4 -> setUvAlle(0.3272f, d)
-            5 -> setUvAlle(0.4090f, d)
-            6 -> setUvAlle(0.4909f, d)
-            7 -> setUvAlle(0.5727f, d)
-            8 -> setUvAlle(0.6545f, d)
-            9 -> setUvAlle(0.7363f, d)
-            10 -> setUvAlle(0.8181f, d)
-            11 -> setUvAlle(0.9f, d)
-        }
-    }
-    //End of set UV pin og UV tekst
-
     //Ser på klokken og bytter blobb
-    fun settBlobb(){
+    fun settBlobb() {
         when (formatted) {
             0.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
             1.0 -> binding.vaermeldingBlob.setImageResource(R.drawable.pink_blob)
@@ -487,4 +480,3 @@ class HomeFragment : Fragment() {
         }
     }
 }
-

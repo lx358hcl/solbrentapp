@@ -19,7 +19,7 @@ class SearchAdapter(searchQueryElements : MutableList<NominatimLocationFromStrin
     }
 
     override fun onBindViewHolder(holder: SearchAdapter.ViewHolder, position: Int) {
-        holder.searchQueryName.text = searchQueryElements[position].display_name
+        holder.searchQueryName.text = searchQueryElements[position].address?.city
         holder.searchQueryCountry.text = searchQueryElements[position].address?.country
     }
 
