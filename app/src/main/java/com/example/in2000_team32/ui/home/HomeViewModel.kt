@@ -12,8 +12,13 @@ import android.widget.TextView
 import androidx.lifecycle.*
 import com.example.in2000_team32.api.DataSourceRepository
 import com.example.in2000_team32.api.NominatimLocationFromString
+import com.example.in2000_team32.api.TimeSeries
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.hours
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) { // Had to change to AndroidViewModel to be able to get context
 /*
@@ -29,12 +34,39 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
     // Connect Data Source Repo. to HomeViewModel
     private val dataSourceRepository = DataSourceRepository(getApplication<Application>().applicationContext)
     private val uvData: MutableLiveData<Double> = MutableLiveData<Double>()
+
+    private val uvDataForecast: MutableLiveData<List<Double>> = MutableLiveData<List<Double>>()
+    private val uvStartTimeForecast: MutableLiveData<Int> = MutableLiveData<Int>()
+    private val currentTemp: MutableLiveData<Double> = MutableLiveData<Double>()
+
     private val weatherMsg: MutableLiveData<String> = MutableLiveData<String>()
     private val locationName : MutableLiveData<String> = MutableLiveData<String>()
     private val places : MutableLiveData<List<NominatimLocationFromString>> = MutableLiveData<List<NominatimLocationFromString>>()
 
+    /**
+     * @return Current UV data. One single Double value.
+     */
     fun getUvData(): LiveData<Double> {
         return uvData
+    }
+
+    fun getCurrentTemp(): LiveData<Double> {
+        return currentTemp
+    }
+
+    /**
+     * @return Current UV data forecast. Sorted list (by time, first forecast is first)
+     * of all UV values in forecast
+     */
+    fun getUvForecastData(): LiveData<List<Double>> {
+        return uvDataForecast
+    }
+
+    /**
+     * @return First hour of UV data forecast
+     */
+    fun getUvForecastStartTime(): LiveData<Int> {
+        return uvStartTimeForecast
     }
 
     fun getWeatherMsg(): LiveData<String> {
@@ -50,16 +82,40 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
     }
 
     // Fetch location-area-data
+    @Suppress("DEPRECATION")
     fun fetchWeatherData(latitude : Double, longitude: Double) {
         // Do an asynchronous operation to fetch users
         viewModelScope.launch(Dispatchers.IO) {
             dataSourceRepository.getWeatherData(latitude, longitude)?.also {
                 // Set all live data variables that need to be updated
+
+                // Post
                 val uv: Double = it.properties.timeseries[0].data.instant.details.ultraviolet_index_clear_sky
                 uvData.postValue(uv)
 
+                // Post weather msg
                 val msg: String = it.properties.timeseries[0].data.instant.details.weather_msg
                 weatherMsg.postValue(msg)
+
+                // Post uv forecast
+                var uvForecast: MutableList<Double> = mutableListOf()
+                for (ts: TimeSeries in it.properties.timeseries) {
+                    uvForecast.add(ts.data.instant.details.ultraviolet_index_clear_sky)
+                }
+                uvDataForecast.postValue(uvForecast)
+
+                // Post start time
+                // Set start time variable
+                val rawStartTime: String = it.properties.timeseries[0].time
+                val formatter: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                val date = formatter.parse(rawStartTime.toString())
+                val startHour = date.hours.toInt()
+                //println("-------------> raw: $rawStartTime, startHour: $startHour")
+                uvStartTimeForecast.postValue(startHour)
+
+                // Post current temp
+                val temp: Double = it.properties.timeseries[0].data.instant.details.air_temperature
+                currentTemp.postValue(temp)
             }
         }
     }

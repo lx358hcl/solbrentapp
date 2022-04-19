@@ -124,7 +124,6 @@ import kotlinx.coroutines.flow.callbackFlow
             }
         }
 
-
         //If som åpner og lukker søkefeltet
         val searchButton = binding.searchButton
         searchButton.setOnClickListener {
@@ -363,8 +362,7 @@ import kotlinx.coroutines.flow.callbackFlow
                     useWifi();
                 }
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener)
-            }
-            else if(wifiEnabled){
+            } else if(wifiEnabled){
                 println("wifi is enabled")
                 //Make toast with message that wifi is enabled and that the app will not work without gps
                 Toast.makeText(context, "Wifi is WUBBA WUBBA", Toast.LENGTH_LONG).show()
@@ -473,6 +471,28 @@ import kotlinx.coroutines.flow.callbackFlow
                 binding.detaljerAddresse.setText(it.toString())
             }
         }
+
+        // Update UV forecast graph
+        getActivity()?.let {
+        homeViewModel.getUvForecastData().observe(it) { uvDataForecast ->
+            homeViewModel.getUvForecastStartTime().observe(it) { startTime ->
+                // Call UvForecastGraphView addData
+                val gv = binding.uvForecastGraph
+                gv.addData(uvDataForecast, startTime)
+                }
+            }
+        }
+
+        // Update current temp in card
+        getActivity()?.let {
+            homeViewModel.getCurrentTemp().observe(it) { temp ->
+                val formatedTemp: String = "$temp °C"
+
+                binding.detaljerTemperatur.setText(formatedTemp)
+
+            }
+        }
+
     }
 
     //Ser på klokken og bytter blobb
