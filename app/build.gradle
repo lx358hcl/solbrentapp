@@ -78,4 +78,8 @@ dependencies {
     //Dots indicator
     implementation 'com.tbuonomo:dotsindicator:4.2'
 
+    //Notification
+    implementation "androidx.core:core:1.7.0"
+
+
 }

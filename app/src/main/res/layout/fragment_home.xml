@@ -79,9 +79,6 @@
 
                     </androidx.percentlayout.widget.PercentRelativeLayout>
 
-
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
@@ -120,8 +117,9 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_marginEnd="16dp"
-                android:src="@drawable/ic_baseline_search_24"
+                android:background="#FFFFFF"
                 android:contentDescription="@string/searchButtonHelpText"
+                android:src="@drawable/ic_baseline_search_24"
                 app:layout_constraintBottom_toBottomOf="@+id/text_solstyrke"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -486,7 +484,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/detaljView">
 
-
                 <ImageView
                     android:id="@+id/mapView"
                     android:layout_width="match_parent"
@@ -531,8 +528,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/searchQueryRecycler"
-            android:layout_width="375dp"
-            android:layout_height="365dp"
+            android:layout_width="385dp"
+            android:layout_height="523dp"
             android:layout_marginStart="1dp"
             android:layout_marginEnd="1dp"
             android:layout_marginBottom="1dp"
@@ -540,18 +537,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button" />
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="88dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="162dp"
-            android:layout_marginEnd="161dp"
-            android:text="@string/søkButtonString"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/EditTextAddress" />
+            app:layout_constraintTop_toBottomOf="@+id/EditTextAddress"
+            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
