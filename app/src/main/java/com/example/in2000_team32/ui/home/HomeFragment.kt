@@ -124,7 +124,6 @@ import kotlinx.coroutines.flow.callbackFlow
             }
         }
 
-
         //If som åpner og lukker søkefeltet
         val searchButton = binding.searchButton
         searchButton.setOnClickListener {
@@ -447,6 +446,15 @@ import kotlinx.coroutines.flow.callbackFlow
                 binding.detaljerAddresse.setText(it.toString())
             }
         }
+
+        getActivity()?.let {
+        homeViewModel.getUvForecastData().observe(it) { uvDataForecast ->
+                // Call UvForecastGraphView addData
+                val gv = binding.uvForecastGraph
+                gv.addData(uvDataForecast, 10)
+            }
+        }
+
     }
 
     //Ser på klokken og bytter blobb
