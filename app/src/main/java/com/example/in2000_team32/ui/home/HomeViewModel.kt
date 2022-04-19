@@ -12,8 +12,10 @@ import android.widget.TextView
 import androidx.lifecycle.*
 import com.example.in2000_team32.api.DataSourceRepository
 import com.example.in2000_team32.api.NominatimLocationFromString
+import com.example.in2000_team32.api.TimeSeries
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) { // Had to change to AndroidViewModel to be able to get context
 /*
@@ -29,12 +31,34 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
     // Connect Data Source Repo. to HomeViewModel
     private val dataSourceRepository = DataSourceRepository(getApplication<Application>().applicationContext)
     private val uvData: MutableLiveData<Double> = MutableLiveData<Double>()
+
+    private val uvDataForecast: MutableLiveData<List<Double>> = MutableLiveData<List<Double>>()
+    private val uvStartTimeForecast: MutableLiveData<Int> = MutableLiveData<Int>()
+
     private val weatherMsg: MutableLiveData<String> = MutableLiveData<String>()
     private val locationName : MutableLiveData<String> = MutableLiveData<String>()
     private val places : MutableLiveData<List<NominatimLocationFromString>> = MutableLiveData<List<NominatimLocationFromString>>()
 
+    /**
+     * @return Current UV data. One single Double value.
+     */
     fun getUvData(): LiveData<Double> {
         return uvData
+    }
+
+    /**
+     * @return Current UV data forecast. Sorted list (by time, first forecast is first)
+     * of all UV values in forecast
+     */
+    fun getUvForecastData(): LiveData<List<Double>> {
+        return uvDataForecast
+    }
+
+    /**
+     * @return First hour of UV data forecast
+     */
+    fun getUvForecastStartTime(): LiveData<Int> {
+        return uvStartTimeForecast
     }
 
     fun getWeatherMsg(): LiveData<String> {
@@ -60,6 +84,16 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
 
                 val msg: String = it.properties.timeseries[0].data.instant.details.weather_msg
                 weatherMsg.postValue(msg)
+
+                var uvForecast: MutableList<Double> = mutableListOf()
+                for (ts: TimeSeries in it.properties.timeseries) {
+                    uvForecast.add(ts.data.instant.details.ultraviolet_index_clear_sky)
+                }
+                uvDataForecast.postValue(uvForecast)
+
+                // Set start time variable
+                val uvForecastStartTime: String = it.properties.timeseries[0].time
+                println("------------->" + SimpleDateFormat("HH").format(uvForecastStartTime).toString())
             }
         }
     }
