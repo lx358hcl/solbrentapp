@@ -16,6 +16,9 @@ import com.example.in2000_team32.api.TimeSeries
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.hours
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) { // Had to change to AndroidViewModel to be able to get context
 /*
@@ -74,6 +77,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
     }
 
     // Fetch location-area-data
+    @Suppress("DEPRECATION")
     fun fetchWeatherData(latitude : Double, longitude: Double) {
         // Do an asynchronous operation to fetch users
         viewModelScope.launch(Dispatchers.IO) {
@@ -92,8 +96,12 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
                 uvDataForecast.postValue(uvForecast)
 
                 // Set start time variable
-                val uvForecastStartTime: String = it.properties.timeseries[0].time
-                println("------------->" + SimpleDateFormat("HH").format(uvForecastStartTime).toString())
+                val rawStartTime: String = it.properties.timeseries[0].time
+                val formatter: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                val date = formatter.parse(rawStartTime.toString())
+                val startHour = date.hours.toInt()
+                //println("-------------> raw: $rawStartTime, startHour: $startHour")
+                uvStartTimeForecast.postValue(startHour)
             }
         }
     }
