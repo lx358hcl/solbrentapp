@@ -65,6 +65,7 @@ import kotlinx.coroutines.flow.callbackFlow
     private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("HH", Locale.getDefault())
     private val formatted: Double = current.format(formatter).toDouble()
     private var uvBar = 50
+    private var uvIndex = 0
     private lateinit var location: Location
     private var observersStarted = false
     private lateinit var locationManager: LocationManager
@@ -137,7 +138,9 @@ import kotlinx.coroutines.flow.callbackFlow
 
 
         //Sett solkrem
+        //
         binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_50pluss)
+
         //End of sett solkrem
 
         //Sjekk om det er darkmode eller ikke og sett været
@@ -267,7 +270,8 @@ import kotlinx.coroutines.flow.callbackFlow
                     }
                 }
             }
-        } else {
+        }
+        else {
             if (cm != null) {
                 val activeNetwork = cm.activeNetworkInfo
                 if (activeNetwork != null) {
@@ -308,15 +312,16 @@ import kotlinx.coroutines.flow.callbackFlow
         //Get Locationmanager
         //Gpsenabled og networkenabled er egentlig litt feil å si, det betyr egentlig mer typ hva som er tilgjengelig og ikke om den er enabled eller ikke
         locationManager = currentActivity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        var gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        var networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        var wifiEnabled = locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER);
+        var gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        var networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+        var wifiEnabled = locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER)
 
         fun useWifi(){
             println("wifi is enabled")
             //Make toast with message that wifi is enabled and that the app will not work without gps
+
             Toast.makeText(context, "Wifi is WUBBA WUBBA", Toast.LENGTH_LONG).show()
-            var l = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
+            var l = locationManager.getLastKnownLocation(LocationManager.FUSED_PROVIDER)
             if (l != null) {
                 println("wifi is enabled and location is not null")
                 location = l
@@ -433,6 +438,30 @@ import kotlinx.coroutines.flow.callbackFlow
         setUvPinTekst(f, d)
     }
 
+    fun updateSunscreen(uvIndex : Number){
+        var roundedUvIndex = uvIndex.toDouble().roundToInt()
+        //Ekstrem
+        if(roundedUvIndex >= 11){
+            binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_50pluss)
+        }
+        //Svært ekstrem
+        else if(roundedUvIndex >= 8){
+            binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_50)
+        }
+        //Sterk
+        else if(roundedUvIndex >= 6){
+            binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_30)
+        }
+        //Moderat
+        else if(roundedUvIndex >= 3){
+            binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_30)
+        }
+        //Lav
+        else if(roundedUvIndex >= 0){
+            binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_25)
+        }
+    }
+
     fun setUvBar(uv: Int, d: Double) {
         when (uv) {
             0 -> setUvAlle(0.0f, d)
@@ -457,6 +486,8 @@ import kotlinx.coroutines.flow.callbackFlow
             homeViewModel.getUvData().observe(it) {
                 binding.textUvi.setText(it.toString() + " uvi")
                 setUvBar(it.roundToInt(), it)
+                uvIndex = it.roundToInt()
+                updateSunscreen(uvIndex)
             }
         }
         // Get weather message
