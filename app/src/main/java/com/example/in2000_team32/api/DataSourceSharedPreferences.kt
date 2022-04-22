@@ -6,9 +6,11 @@ import com.google.gson.Gson
 
 class DataSourceSharedPreferences(val context: Context) {
     private var sharedPref: SharedPreferences
+    private var profilSharedPref: SharedPreferences
 
     init {
         sharedPref = context.getSharedPreferences("metCache", 0)
+        profilSharedPref = context.getSharedPreferences("profilData", Context.MODE_PRIVATE)
     }
 
     /**
@@ -40,4 +42,18 @@ class DataSourceSharedPreferences(val context: Context) {
 
         return metResponseDto
     }
+
+    //Skriver valgt farge til sharedpreferences under "skinColor"
+    fun writeSkinColor(color: Int) {
+        with(profilSharedPref.edit()){
+            putInt("skinColor", color)
+            apply()
+        }
+    }
+
+    //Henter skinColor fra sharedpreferences. Gir 0 hvis ikke funnet
+    fun getSkinColor() : Int {
+        return profilSharedPref.getInt("skinColor", 0)
+    }
+
 }
