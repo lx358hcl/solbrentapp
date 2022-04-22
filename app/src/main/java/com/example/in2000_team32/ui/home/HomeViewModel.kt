@@ -15,6 +15,7 @@ import com.example.in2000_team32.api.NominatimLocationFromString
 import com.example.in2000_team32.api.TimeSeries
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.time.Duration.Companion.hours
@@ -142,6 +143,22 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
                 println("The length of IT is " + it.size)
                 places.postValue(it)
             }
+        }
+    }
+
+    //Henter farge fra sharedpreferences
+    fun getColor() : Int {
+        var returInt : Int = 0
+        runBlocking {
+            returInt = dataSourceRepository.getColor()
+        }
+        return returInt
+    }
+
+    //skriver valgt farge til sharedpreferences
+    fun writeColor(color : Int) {
+        viewModelScope.launch ( Dispatchers.IO ) {
+            dataSourceRepository.writeColor(color)
         }
     }
 
