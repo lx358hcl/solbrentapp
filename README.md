@@ -17,6 +17,6 @@
 - Finn ut hvordan vi kan oppdatere view data etter et gitt interval
 https://softwareengineering.stackexchange.com/questions/426161/how-are-changes-propagated-from-the-viewmodel-to-the-model-and-how-often-in-mvvm
 
-
+- Ha et lite felt med *last update* i bunnen av cardviewet. 
 
 

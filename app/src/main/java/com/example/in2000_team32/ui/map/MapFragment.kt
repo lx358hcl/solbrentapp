@@ -26,13 +26,11 @@ import com.example.in2000_team32.R
 import com.example.in2000_team32.databinding.FragmentMapBinding
 
 import android.widget.TextView
+import com.example.in2000_team32.databinding.FragmentHomeBinding
 import java.util.*
 
 
 class MapFragment : Fragment() {
-
-    private var _binding: FragmentMapBinding? = null
-
     private var VARSEL_TID: Long = 10000
     private var tidText : TextView? = null
     private var cdTimer: CountDownTimer? = null
@@ -42,7 +40,8 @@ class MapFragment : Fragment() {
 
     // This property is only valid between onCreateView and
     // onDestroyView.
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentMapBinding
+
 
     var tidGår = true
 
@@ -54,7 +53,7 @@ class MapFragment : Fragment() {
         val notificationsViewModel =
             ViewModelProvider(this).get(MapViewModel::class.java)
 
-        _binding = FragmentMapBinding.inflate(inflater, container, false)
+        binding = FragmentMapBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         //Viser og gjemmer brent seg tips
@@ -128,20 +127,6 @@ class MapFragment : Fragment() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adapter
         }
-        /*
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val spinnerSelected = spinner.getSelectedItem().toString()
-                TODO("Not yet implemented")
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-
-        }
-
-         */
 
         binding.smurtSegButton.setOnClickListener{
             timer()
@@ -197,26 +182,20 @@ class MapFragment : Fragment() {
         binding.smurtSegIgjen.visibility = View.GONE
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     override fun onStop() {
         super.onStop()
 
         val prefs: SharedPreferences? = activity?.getSharedPreferences("tidIgjen", MODE_PRIVATE)
 
-        with (prefs!!.edit()) {
-            putLong("millisLeft", cdtTimeLeft)
-            putBoolean("timerRunning", cdtRunning)
-            putLong("endTime", cdtEndTime!!)
-            apply()
+        if (prefs != null) {
+            with (prefs.edit()) {
+                putLong("millisLeft", cdtTimeLeft)
+                putBoolean("timerRunning", cdtRunning)
+                cdtEndTime?.let { putLong("endTime", it) }
+                apply()
+            }
         }
-
-        if (cdTimer != null){
-            cdTimer!!.cancel()
-        }
+        cdTimer?.cancel()
 
     }
 
@@ -298,14 +277,6 @@ class MapFragment : Fragment() {
         cdtTimeLeft = VARSEL_TID
         cdTimer?.cancel()
         startTimer()
-
-        /*val minutes = ((cdtTimeLeft / 1000) / 60).toInt()
-        val seconds = ((cdtTimeLeft / 1000) % 60).toInt()
-        val timeLeft = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
-        Log.d("TEST", "Tid igjen: " + timeLeft)
-        tidText!!.setText(timeLeft)
-        */
-
     }
 }
 

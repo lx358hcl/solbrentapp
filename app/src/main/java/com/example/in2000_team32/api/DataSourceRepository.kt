@@ -59,4 +59,14 @@ class DataSourceRepository(val context: Context) {
         return locationData
     }
 
+    //Henter farge fra sharedpreferences
+    suspend fun writeColor(color : Int){
+        dsSharedPreferences.writeSkinColor(color)
+    }
+
+    //Henter farge fra sharedpreferences
+    suspend fun getColor() : Int{
+        return dsSharedPreferences.getSkinColor()
+    }
+
 }

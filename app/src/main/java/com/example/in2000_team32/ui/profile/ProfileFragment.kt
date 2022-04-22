@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.in2000_team32.R
 import com.example.in2000_team32.databinding.FragmentProfileBinding
+import com.example.in2000_team32.ui.home.HomeViewModel
 import dev.sasikanth.colorsheet.ColorSheet
 
 
@@ -34,6 +35,8 @@ class ProfileFragment : Fragment() {
     private var selectedColor: Int = ColorSheet.NO_COLOR
     private var noColorOption = false
 
+    private lateinit var homeViewModel: HomeViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,6 +44,8 @@ class ProfileFragment : Fragment() {
     ): View {
         val dashboardViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
+
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -57,10 +62,10 @@ class ProfileFragment : Fragment() {
                     listener = { color ->
                         selectedColor = color
                         setColor(selectedColor)
+                        homeViewModel.writeColor(selectedColor) //Skriver til sharedPreferences den valgte hudfargen
                     })
                 .show(getParentFragmentManager())
         }
-
 
 
         val profileText: TextView = binding.minProfilText
@@ -69,8 +74,11 @@ class ProfileFragment : Fragment() {
         }
 
 
-
-
+        //Sjekker om sharedPreferences har lagret en farge fra tidligere. Endrer til denne fargen
+        val farge = homeViewModel.getColor()
+        if(farge != 0) {
+            binding.constraintLayout1.setBackgroundColor(homeViewModel.getColor())
+        }
 
 
         return root

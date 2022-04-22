@@ -16,6 +16,15 @@
     <color name="light_blue">#4FC3F7</color>
     <color name="transparent">#00FFFFFF</color>
 
+    <!-- UV Graph Colors-->
+    <color name="graph_green">#299F53</color>
+    <color name="graph_yellow">#F8B133</color>
+    <color name="graph_orange">#E48237</color>
+    <color name="graph_red">#D95433</color>
+    <color name="graph_purple">#80659C</color>
+
+
+
     <array name="colors">
         <item>#f3d0b4</item>
         <item>#e6b493</item>
@@ -24,4 +33,6 @@
         <item>#a35e41</item>
         <item>#3b1f1c</item>
     </array>
+
+
 </resources>

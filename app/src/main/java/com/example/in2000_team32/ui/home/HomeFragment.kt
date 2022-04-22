@@ -125,7 +125,6 @@ import kotlinx.coroutines.flow.callbackFlow
             }
         }
 
-
         //If som åpner og lukker søkefeltet
         val searchButton = binding.searchButton
         searchButton.setOnClickListener {
@@ -368,8 +367,7 @@ import kotlinx.coroutines.flow.callbackFlow
                     useWifi();
                 }
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener)
-            }
-            else if(wifiEnabled){
+            } else if(wifiEnabled){
                 println("wifi is enabled")
                 //Make toast with message that wifi is enabled and that the app will not work without gps
                 Toast.makeText(context, "Wifi is WUBBA WUBBA", Toast.LENGTH_LONG).show()
@@ -418,15 +416,20 @@ import kotlinx.coroutines.flow.callbackFlow
         val params = view.layoutParams as PercentRelativeLayout.LayoutParams
         val info = params.percentLayoutInfo
 
-        if (d >= 10.5) {
-            info.startMarginPercent = f - 0.10f
+        if(d>11.0){
+            info.startMarginPercent = f - 0.02f
+            binding.textViewUvPinTall.text = "11+"
+        } else if (d >= 10.5 && d <= 11.0) {
+            info.startMarginPercent = f - 0.05f
+            binding.textViewUvPinTall.text = d.toString()
         } else if (d <= 0.4) {
             info.startMarginPercent = 0.0f
             binding.textViewUvPinTall.gravity = Gravity.START
+            binding.textViewUvPinTall.text = d.toString()
         } else {
             info.startMarginPercent = f - 0.05f
+            binding.textViewUvPinTall.text = d.toString()
         }
-        binding.textViewUvPinTall.text = d.toString()
         view.requestLayout()
     }
 
@@ -499,6 +502,28 @@ import kotlinx.coroutines.flow.callbackFlow
                 binding.detaljerAddresse.setText(it.toString())
             }
         }
+
+        // Update UV forecast graph
+        getActivity()?.let {
+        homeViewModel.getUvForecastData().observe(it) { uvDataForecast ->
+            homeViewModel.getUvForecastStartTime().observe(it) { startTime ->
+                // Call UvForecastGraphView addData
+                val gv = binding.uvForecastGraph
+                gv.addData(uvDataForecast, startTime)
+                }
+            }
+        }
+
+        // Update current temp in card
+        getActivity()?.let {
+            homeViewModel.getCurrentTemp().observe(it) { temp ->
+                val formatedTemp: String = "$temp °C"
+
+                binding.detaljerTemperatur.setText(formatedTemp)
+
+            }
+        }
+
     }
 
     //Ser på klokken og bytter blobb
