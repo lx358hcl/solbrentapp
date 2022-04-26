@@ -48,6 +48,7 @@ import com.example.in2000_team32.R
 import com.example.in2000_team32.api.DataSourceRepository
 import com.example.in2000_team32.api.LocationDataSource
 import com.example.in2000_team32.api.NominatimLocationFromString
+import com.example.in2000_team32.api.VitaminDDataSource
 import com.example.in2000_team32.databinding.FragmentHomeBinding
 import com.google.android.gms.location.LocationServices
 import java.time.LocalDateTime
@@ -256,7 +257,6 @@ import kotlinx.coroutines.flow.callbackFlow
                 startObserverne()
                 observersStarted = true
             }
-            return
         }
     }
 
@@ -328,13 +328,14 @@ import kotlinx.coroutines.flow.callbackFlow
             //Make toast with message that wifi is enabled and that the app will not work without gps
 
             Toast.makeText(context, "Wifi is WUBBA WUBBA", Toast.LENGTH_LONG).show()
-            var l = locationManager.getLastKnownLocation(LocationManager.FUSED_PROVIDER)
+            var l = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
             if (l != null) {
                 println("wifi is enabled and location is not null")
                 location = l
                 grabInfo()
             } else {
                 println("wifi is enabled and location is null")
+                useWifi()
             }
             locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0, 0f, locationListener)
         }
@@ -445,6 +446,28 @@ import kotlinx.coroutines.flow.callbackFlow
         setUvPinTekst(f, d)
     }
 
+    fun calculateHemisphere(latitude: Number) : String{
+        var hemisphere = "N"
+        if(latitude.toDouble() < 0){
+            hemisphere = "S"
+        }
+        return hemisphere
+    }
+
+    fun updateVitaminDInfo(fitztype : Number, uvindex: Number, latitude: Number, longitude: Number){
+        var vitaminDDataSource = VitaminDDataSource()
+        var hemisphere = calculateHemisphere(latitude)
+        var sunBurnRes = vitaminDDataSource.calculateTimeTillSunBurn(fitztype.toFloat(), uvindex.toFloat())
+        var vitaminDRes = vitaminDDataSource.calculateVitaminDUIPerHour(fitztype.toFloat(), hemisphere, uvindex.toFloat())
+
+        println(uvindex.toFloat())
+        println(sunBurnRes)
+        println(vitaminDRes)
+
+        binding.timeTillSunburn.text = sunBurnRes.toString()
+        binding.vitaminDPerHour.text = vitaminDRes.toString()
+    }
+
     fun updateSunscreen(uvIndex : Number){
         var roundedUvIndex = uvIndex.toDouble().roundToInt()
         //Ekstrem
@@ -495,6 +518,8 @@ import kotlinx.coroutines.flow.callbackFlow
                 setUvBar(it.roundToInt(), it)
                 uvIndex = it.roundToInt()
                 updateSunscreen(uvIndex)
+                var fitztype = 2.0
+                updateVitaminDInfo(fitztype, uvIndex, location.latitude, location.longitude)
             }
         }
         // Get weather message
