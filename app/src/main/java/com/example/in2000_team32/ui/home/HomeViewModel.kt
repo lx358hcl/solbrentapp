@@ -13,9 +13,7 @@ import androidx.lifecycle.*
 import com.example.in2000_team32.api.DataSourceRepository
 import com.example.in2000_team32.api.NominatimLocationFromString
 import com.example.in2000_team32.api.TimeSeries
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.time.Duration.Companion.hours
@@ -39,10 +37,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
     private val uvDataForecast: MutableLiveData<List<Double>> = MutableLiveData<List<Double>>()
     private val uvStartTimeForecast: MutableLiveData<Int> = MutableLiveData<Int>()
     private val currentTemp: MutableLiveData<Double> = MutableLiveData<Double>()
+    private val currentSky: MutableLiveData<String> = MutableLiveData<String>()
 
     private val weatherMsg: MutableLiveData<String> = MutableLiveData<String>()
     private val locationName : MutableLiveData<String> = MutableLiveData<String>()
     private val places : MutableLiveData<List<NominatimLocationFromString>> = MutableLiveData<List<NominatimLocationFromString>>()
+    private var searchJob: Job? = null
+
 
     /**
      * @return Current UV data. One single Double value.
@@ -53,6 +54,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
 
     fun getCurrentTemp(): LiveData<Double> {
         return currentTemp
+    }
+
+    fun getCurrentSky(): LiveData<String> {
+        return currentSky
     }
 
     /**
@@ -117,6 +122,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
                 // Post current temp
                 val temp: Double = it.properties.timeseries[0].data.instant.details.air_temperature
                 currentTemp.postValue(temp)
+
+                // Post current sky
+                val sky: String = it.properties.timeseries[0].data.next_1_hours.summary.symbol_code
+                currentSky.postValue(sky)
             }
         }
     }
@@ -133,15 +142,17 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
         }
     }
 
+
     //Fetch list of places based on string input
     fun fetchPlaces(searchQuery : String){
-        viewModelScope.launch(Dispatchers.IO) {
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch(Dispatchers.IO) {
+            delay(500)
             dataSourceRepository.getLocationNamesBasedOnString(searchQuery) ?.also {
-                // Set all live data variables that need to be updated
+                places.postValue(it)
                 println("HERE IT COMES biiiiiiiiitch")
                 println(it)
                 println("The length of IT is " + it.size)
-                places.postValue(it)
             }
         }
     }

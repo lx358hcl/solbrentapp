@@ -36,8 +36,10 @@
     <string name="metode_mentolsalve_kan_brukes_for_lindre_smerter_og_ubehag">Metode mentolsalve kan brukes for å lindre smerter og ubehag.</string>
     <string name="er_smertene_store_kan_du_eventuelt_bruke_smertestillende_midler_i_en_kort_periode_f_rstevalget_er_smertestillende_som_inneholder_paracetamol_kontakt_legen_hvis_smertene_ikke_gir_seg">Er smertene store kan du eventuelt bruke smertestillende midler i en kort periode. Førstevalget er smertestillende som inneholder paracetamol. Kontakt legen hvis smertene ikke gir seg.</string>
     <string name="i_dagene_etter_at_du_har_blitt_solbrent_b_r_du_holde_deg_unna_sola_i_noen_dager_hvis_du_m_ut_i_sola_b_r_du_dekke_deg_til_med_kl_r_og_bruke_h_y_solfaktor">I dagene etter at du har blitt solbrent bør du holde deg unna sola i noen dager. Hvis du må ut i sola bør du dekke deg til med klær og bruke høy solfaktor.</string>
-    <string name="vitamin_d_pr_time">Vitamin-D pr. time</string>
-    <string name="tid_for_solbrent">Tid for solbrent</string>
+    <string name="vitamin_d_pr_time">Vitamin-D pr. time (UI)</string>
+    <string name="vitamin_d_pr_time_riktig">Vitamin-D pr. time (UI)</string>
+    <string name="tid_for_solbrent">Tid for solbrent (min)</string>
+    <string name="tid_for_solbrent_riktig">Tid for solbrent (min)</string>
     <string name="takk_for_tips_jeg_har_det_bedre_n">Takk for tips, jeg har det bedre nå</string>
     <string name="OppsummeringTekst">Slipp å bli solbrent med solbrent?-appen. Få oversikt over UV-styrke, historikk, D-vitamin opptak og påminnelser om når du bør smøre deg basert på din hudfarge!</string>
     <string name="Appnavn">Solbrent?</string>
@@ -49,6 +51,8 @@
     <string name="stopp_jeg_soler_ikke_lenger">Stopp, jeg soler ikke lenger</string>
     <string name="spinner_for_velge_spf">Spinner for å velge SPF</string>
     <string name="avbryt_ingen_sol">avbryt, ingen sol</string>
+    <string name="pne_app">Åpne app</string>
+    <string name="neste_side">Neste side</string>
 
     <string-array name="spfSpinnerValues">
         <item>Velg SPF</item>
