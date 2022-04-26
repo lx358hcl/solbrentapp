@@ -56,4 +56,33 @@ class DataSourceSharedPreferences(val context: Context) {
         return profilSharedPref.getInt("skinColor", 0)
     }
 
+    //Write chosen city to sharedpreferences under "city"
+    fun setLocation(location: String?) {
+        with(profilSharedPref.edit()){
+            putString("location", location)
+            apply()
+        }
+    }
+
+    //Get chosen city from sharedpreferences. Return null if not found
+    fun getChosenLocation() : ChosenLocation? {
+        val gson: Gson = Gson()
+        val json: String? = profilSharedPref.getString("location", "")
+        val chosenLocation: ChosenLocation? = gson.fromJson(json, ChosenLocation::class.java)
+        return chosenLocation
+    }
+
+
+    //Get theme mode
+    fun getThemeMode() : String? {
+        return profilSharedPref.getString("theme", null)
+    }
+
+    //Write theme mode to sharedpreferences under "theme"
+    fun setThemeMode(theme: String) {
+        with(profilSharedPref.edit()){
+            putString("theme", theme)
+            apply()
+        }
+    }
 }
