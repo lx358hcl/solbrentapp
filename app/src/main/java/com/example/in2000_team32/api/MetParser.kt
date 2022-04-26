@@ -8,7 +8,11 @@ data class PropertiesDto(val timeseries: List<TimeSeries>)
 
 data class TimeSeries(val time: String, val data: ForecastData)
 
-data class ForecastData(val instant: ForecastDataInstant)
+data class ForecastData(val instant: ForecastDataInstant, val next_1_hours: NextHourDetails)
+
+data class NextHourDetails(val summary: NextHourSummary)
+
+data class NextHourSummary(val symbol_code: String)
 
 data class ForecastDataInstant(val details: ForecastDataInstantDetails)
 
