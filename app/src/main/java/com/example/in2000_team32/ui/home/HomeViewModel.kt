@@ -39,6 +39,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
     private val uvDataForecast: MutableLiveData<List<Double>> = MutableLiveData<List<Double>>()
     private val uvStartTimeForecast: MutableLiveData<Int> = MutableLiveData<Int>()
     private val currentTemp: MutableLiveData<Double> = MutableLiveData<Double>()
+    private val currentSky: MutableLiveData<String> = MutableLiveData<String>()
 
     private val weatherMsg: MutableLiveData<String> = MutableLiveData<String>()
     private val locationName : MutableLiveData<String> = MutableLiveData<String>()
@@ -53,6 +54,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
 
     fun getCurrentTemp(): LiveData<Double> {
         return currentTemp
+    }
+
+    fun getCurrentSky(): LiveData<String> {
+        return currentSky
     }
 
     /**
@@ -117,6 +122,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
                 // Post current temp
                 val temp: Double = it.properties.timeseries[0].data.instant.details.air_temperature
                 currentTemp.postValue(temp)
+
+                // Post current sky
+                val sky: String = it.properties.timeseries[0].data.next_1_hours.summary.symbol_code
+                currentSky.postValue(sky)
             }
         }
     }
