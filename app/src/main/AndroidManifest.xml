@@ -25,7 +25,7 @@
         <activity
 
             android:exported="true"
-            android:name=".MainActivity">
+            android:name=".OnboardingActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

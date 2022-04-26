@@ -51,6 +51,8 @@
     <string name="stopp_jeg_soler_ikke_lenger">Stopp, jeg soler ikke lenger</string>
     <string name="spinner_for_velge_spf">Spinner for å velge SPF</string>
     <string name="avbryt_ingen_sol">avbryt, ingen sol</string>
+    <string name="pne_app">Åpne app</string>
+    <string name="neste_side">Neste side</string>
 
     <string-array name="spfSpinnerValues">
         <item>Velg SPF</item>
