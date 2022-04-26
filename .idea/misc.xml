@@ -36,7 +36,11 @@
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/layout/cardextended.xml" value="0.1" />
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/layout/fragment_home.xml" value="0.264" />
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/layout/fragment_map.xml" value="0.1" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/layout/fragment_profile.xml" value="0.1" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/layout/fragment_profile.xml" value="0.128" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/layout/slider.xml" value="0.264" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/layout/tips_kladd.xml" value="0.128" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/border_set.xml" value="0.5675" />
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/ic_baseline_fire_extinguisher_24.xml" value="0.3295" />
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/cardextended.xml" value="0.3973468098547063" />
@@ -63,17 +67,12 @@
         <entry key="..\:/Users/luka_/Desktop/in2000_etterMerge/in2000/app/src/main/res/layout/activity_main.xml" value="0.33106884057971014" />
         <entry key="..\:/Users/luka_/Desktop/in2000_etterMerge/in2000/app/src/main/res/layout/activity_onboarding.xml" value="0.33106884057971014" />
         <entry key="..\:/Users/luka_/Desktop/in2000_etterMerge/in2000/app/src/main/res/layout/cardextended.xml" value="0.4659161976235147" />
-        <entry key="..\:/Users/luka_/Desktop/in2000_etterMerge/in2000/app/src/main/res/layout/fragment_home.xml" value="0.22" />
+        <entry key="..\:/Users/luka_/Desktop/in2000_etterMerge/in2000/app/src/main/res/layout/fragment_home.xml" value="0.654945054945055" />
         <entry key="..\:/Users/luka_/Desktop/in2000_etterMerge/in2000/app/src/main/res/layout/fragment_map.xml" value="0.33106884057971014" />
         <entry key="..\:/Users/luka_/Desktop/in2000_etterMerge/in2000/app/src/main/res/layout/fragment_profile.xml" value="0.33106884057971014" />
         <entry key="..\:/Users/luka_/Desktop/in2000_etterMerge/in2000/app/src/main/res/layout/search_query_element.xml" value="0.75" />
         <entry key="..\:/Users/luka_/Desktop/in2000_etterMerge/in2000/app/src/main/res/layout/slider.xml" value="0.33106884057971014" />
         <entry key="..\:/Users/luka_/Desktop/in2000_etterMerge/in2000/app/src/main/res/layout/tips_kladd.xml" value="0.33106884057971014" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/layout/fragment_profile.xml" value="0.128" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/layout/slider.xml" value="0.264" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/layout/tips_kladd.xml" value="0.128" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
         <entry key="..\:/Users/magnu/AndroidStudioProjects/in2000/app/src/main/res/layout/fragment_profile.xml" value="0.358695652173913" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.182518115942029" />
         <entry key="app/src/main/res/layout/cardextended.xml" value="0.14311043566362716" />
