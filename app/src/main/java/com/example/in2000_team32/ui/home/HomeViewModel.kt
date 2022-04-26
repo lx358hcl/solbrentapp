@@ -13,9 +13,7 @@ import androidx.lifecycle.*
 import com.example.in2000_team32.api.DataSourceRepository
 import com.example.in2000_team32.api.NominatimLocationFromString
 import com.example.in2000_team32.api.TimeSeries
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.time.Duration.Companion.hours
@@ -44,6 +42,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
     private val weatherMsg: MutableLiveData<String> = MutableLiveData<String>()
     private val locationName : MutableLiveData<String> = MutableLiveData<String>()
     private val places : MutableLiveData<List<NominatimLocationFromString>> = MutableLiveData<List<NominatimLocationFromString>>()
+    private var searchJob: Job? = null
+
 
     /**
      * @return Current UV data. One single Double value.
@@ -142,15 +142,17 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
         }
     }
 
+
     //Fetch list of places based on string input
     fun fetchPlaces(searchQuery : String){
-        viewModelScope.launch(Dispatchers.IO) {
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch(Dispatchers.IO) {
+            delay(500)
             dataSourceRepository.getLocationNamesBasedOnString(searchQuery) ?.also {
-                // Set all live data variables that need to be updated
+                places.postValue(it)
                 println("HERE IT COMES biiiiiiiiitch")
                 println(it)
                 println("The length of IT is " + it.size)
-                places.postValue(it)
             }
         }
     }

@@ -4,6 +4,8 @@ import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager.getDefaultSharedPreferences
+import com.google.gson.Gson
+
 /*
  * Responsible for serving weather data to viewModel.
  * Choose between getting data from cache and MET API.
@@ -41,13 +43,19 @@ class DataSourceRepository(val context: Context) {
     suspend fun getLocationData(latitude : Double, longitude : Double): String? {
         var locationData = locationDataSource.findLocationNameFromLatLong(latitude, longitude)
         println("LOKASJON");
-        println(locationData)
         if (locationData != null) {
             if(locationData.address?.city != null){
+                println("This is the city: " + locationData.address?.city)
                 return locationData.address?.city
             }
             else{
-                return locationData.address?.municipality
+                //Print out the location data
+                    if(locationData.address?.municipality != null){
+                        return locationData.address?.municipality
+                    }
+                    else{
+                        return locationData.address?.county
+                    }
             }
         }
         return null
@@ -60,13 +68,32 @@ class DataSourceRepository(val context: Context) {
     }
 
     //Henter farge fra sharedpreferences
-    suspend fun writeColor(color : Int){
+    fun writeColor(color : Int){
         dsSharedPreferences.writeSkinColor(color)
     }
 
     //Henter farge fra sharedpreferences
-    suspend fun getColor() : Int{
+    fun getColor() : Int{
         return dsSharedPreferences.getSkinColor()
+    }
+
+    //Get chosen city from sharedpreferences
+    fun getChosenLocation() : ChosenLocation? {
+        //Turn json string into object of type ChosenLocation
+        val chosenLocation = dsSharedPreferences.getChosenLocation()
+        //If chosenLocation is not null, return city
+        if(chosenLocation != null){
+            return chosenLocation
+        }
+        return dsSharedPreferences.getChosenLocation()
+    }
+
+    //Set chosen location in sharedpreferences to chosen city
+    fun setChosenLocation(chosenLocation : ChosenLocation){
+        //Turn object into JSON
+        val gson = Gson()
+        val json = gson.toJson(chosenLocation)
+        dsSharedPreferences.setLocation(json)
     }
 
 }

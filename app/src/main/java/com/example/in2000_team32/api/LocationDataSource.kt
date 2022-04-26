@@ -24,7 +24,15 @@ class LocationDataSource {
         val gson = Gson()
 
         try {
-            val response: List<NominatimLocationFromString>? = gson.fromJson(Fuel.get(url).awaitString(), Array<NominatimLocationFromString>::class.java).toList()
+            var response: List<NominatimLocationFromString>? = gson.fromJson(Fuel.get(url).awaitString(), Array<NominatimLocationFromString>::class.java).toList()
+            //Remove duplicates from response list and return list
+            response = response?.distinctBy { it.address?.city }
+            response = response?.distinctBy { it.address?.town }
+            response = response?.distinctBy { it.address?.municipality }
+
+            //Remove values without city name or town or municipality
+            response = response?.filter { it.address?.city != null || it.address?.town != null || it.address?.municipality != null }
+
             return response
         }
         catch (exception: Exception) {
