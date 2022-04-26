@@ -3,7 +3,6 @@ package com.example.in2000_team32.ui.home
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.Application
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
@@ -11,7 +10,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.graphics.Color
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -27,38 +25,24 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import androidx.constraintlayout.widget.ConstraintLayout
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
-import androidx.annotation.UiThread
 import androidx.core.app.ActivityCompat
-import androidx.core.view.marginStart
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.percentlayout.widget.PercentRelativeLayout
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.in2000_team32.R
-import com.example.in2000_team32.api.DataSourceRepository
-import com.example.in2000_team32.api.LocationDataSource
-import com.example.in2000_team32.api.NominatimLocationFromString
-import com.example.in2000_team32.api.VitaminDDataSource
+import com.example.in2000_team32.api.*
 import com.example.in2000_team32.databinding.FragmentHomeBinding
-import com.google.android.gms.location.LocationServices
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.math.roundToInt
-import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
+import kotlin.math.roundToLong
 
 @Suppress("DEPRECATION") class HomeFragment : Fragment() {
     var show = false
@@ -75,6 +59,7 @@ import kotlinx.coroutines.flow.callbackFlow
     // This property is only valid between onCreateView and onDestroyView.
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var dataSourceRepository : DataSourceRepository
 
     //OnPause are used to check if the app is in the foreground or not
     override fun onPause() {
@@ -87,14 +72,22 @@ import kotlinx.coroutines.flow.callbackFlow
     override fun onResume() {
         println("Calling resume method")
         super.onResume()
-        //Dette starter opp hele applikasjonen - Vi kan pynte på syntaks og struktur senere, vi må ha det i resume fordi onCreated skjer før onResume
-        startApp()
+        //Dette starter opp hele applikasjonen - Vi kan pynte på syntaks og struktur senere, vi må ha det i resume fordi onCreated skjer før onResum
+        //Check if permissions are granted
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            startApp()
+        }
+        else{
+            //Start app
+            startApp()
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         var root: View
+        dataSourceRepository = DataSourceRepository(requireContext())
 
         /*
         * Slett koden under etterpå
@@ -176,7 +169,22 @@ import kotlinx.coroutines.flow.callbackFlow
     }
 
     fun startApp() {
-        mPermissionResult.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        //Check if city is null in shared preferences
+        var chosenLocation : ChosenLocation? = dataSourceRepository.getChosenLocation()
+
+        if(chosenLocation == null) {
+            mPermissionResult.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            //Make toast that user has to choose a city
+            println("User has to choose a city")
+        }
+        else{
+            println(chosenLocation)
+            println("HURRA")
+            if(chosenLocation == null){
+                chosenLocation = ChosenLocation("", 0.0, 0.0)
+            }
+            grabInfo(chosenLocation)
+        }
     }
 
     fun showSearch() {
@@ -233,10 +241,13 @@ import kotlinx.coroutines.flow.callbackFlow
             Log.e(TAG, "onActivityResult: PERMISSION GRANTED")
             println("Getting permissions")
             getLocation()
-        } else {
+        }
+        else {
             Log.e(TAG, "onActivityResult: PERMISSION DENIED")
-            getLocation()
-            //Vis en melding som sier at man bør ha stedsposisijoner på eller etleranna
+            println("Permission denied")
+            //Make a toast that the user has denied permission to use location
+            Toast.makeText(context, "Du må tillate bruk av lokasjon for å bruke appen", Toast.LENGTH_LONG).show()
+            //Vis en melding som sier at man bør ha stedsposisijoner på eller etlerann
         }
     }
 
@@ -244,18 +255,34 @@ import kotlinx.coroutines.flow.callbackFlow
         location = l
         println("Received a location")
         println(location)
-        grabInfo()
+        grabInfo(ChosenLocation("", 0.0, 0.0))
     }
 
-    fun grabInfo() {
+    fun grabInfo(chosenLocation : ChosenLocation) {
         var currentActivity = getActivity()
         if (currentActivity != null) {
-            homeViewModel.fetchLocationData(location.latitude, location.longitude)
-            homeViewModel.fetchWeatherData(location.latitude, location.longitude)
+            if(chosenLocation.city == ""){
+                homeViewModel.fetchLocationData(location.latitude, location.longitude)
+                homeViewModel.fetchWeatherData(location.latitude, location.longitude)
 
-            if (observersStarted == false) {
-                startObserverne()
-                observersStarted = true
+                if (observersStarted == false) {
+                    startObserverne(ChosenLocation("", 0.0, 0.0))
+                    observersStarted = true
+                }
+                //User has not chosen
+            }
+            else {
+                //Print out chosen location
+                var lat = chosenLocation.lat
+                var lon = chosenLocation.lon
+                if (lat != null && lon != null) {
+                    homeViewModel.fetchLocationData(lat, lon)
+                    homeViewModel.fetchWeatherData(lat, lon)
+                }
+                if (observersStarted == false) {
+                    startObserverne(ChosenLocation(chosenLocation.city, lat, lon))
+                    observersStarted = true
+                }
             }
         }
     }
@@ -332,10 +359,9 @@ import kotlinx.coroutines.flow.callbackFlow
             if (l != null) {
                 println("wifi is enabled and location is not null")
                 location = l
-                grabInfo()
+                grabInfo(ChosenLocation("", 0.0, 0.0))
             } else {
                 println("wifi is enabled and location is null")
-                useWifi()
             }
             locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0, 0f, locationListener)
         }
@@ -356,7 +382,7 @@ import kotlinx.coroutines.flow.callbackFlow
                 if (l != null) {
                     println("Gps is not enabled but network is available and location is not null")
                     location = l
-                    grabInfo()
+                    grabInfo(ChosenLocation("", 0.0, 0.0))
                 } else {
                     println("Gps is not enabled but network is available and location is null")
                     useWifi();
@@ -369,7 +395,7 @@ import kotlinx.coroutines.flow.callbackFlow
                 if (l != null) {
                     println("Gps is enabled and location is not null")
                     location = l
-                    grabInfo()
+                    grabInfo(ChosenLocation("", 0.0, 0.0))
                 } else {
                     println("Gps is enabled and location is null")
                     useWifi();
@@ -383,7 +409,7 @@ import kotlinx.coroutines.flow.callbackFlow
                 if (l != null) {
                     println("wifi is enabled and location is not null")
                     location = l
-                    grabInfo()
+                    grabInfo(ChosenLocation("", 0.0, 0.0))
                 } else {
                     println("wifi is enabled and location is null")
                     useWifi();
@@ -400,6 +426,7 @@ import kotlinx.coroutines.flow.callbackFlow
                     println("User wants to enable location services")
                     val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                     startActivity(intent)
+
                 })
                 alertDialog.setNegativeButton("No", DialogInterface.OnClickListener { dialog, which ->
                     println("User does not want to enable location services")
@@ -454,7 +481,7 @@ import kotlinx.coroutines.flow.callbackFlow
         return hemisphere
     }
 
-    fun updateVitaminDInfo(fitztype : Number, uvindex: Number, latitude: Number, longitude: Number){
+    fun updateVitaminDInfo(fitztype : Number, uvindex: Int, latitude: Double, longitude: Double){
         var vitaminDDataSource = VitaminDDataSource()
         var hemisphere = calculateHemisphere(latitude)
         var sunBurnRes = vitaminDDataSource.calculateTimeTillSunBurn(fitztype.toFloat(), uvindex.toFloat())
@@ -493,7 +520,7 @@ import kotlinx.coroutines.flow.callbackFlow
     }
 
     fun setUvBar(uv: Int, d: Double) {
-        when (uv) {
+        when (uv){
             0 -> setUvAlle(0.0f, d)
             1 -> setUvAlle(0.0818f, d)
             2 -> setUvAlle(0.1636f, d)
@@ -508,9 +535,10 @@ import kotlinx.coroutines.flow.callbackFlow
             11 -> setUvAlle(0.9f, d)
         }
     }
-    //End of set UV pin og UV tekst
 
-    fun startObserverne() {
+    //End of set UV pin og UV tekst
+    fun startObserverne(chosenLocation : ChosenLocation) {
+        var chosenLocation = chosenLocation
         // Get UV data
         getActivity()?.let {
             homeViewModel.getUvData().observe(it) {
@@ -519,7 +547,7 @@ import kotlinx.coroutines.flow.callbackFlow
                 uvIndex = it.roundToInt()
                 updateSunscreen(uvIndex)
                 var fitztype = 2.0
-                updateVitaminDInfo(fitztype, uvIndex, location.latitude, location.longitude)
+                updateVitaminDInfo(fitztype, uvIndex, chosenLocation.lat, chosenLocation.lon)
             }
         }
         // Get weather message
@@ -539,9 +567,9 @@ import kotlinx.coroutines.flow.callbackFlow
         getActivity()?.let {
         homeViewModel.getUvForecastData().observe(it) { uvDataForecast ->
             homeViewModel.getUvForecastStartTime().observe(it) { startTime ->
-                // Call UvForecastGraphView addData
-                val gv = binding.uvForecastGraph
-                gv.addData(uvDataForecast, startTime)
+                    // Call UvForecastGraphView addData
+                    val gv = binding.uvForecastGraph
+                    gv.addData(uvDataForecast, startTime)
                 }
             }
         }
@@ -550,9 +578,7 @@ import kotlinx.coroutines.flow.callbackFlow
         getActivity()?.let {
             homeViewModel.getCurrentTemp().observe(it) { temp ->
                 val formatedTemp: String = "$temp °C"
-
                 binding.detaljerTemperatur.setText(formatedTemp)
-
             }
         }
 
@@ -651,12 +677,9 @@ import kotlinx.coroutines.flow.callbackFlow
                     else -> {
                         binding.vaermeldingSky.setImageResource(R.drawable.sol)
                     }
-
                 }
-
             }
         }
-
     }
 
     //Ser på klokken og bytter blobb

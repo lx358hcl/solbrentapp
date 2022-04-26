@@ -10,13 +10,17 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.in2000_team32.api.DataSourceSharedPreferences
 import com.example.in2000_team32.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+
+lateinit var contextOfApplication : Context
 
 
 class MainActivity : AppCompatActivity() {
@@ -62,7 +66,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        var dataSourceSharedPreferences = DataSourceSharedPreferences(this)
         getSupportActionBar()?.hide()
+        contextOfApplication = getApplicationContext()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -81,6 +87,15 @@ class MainActivity : AppCompatActivity() {
         val progressBar = binding.progressBar3
         progressBar.visibility = View.GONE
         //Get fragment with id home_layout
+
+        //Update the theme based on the shared preferences value
+        if(dataSourceSharedPreferences.getThemeMode() == "dark") {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }
+        else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+
 
         //Listen for internet connection established or lost and print message
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
