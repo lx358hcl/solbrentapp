@@ -65,4 +65,20 @@
         <item>50+</item>
     </string-array>
 
+    <string name="uv_msg_0">"ingen stråling"</string>
+    <string name="uv_msg_1">"lav stråling"</string>
+    <string name="uv_msg_2">"lav stråling"</string>
+    <string name="uv_msg_3">"moderat stråling"</string>
+    <string name="uv_msg_4">"moderat stråling"</string>
+    <string name="uv_msg_5">"moderat stråling"</string>
+    <string name="uv_msg_6">"sterk stråling"</string>
+    <string name="uv_msg_7">"sterk stråling"</string>
+    <string name="uv_msg_8">"svært sterk stråling"</string>
+    <string name="uv_msg_9">"svært sterk stråling"</string>
+    <string name="uv_msg_10">"svært sterk stråling"</string>
+    <string name="uv_msg_11">"ekstrem stråling!"</string>
+    <string name="uv_msg_12">"ekstrem stråling!"</string>
+
+
+
 </resources>

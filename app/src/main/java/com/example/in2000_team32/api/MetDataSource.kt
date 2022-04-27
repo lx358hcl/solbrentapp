@@ -1,6 +1,8 @@
 package com.example.in2000_team32.api
 
 import android.util.Log
+import com.example.in2000_team32.R
+import com.example.in2000_team32.contextOfApplication
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.coroutines.awaitString
 import com.google.gson.Gson
@@ -28,20 +30,20 @@ class MetDataSource {
             var msg: String
             when (response.properties.timeseries[0].data.instant.details.ultraviolet_index_clear_sky.toInt()) {
                 // TODO: Flytt disse tekst strengene til en XML fil
-                0 -> msg = "ingen stråling"
-                1 -> msg = "lav stråling"
-                2 -> msg = "lav stråling"
-                3 -> msg = "moderat stråling"
-                4 -> msg = "moderat stråling"
-                5 -> msg = "moderat stråling"
-                6 -> msg = "sterk stråling"
-                7 -> msg = "sterk stråling"
-                8 -> msg = "svært sterk stråling"
-                9 -> msg = "svært sterk stråling"
-                10 -> msg = "svært sterk stråling"
-                11 -> msg = "ekstrem stråling!"
+                0 -> msg = contextOfApplication.getString(R.string.uv_msg_0)
+                1 -> msg = contextOfApplication.getString(R.string.uv_msg_1)
+                2 -> msg = contextOfApplication.getString(R.string.uv_msg_2)
+                3 -> msg = contextOfApplication.getString(R.string.uv_msg_3)
+                4 -> msg = contextOfApplication.getString(R.string.uv_msg_4)
+                5 -> msg = contextOfApplication.getString(R.string.uv_msg_5)
+                6 -> msg = contextOfApplication.getString(R.string.uv_msg_6)
+                7 -> msg = contextOfApplication.getString(R.string.uv_msg_7)
+                8 -> msg = contextOfApplication.getString(R.string.uv_msg_8)
+                9 -> msg = contextOfApplication.getString(R.string.uv_msg_9)
+                10 -> msg = contextOfApplication.getString(R.string.uv_msg_10)
+                11 -> msg = contextOfApplication.getString(R.string.uv_msg_11)
                 else -> {
-                    msg = "Feil: Ugyldig eller ingen UV"
+                    msg = contextOfApplication.getString(R.string.uv_msg_12)
                 }
             }
             response.properties.timeseries[0].data.instant.details.weather_msg = msg
