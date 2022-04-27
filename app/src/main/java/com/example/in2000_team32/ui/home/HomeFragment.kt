@@ -490,7 +490,7 @@ import kotlin.math.roundToLong
         println(uvindex.toFloat())
         println(sunBurnRes)
         println(vitaminDRes)
-
+        
         binding.timeTillSunburn.text = sunBurnRes.toString()
         binding.vitaminDPerHour.text = vitaminDRes.toString()
     }
@@ -546,7 +546,7 @@ import kotlin.math.roundToLong
                 setUvBar(it.roundToInt(), it)
                 uvIndex = it.roundToInt()
                 updateSunscreen(uvIndex)
-                var fitztype = 2.0
+                var fitztype = dataSourceRepository.getFitzType() // Henter hudtype fra shared preferences, gir 0 hvis ikke satt
                 updateVitaminDInfo(fitztype, uvIndex, chosenLocation.lat, chosenLocation.lon)
             }
         }

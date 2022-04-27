@@ -56,6 +56,19 @@ class DataSourceSharedPreferences(val context: Context) {
         return profilSharedPref.getInt("skinColor", 0)
     }
 
+    fun writeFitzType(f: Int) {
+
+        val prefsEditor: SharedPreferences.Editor = sharedPref.edit()
+
+        prefsEditor.putString("fitzType", f.toString())
+        prefsEditor.commit()
+    }
+
+    // Returns 0 if not found
+    fun getFitzType() : Int {
+        return sharedPref.getString("fitzType", "0")?.toInt() ?: 0
+    }
+
     //Write chosen city to sharedpreferences under "city"
     fun setLocation(location: String?) {
         with(profilSharedPref.edit()){

@@ -67,7 +67,6 @@ class UvForecastGraphView(context: Context?, attrs: AttributeSet?): View(context
         yP.setColor(Color.GRAY)
         yP.strokeWidth = 0.5f
         yP.textSize = 20f
-        //canvas?.drawLine(0f, 0f, 0f, canvasHeight, yP)
 
         var y: Float
         var text: String
@@ -107,7 +106,7 @@ class UvForecastGraphView(context: Context?, attrs: AttributeSet?): View(context
             val p: Paint = Paint()
             val timeInterval = 6
             if (i % timeInterval == 0) {
-                p.setColor(Color.BLACK)
+                p.setColor(Color.GRAY)
                 p.setTextSize(28f)
                 val timeString: String = "%02d".format(timeXaxis)
                 canvas?.drawText(timeString, (i * boxWidth) + (margin / 2) + leftMargin, height - 0f, p)
@@ -116,20 +115,4 @@ class UvForecastGraphView(context: Context?, attrs: AttributeSet?): View(context
             }
         }
     }
-
-    /*
-    Creates a RectF object based on
-     */
-    fun createRectF() {
-
-    }
-
-    /*
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        super.onSizeChanged(w, h, oldw, oldh)
-        canvasWidth = w
-        canvasHeight = h
-    }
-     */
-
 }
