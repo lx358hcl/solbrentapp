@@ -7,7 +7,7 @@
 | Key            | Value Explanation             |
 |----------------|-------------------------------|
 | metResponseDto | Cached response from MET API. |
-|                |                               |
+| fitzType       | Fitz Type as Int (0-6)        |
 
 
 

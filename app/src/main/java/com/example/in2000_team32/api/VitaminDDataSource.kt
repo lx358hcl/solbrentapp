@@ -89,11 +89,14 @@ class VitaminDDataSource {
             }
         }
         //Change VitaminDUIPerHour based on skin type
-        if (fitztype in 1..2) {
+
+        val f: Int = fitztype.toInt()
+
+        if (f in 1..2) {
             VitaminDUIPerHour = VitaminDUIPerHour
-        } else if (fitztype in 3..4) {
+        } else if (f in 3..4) {
             VitaminDUIPerHour = VitaminDUIPerHour * 2
-        } else if (fitztype in 5..6) {
+        } else if (f in 5..6) {
             VitaminDUIPerHour = VitaminDUIPerHour * 5
         }
 
@@ -123,12 +126,14 @@ class VitaminDDataSource {
             15 -> timeTillSunburn = 15.0
         }
 
+        val f : Int = fitztype.toInt()
+
         //Check skin type and adjust timeTillSunburn
-        if (fitztype in 1..2) {
+        if (f in 1..2) {
             timeTillSunburn = timeTillSunburn
-        } else if (fitztype in 3..4) {
+        } else if (f in 3..4) {
             timeTillSunburn = timeTillSunburn * 2
-        } else if (fitztype in 5..6) {
+        } else if (f in 5..6) {
             timeTillSunburn = timeTillSunburn * 5
         }
 
