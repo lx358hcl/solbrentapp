@@ -42,6 +42,7 @@ class ProfileFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var sharedPreferences: DataSourceSharedPreferences
+    private lateinit var dataSourceRepository: DataSourceRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,6 +59,7 @@ class ProfileFragment : Fragment() {
 
         val colors = resources.getIntArray(R.array.colors)
         sharedPreferences = DataSourceSharedPreferences(requireContext())
+        dataSourceRepository = DataSourceRepository(requireContext())
 
         //Buttons from settinsg page
         var darkModeButtonTextLower : TextView = root.findViewById(R.id.darkModeButtonTextLower)
@@ -102,6 +104,25 @@ class ProfileFragment : Fragment() {
                         selectedColor = color
                         setColor(selectedColor)
                         homeViewModel.writeColor(selectedColor) //Skriver til sharedPreferences den valgte hudfargen
+
+                        // Mapping av color til fitz (burde egentlig vært gjort motsatt, men det er litt jobb å fikse)
+                        // 1: -798540
+                        // 2: -1657709
+                        // 3: -2842236
+                        // 4: -2980001
+                        // 5: -6070719
+                        // 6: -12902628
+                        var fitzType : Int
+                        when (selectedColor) {
+                            -798540 -> fitzType = 1
+                            -1657709 -> fitzType = 2
+                            -2842236 -> fitzType = 3
+                            -2980001 -> fitzType = 4
+                            -6070719 -> fitzType = 5
+                            -12902628 -> fitzType = 6
+                            else -> fitzType = 0
+                        }
+                        dataSourceRepository.writeFitzType(fitzType)
                     })
                 .show(getParentFragmentManager())
         }

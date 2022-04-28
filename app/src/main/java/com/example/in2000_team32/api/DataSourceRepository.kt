@@ -77,6 +77,16 @@ class DataSourceRepository(val context: Context) {
         return dsSharedPreferences.getSkinColor()
     }
 
+    // Skriver fitztype til sharedpreferences
+    fun writeFitzType(f: Int) {
+        dsSharedPreferences.writeFitzType(f)
+    }
+
+    // Henter fitztype fra sharedpreferences
+    fun getFitzType() : Int {
+        return dsSharedPreferences.getFitzType()
+    }
+
     //Get chosen city from sharedpreferences
     fun getChosenLocation() : ChosenLocation? {
         //Turn json string into object of type ChosenLocation
