@@ -98,4 +98,17 @@ class DataSourceSharedPreferences(val context: Context) {
             apply()
         }
     }
+
+    //Returns true if not changed
+    fun getNotifPref() : Boolean {
+        return profilSharedPref.getBoolean("notif", true)
+    }
+
+    //Sets users notification preferences
+    fun setNotifPref(notifPref: Boolean) {
+        with(profilSharedPref.edit()){
+            putBoolean("notif", notifPref)
+            apply()
+        }
+    }
 }

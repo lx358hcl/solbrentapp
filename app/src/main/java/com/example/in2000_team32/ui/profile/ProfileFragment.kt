@@ -64,6 +64,8 @@ class ProfileFragment : Fragment() {
         //Buttons from settinsg page
         var darkModeButtonTextLower : TextView = root.findViewById(R.id.darkModeButtonTextLower)
         var darkModeButton : SwitchMaterial = root.findViewById(R.id.darkModeButton)
+        val varslerButtonTextLower : TextView = root.findViewById(R.id.VarslerButtonTextLower)
+        val varslerButton : SwitchMaterial = root.findViewById(R.id.VarslerButton)
 
         //Update buttons based on sharedPreferences data
         if (sharedPreferences.getThemeMode() == "dark") {
@@ -79,6 +81,14 @@ class ProfileFragment : Fragment() {
             darkModeButton.isChecked = false
             AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
         }
+        if (dataSourceRepository.getNotifPref()) {
+            varslerButtonTextLower.text = "På"
+            varslerButton.isChecked = true
+        }
+        else {
+            varslerButtonTextLower.text = "Av"
+            varslerButton.isChecked = false
+        }
 
         //Listen for click on dark mode button and change theme
         binding.darkModeButton.setOnClickListener {
@@ -91,6 +101,18 @@ class ProfileFragment : Fragment() {
                 sharedPreferences.setThemeMode("light")
                 darkModeButtonTextLower.text = "Lys"
                 AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
+            }
+        }
+
+        //Listen for click on dark mode button and change theme
+        binding.VarslerButton.setOnClickListener {
+            if (dataSourceRepository.getNotifPref()) {
+                dataSourceRepository.setNotifPref(false)
+                varslerButtonTextLower.text = "Av"
+            }
+            else {
+                dataSourceRepository.setNotifPref(true)
+                varslerButtonTextLower.text = "På"
             }
         }
 
