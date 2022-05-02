@@ -137,6 +137,17 @@ import kotlin.math.roundToLong
         }
         //End of if som åpner og lukker søkefeltet
 
+        //Listen for button click on resetCityButton
+        val resetCityButton = binding.resetCityButton
+
+        //If buttonclick on resetCityButton show Toast
+        resetCityButton.setOnClickListener {
+            //Set location to null
+            dataSourceRepository.setChosenLocation(null)
+
+            //Show toast message that location has been reset
+            Toast.makeText(context, "Location has been reset", Toast.LENGTH_LONG).show()
+        }
 
         //Sett solkrem
         //

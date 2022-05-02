@@ -65,8 +65,14 @@ class ProfileFragment : Fragment() {
         var darkModeButtonTextLower : TextView = root.findViewById(R.id.darkModeButtonTextLower)
         var darkModeButton : SwitchMaterial = root.findViewById(R.id.darkModeButton)
 
+        //Check if sharedPreferences has a value for darkMode
+        if(sharedPreferences.getThemeMode() == null){
+            sharedPreferences.setThemeMode("light")
+        }
         //Update buttons based on sharedPreferences data
-        if (sharedPreferences.getThemeMode() == "dark") {
+        //Print out the current dark mode
+        println(sharedPreferences.getThemeMode());
+        if (sharedPreferences.getThemeMode() == "dark"){
             darkModeButtonTextLower.text = "Mørk"
             //Uncheck the switchMaterial button
             darkModeButton.isChecked = true
@@ -82,6 +88,8 @@ class ProfileFragment : Fragment() {
 
         //Listen for click on dark mode button and change theme
         binding.darkModeButton.setOnClickListener {
+            //Print out the current theme mode
+            println("Current theme mode: ${sharedPreferences.getThemeMode()}")
             if (sharedPreferences.getThemeMode() == "light") {
                 sharedPreferences.setThemeMode("dark")
                 darkModeButtonTextLower.text = "Mørk"

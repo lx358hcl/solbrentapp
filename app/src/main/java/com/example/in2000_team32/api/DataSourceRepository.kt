@@ -99,7 +99,7 @@ class DataSourceRepository(val context: Context) {
     }
 
     //Set chosen location in sharedpreferences to chosen city
-    fun setChosenLocation(chosenLocation : ChosenLocation){
+    fun setChosenLocation(chosenLocation : ChosenLocation?){
         //Turn object into JSON
         val gson = Gson()
         val json = gson.toJson(chosenLocation)
