@@ -7,7 +7,6 @@ import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.coroutines.awaitString
 import com.google.gson.Gson
 
-
 class MetDataSource {
     /**
      * Fetching data from MetApi /locationforecast endpoint
