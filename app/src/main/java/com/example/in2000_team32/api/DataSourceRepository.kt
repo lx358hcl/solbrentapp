@@ -116,4 +116,17 @@ class DataSourceRepository(val context: Context) {
         return dsSharedPreferences.getNotifPref()
     }
 
+
+
+
+    // Set temperature unit
+    fun toggleTempUnit() {
+        dsSharedPreferences.toggleTempUnit()
+    }
+
+    // Get temperature unit
+    fun getTempUnit() : Boolean {
+        return dsSharedPreferences.getTempUnit()
+    }
+
 }

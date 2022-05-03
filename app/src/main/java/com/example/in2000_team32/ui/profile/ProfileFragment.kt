@@ -19,6 +19,7 @@ import com.example.in2000_team32.api.DataSourceRepository
 import com.example.in2000_team32.api.DataSourceSharedPreferences
 import com.example.in2000_team32.databinding.FragmentProfileBinding
 import com.example.in2000_team32.ui.home.HomeViewModel
+import com.google.android.gms.common.annotation.KeepForSdkWithFieldsAndMethods
 import com.google.android.material.switchmaterial.SwitchMaterial
 import dev.sasikanth.colorsheet.ColorSheet
 
@@ -66,6 +67,9 @@ class ProfileFragment : Fragment() {
         var darkModeButton : SwitchMaterial = root.findViewById(R.id.darkModeButton)
         val varslerButtonTextLower : TextView = root.findViewById(R.id.VarslerButtonTextLower)
         val varslerButton : SwitchMaterial = root.findViewById(R.id.VarslerButton)
+        val unitButton : SwitchMaterial = root.findViewById(R.id.unitSettingsButton)
+        val unitText : TextView = root.findViewById(R.id.unitSettingsText)
+
 
         //Check if sharedPreferences has a value for darkMode
         if(sharedPreferences.getThemeMode() == null){
@@ -96,6 +100,13 @@ class ProfileFragment : Fragment() {
             varslerButton.isChecked = false
         }
 
+        // Set temp unit based on shared preferences
+        val currentUnit = sharedPreferences.getTempUnit()
+        unitButton.isChecked = currentUnit
+        if (currentUnit) unitText.text = "Celsius" else unitText.text = "Farhenheit"
+
+
+
         //Listen for click on dark mode button and change theme
         binding.darkModeButton.setOnClickListener {
             //Print out the current theme mode
@@ -121,6 +132,17 @@ class ProfileFragment : Fragment() {
             else {
                 dataSourceRepository.setNotifPref(true)
                 varslerButtonTextLower.text = "På"
+            }
+        }
+
+        // Change temperature units
+        binding.unitSettingsButton.setOnClickListener {
+            sharedPreferences.toggleTempUnit()
+            val currentUnit : Boolean = sharedPreferences.getTempUnit()
+            if (currentUnit) {
+                unitText.text = getString(R.string.celsius)
+            } else {
+                unitText.text = getString(R.string.fahrenheit)
             }
         }
 
