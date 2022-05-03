@@ -77,6 +77,9 @@ class SearchAdapter(searchQueryElements : MutableList<NominatimLocationFromStrin
                     val imm = itemView.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(itemView.windowToken, 0)
 
+                    ////Close keyboard and hide search using hideSearch()
+
+
                     //Color the entire card green
                     itemView.setBackgroundColor(itemView.context.resources.getColor(R.color.light_green))
                 }

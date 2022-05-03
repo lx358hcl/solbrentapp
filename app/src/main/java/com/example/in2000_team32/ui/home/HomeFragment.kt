@@ -110,9 +110,6 @@ import kotlin.math.roundToInt
         //Vars som trengs
         //RecyclerView initialisering og setting av adapter
         searchQueryRecycler.layoutManager = LinearLayoutManager(this.context)
-        searchQueryRecycler.adapter = SearchAdapter(mutableListOf(), context)
-
-        //Observator for RecyclerViewModellen
         homeViewModel.getPlaces().observe(viewLifecycleOwner) {
             if (it != null) {
                 println("Trigger warning!!!")
@@ -129,7 +126,7 @@ import kotlin.math.roundToInt
                 if (it.isNotEmpty()) {
                     println("Warning triggered")
                     //Set adapter
-                    searchQueryRecycler?.adapter = SearchAdapter(it as MutableList<NominatimLocationFromString>)
+                    searchQueryRecycler?.adapter = SearchAdapter(it as MutableList<NominatimLocationFromString>, this.context)
                 }
                 println(it)
             }
@@ -158,7 +155,7 @@ import kotlin.math.roundToInt
             Toast.makeText(context, "Location has been reset", Toast.LENGTH_LONG).show()
 
             //Reset recycler view
-            searchQueryRecycler.adapter = SearchAdapter(mutableListOf()) //Reset recycler view
+            searchQueryRecycler.adapter = SearchAdapter(mutableListOf(),this.context) //Reset recycler view
 
             //Close keyboard and hide search
             hideSearch()
@@ -253,7 +250,7 @@ import kotlin.math.roundToInt
 
                     loadingSearchSpinner.visibility = View.VISIBLE
 
-                    searchQueryRecycler.adapter = SearchAdapter(mutableListOf())
+                    searchQueryRecycler.adapter = SearchAdapter(mutableListOf(), activity)
                 }
 
                 //Wait for fetchPlaces to finish
