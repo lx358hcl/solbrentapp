@@ -124,16 +124,6 @@ class MapFragment : Fragment() {
 
         }
 
-        val spinner: Spinner = binding.spfSpinner
-        ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.spfSpinnerValues,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter
-        }
-
         binding.smurtSegButton.setOnClickListener{
             timer()
         }
@@ -178,14 +168,12 @@ class MapFragment : Fragment() {
 
     fun timer(){
         binding.smurtSegButton.visibility = View.GONE
-        binding.spfSpinner.visibility = View.GONE
         binding.smurtSegAvbryt.visibility = View.VISIBLE
         binding.smurtSegIgjen.visibility = View.VISIBLE
     }
 
     fun stoppTimer(){
         binding.smurtSegButton.visibility = View.VISIBLE
-        binding.spfSpinner.visibility = View.VISIBLE
         binding.smurtSegAvbryt.visibility = View.GONE
         binding.smurtSegIgjen.visibility = View.GONE
     }
