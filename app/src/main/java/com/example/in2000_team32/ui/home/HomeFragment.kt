@@ -89,12 +89,6 @@ import kotlin.math.roundToLong
         var root: View
         dataSourceRepository = DataSourceRepository(requireContext())
 
-        /*
-        * Slett koden under etterpå
-        * */
-        //val response = homeViewModel.fetchWeatherData(59.9, 10.7)
-        //val sky = homeViewModel.getCurrentSky()
-        //startObserverne(ChosenLocation("Oslo", 59.9, 10.7))
 
         //Check if user has internet connection
         if (!isNetworkAvailable()) {
