@@ -14,7 +14,7 @@
     <string name="uv_tekst_forklaring">Mye sol og solarium kan være helsefarlig og gi deg hudkreft. For å redusere hudkreftrisikoen kan du beskytte deg med klær og solkrem og begrense tiden du er ute når sola skinner sterkest.</string>
     <string name="extendedTaBildeFAB">Ta bilde</string>
     <string name="innstillingerString">Innstillinger</string>
-    <string name="solforhold">Solforhold</string>
+    <string name="solforhold">UV-forhold</string>
     <string name="notificationTittel">Solbrent</string>
     <string name="notificationText">Påfør mer solkrem!</string>
 

@@ -32,7 +32,7 @@ import java.util.*
 
 
 class MapFragment : Fragment() {
-    private var VARSEL_TID: Long = 10000
+    private var VARSEL_TID: Long = 3600000
     private var tidText : TextView? = null
     private var cdTimer: CountDownTimer? = null
     private var cdtRunning: Boolean = false

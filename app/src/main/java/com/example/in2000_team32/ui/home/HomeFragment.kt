@@ -229,6 +229,11 @@ import kotlin.math.roundToLong
             //Ingen debouncing atm, så ikke bruk denne for mye ellers får vi kvote-kjeft
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 homeViewModel.fetchPlaces(s.toString())
+
+                //Wait for fetchPlaces to finish
+                homeViewModel.getPlaces().observe(viewLifecycleOwner) { it ->
+                    println("Places: $it")
+                }
                 startApp()
             }
         })
