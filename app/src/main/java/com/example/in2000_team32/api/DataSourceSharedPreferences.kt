@@ -111,4 +111,18 @@ class DataSourceSharedPreferences(val context: Context) {
             apply()
         }
     }
+
+    // Set temperature unit
+    fun toggleTempUnit() {
+        val current : Boolean = getTempUnit()
+        with (profilSharedPref.edit()) {
+            putBoolean("tempUnit", !current)
+            apply()
+        }
+    }
+
+    // Get temperature unit
+    fun getTempUnit() : Boolean {
+        return profilSharedPref.getBoolean("tempUnit", true)
+    }
 }

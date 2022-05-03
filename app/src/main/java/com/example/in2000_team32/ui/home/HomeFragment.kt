@@ -38,6 +38,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.in2000_team32.R
 import com.example.in2000_team32.api.*
 import com.example.in2000_team32.databinding.FragmentHomeBinding
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -599,7 +601,17 @@ import kotlin.math.roundToLong
         // Update current temp in card
         getActivity()?.let {
             homeViewModel.getCurrentTemp().observe(it) { temp ->
-                val formatedTemp: String = "$temp °C"
+                var formatedTemp: String
+                // Adjust chosen unit
+                if (dataSourceRepository.getTempUnit()) {
+                    formatedTemp = "$temp °C"
+                } else {
+                    val f_temp = (temp * 1.8) + 32
+                    val df = DecimalFormat("#.##")
+                    df.roundingMode = RoundingMode.DOWN
+                    val t = df.format(f_temp)
+                    formatedTemp = "$t °F"
+                }
                 binding.detaljerTemperatur.setText(formatedTemp)
             }
         }
