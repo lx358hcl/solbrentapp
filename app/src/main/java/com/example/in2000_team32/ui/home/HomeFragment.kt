@@ -650,7 +650,7 @@ import kotlin.math.roundToInt
                     formatedTemp = "$temp °C"
                 } else {
                     val f_temp = (temp * 1.8) + 32
-                    val df = DecimalFormat("#.##")
+                    val df = DecimalFormat("#.#")
                     df.roundingMode = RoundingMode.DOWN
                     val t = df.format(f_temp)
                     formatedTemp = "$t °F"
