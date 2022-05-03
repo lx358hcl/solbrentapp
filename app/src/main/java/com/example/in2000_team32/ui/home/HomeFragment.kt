@@ -215,12 +215,12 @@ import kotlin.math.roundToInt
         }
     }
 
-    public fun showSearch() {
+    fun showSearch() {
         show = true
         binding.EditTextAddress.requestFocus()
         activity?.let { showKeyboard(it) }
         binding.searchLayout1.animate().translationY(0F)
-        binding.searchButton.setImageResource(R.drawable.ic_baseline_close_24)
+        binding.searchButton.setImageResource(R.drawable.ic_baseline_check_24)
     }
 
     fun hideSearch() {
@@ -515,17 +515,17 @@ import kotlin.math.roundToInt
 
         if(d>11.0){
             info.startMarginPercent = f - 0.02f
-            binding.textViewUvPinTall.text = "11+"
+            binding.textViewUvPinTall.setText("11+")
         } else if (d >= 10.5 && d <= 11.0) {
             info.startMarginPercent = f - 0.05f
-            binding.textViewUvPinTall.text = d.toString()
+            binding.textViewUvPinTall.setText(d.toString())
         } else if (d <= 0.4) {
             info.startMarginPercent = 0.0f
             binding.textViewUvPinTall.gravity = Gravity.START
-            binding.textViewUvPinTall.text = d.toString()
+            binding.textViewUvPinTall.setText(d.toString())
         } else {
             info.startMarginPercent = f - 0.05f
-            binding.textViewUvPinTall.text = d.toString()
+            binding.textViewUvPinTall.setText(d.toString())
         }
         view.requestLayout()
     }
@@ -553,8 +553,8 @@ import kotlin.math.roundToInt
         println(sunBurnRes)
         println(vitaminDRes)
         
-        binding.timeTillSunburn.text = sunBurnRes.toString()
-        binding.vitaminDPerHour.text = vitaminDRes.toString()
+        binding.timeTillSunburn.setText(sunBurnRes.toString())
+        binding.vitaminDPerHour.setText(vitaminDRes.toString())
     }
 
     fun updateSunscreen(uvIndex : Number){
@@ -562,27 +562,27 @@ import kotlin.math.roundToInt
         //Ekstrem
         if(roundedUvIndex >= 11){
             binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_50pluss)
-            binding.TextViewSolFaktor.text = "50+"
+            binding.TextViewSolFaktor.setText("50+")
         }
         //Svært ekstrem
         else if(roundedUvIndex >= 8){
             binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_50)
-            binding.TextViewSolFaktor.text = "50"
+            binding.TextViewSolFaktor.setText("50+")
         }
         //Sterk
         else if(roundedUvIndex >= 6){
             binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_30)
-            binding.TextViewSolFaktor.text = "30"
+            binding.TextViewSolFaktor.setText("30")
         }
         //Moderat
         else if(roundedUvIndex >= 3){
             binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_30)
-            binding.TextViewSolFaktor.text = "30"
+            binding.TextViewSolFaktor.setText("30")
         }
         //Lav
         else if(roundedUvIndex >= 0){
             binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_25)
-            binding.TextViewSolFaktor.text = "25"
+            binding.TextViewSolFaktor.setText("25")
         }
     }
 
