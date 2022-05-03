@@ -1,8 +1,10 @@
 package com.example.in2000_team32.ui.home
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -14,11 +16,11 @@ import com.example.in2000_team32.api.DataSourceSharedPreferences
 import com.example.in2000_team32.api.NominatimLocationFromString
 import com.example.in2000_team32.contextOfApplication
 
-class SearchAdapter(searchQueryElements : MutableList<NominatimLocationFromString>) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
-
+class SearchAdapter(searchQueryElements : MutableList<NominatimLocationFromString>, context : Context?) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
     //Listen med alpacaparties
     var searchQueryElements : MutableList<NominatimLocationFromString> = searchQueryElements
     var dataSourceRepository = DataSourceRepository(contextOfApplication)
+    var context : Context? = context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchAdapter.ViewHolder {
         val v : View = LayoutInflater.from(parent.context).inflate(R.layout.search_query_element, parent, false)
@@ -70,6 +72,10 @@ class SearchAdapter(searchQueryElements : MutableList<NominatimLocationFromStrin
                     var chosenLocationObject = ChosenLocation(chosenLocation.address?.city ?: "", chosenLocation.lat?.toDouble() ?: 0.0, chosenLocation.lon?.toDouble() ?: 0.0)
 
                     dataSourceRepository.setChosenLocation(chosenLocationObject)
+
+                    //Close keyboard if open
+                    val imm = itemView.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(itemView.windowToken, 0)
 
                     //Color the entire card green
                     itemView.setBackgroundColor(itemView.context.resources.getColor(R.color.light_green))

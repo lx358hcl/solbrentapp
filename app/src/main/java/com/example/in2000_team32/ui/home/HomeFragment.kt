@@ -13,6 +13,7 @@ import android.content.res.Configuration
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.location.LocationManager.PASSIVE_PROVIDER
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
@@ -26,6 +27,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.AdapterView
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.core.app.ActivityCompat
@@ -42,7 +45,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.math.roundToInt
-import kotlin.math.roundToLong
+
 
 @Suppress("DEPRECATION") class HomeFragment : Fragment() {
     var show = false
@@ -51,7 +54,7 @@ import kotlin.math.roundToLong
     private val formatted: Double = current.format(formatter).toDouble()
     private var uvBar = 50
     private var uvIndex = 0
-    private lateinit var location: Location
+    private var location: Location = Location(PASSIVE_PROVIDER)
     private var observersStarted = false
     private lateinit var locationManager: LocationManager
     var appVisible = false
@@ -60,6 +63,8 @@ import kotlin.math.roundToLong
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
     private lateinit var dataSourceRepository : DataSourceRepository
+    private lateinit var loadingSearchSpinner : ProgressBar
+    private lateinit var searchQueryRecycler : RecyclerView
 
     //OnPause are used to check if the app is in the foreground or not
     override fun onPause() {
@@ -88,7 +93,10 @@ import kotlin.math.roundToLong
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         var root: View
         dataSourceRepository = DataSourceRepository(requireContext())
-
+        loadingSearchSpinner = binding.progressBar4
+        loadingSearchSpinner.visibility = View.GONE
+        searchQueryRecycler = binding.searchQueryRecycler
+        //Set location to default location
 
         //Check if user has internet connection
         if (!isNetworkAvailable()) {
@@ -100,17 +108,24 @@ import kotlin.math.roundToLong
 
         //SearchAdapter
         //Vars som trengs
-        var searchQueryRecycler: RecyclerView = binding.searchQueryRecycler
-
         //RecyclerView initialisering og setting av adapter
         searchQueryRecycler.layoutManager = LinearLayoutManager(this.context)
-        searchQueryRecycler.adapter = SearchAdapter(mutableListOf())
+        searchQueryRecycler.adapter = SearchAdapter(mutableListOf(), context)
 
         //Observator for RecyclerViewModellen
         homeViewModel.getPlaces().observe(viewLifecycleOwner) {
             if (it != null) {
                 println("Trigger warning!!!")
                 //Check if it is not null and if it is not empty
+
+                //Check if it is not null
+                if (loadingSearchSpinner != null) {
+                    //Check if it is visible
+                    if (loadingSearchSpinner.visibility == View.VISIBLE) {
+                        //Hide loading spinner
+                        loadingSearchSpinner.visibility = View.GONE
+                    }
+                }
                 if (it.isNotEmpty()) {
                     println("Warning triggered")
                     //Set adapter
@@ -144,6 +159,9 @@ import kotlin.math.roundToLong
 
             //Reset recycler view
             searchQueryRecycler.adapter = SearchAdapter(mutableListOf()) //Reset recycler view
+
+            //Close keyboard and hide search
+            hideSearch()
 
             //Start app again
             startApp()
@@ -198,7 +216,7 @@ import kotlin.math.roundToLong
         }
     }
 
-    fun showSearch() {
+    public fun showSearch() {
         show = true
         binding.EditTextAddress.requestFocus()
         activity?.let { showKeyboard(it) }
@@ -229,6 +247,14 @@ import kotlin.math.roundToLong
             //Ingen debouncing atm, så ikke bruk denne for mye ellers får vi kvote-kjeft
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 homeViewModel.fetchPlaces(s.toString())
+                //Check if loadingSearchSpinner and searchQueryRecyler is not null
+                if(loadingSearchSpinner != null && searchQueryRecycler != null) {
+                    //If so, show loading spinner and hide recycler
+
+                    loadingSearchSpinner.visibility = View.VISIBLE
+
+                    searchQueryRecycler.adapter = SearchAdapter(mutableListOf())
+                }
 
                 //Wait for fetchPlaces to finish
                 homeViewModel.getPlaces().observe(viewLifecycleOwner) { it ->
@@ -272,21 +298,41 @@ import kotlin.math.roundToLong
         location = l
         println("Received a location")
         println(location)
-        grabInfo(ChosenLocation("", 0.0, 0.0))
+
+        var chosenLocation : ChosenLocation? = dataSourceRepository.getChosenLocation()
+
+        if(chosenLocation == null) {
+            mPermissionResult.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            //Make toast that user has to choose a city
+            println("User has to choose a city")
+        }
+        else{
+            println(chosenLocation)
+            println("HURRA")
+            if(chosenLocation == null){
+                chosenLocation = ChosenLocation("", 0.0, 0.0)
+            }
+            grabInfo(chosenLocation)
+        }
     }
 
     fun grabInfo(chosenLocation : ChosenLocation) {
         var currentActivity = getActivity()
         if (currentActivity != null) {
             if(chosenLocation.city == ""){
-                homeViewModel.fetchLocationData(location.latitude, location.longitude)
-                homeViewModel.fetchWeatherData(location.latitude, location.longitude)
+                //Check if location is not null
+                if(location != null && location.latitude != null && location.longitude != null) {
+                    //If so, get city and country from location
+                    homeViewModel.fetchLocationData(location.latitude, location.longitude)
+                    homeViewModel.fetchWeatherData(location.latitude, location.longitude)
 
-                if (observersStarted == false) {
-                    startObserverne(ChosenLocation("", 0.0, 0.0))
-                    observersStarted = true
+                    if (observersStarted == false) {
+                        startObserverne(ChosenLocation("", 0.0, 0.0))
+                        observersStarted = true
+                    }
+                    //User has not chosen
                 }
-                //User has not chosen
+
             }
             else {
                 //Print out chosen location

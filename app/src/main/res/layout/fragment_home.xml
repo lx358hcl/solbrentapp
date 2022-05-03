@@ -28,9 +28,10 @@
                 android:id="@+id/vaermeldingLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="32dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="24dp"
+                android:padding="15dp"
                 app:layout_constraintBottom_toTopOf="@+id/SolforholdTextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -42,6 +43,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/solBildeAltTekst"
                     android:scaleType="fitEnd"
@@ -52,32 +55,32 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ImageContrastCheck" />
 
-                    <androidx.percentlayout.widget.PercentRelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
+                <androidx.percentlayout.widget.PercentRelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/vaermeldingBlob"
+                    app:layout_constraintEnd_toEndOf="@id/vaermeldingBlob"
+                    app:layout_constraintStart_toStartOf="@id/vaermeldingBlob"
+                    app:layout_constraintTop_toTopOf="@id/vaermeldingBlob">
+
+                    <ImageView
+                        android:id="@+id/vaermeldingSky"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/solBildeAltTekst"
+                        android:scaleType="fitStart"
+                        android:src="@drawable/solskyh"
                         app:layout_constraintBottom_toBottomOf="@id/vaermeldingBlob"
                         app:layout_constraintEnd_toEndOf="@id/vaermeldingBlob"
                         app:layout_constraintStart_toStartOf="@id/vaermeldingBlob"
-                        app:layout_constraintTop_toTopOf="@id/vaermeldingBlob">
+                        app:layout_constraintTop_toTopOf="@id/vaermeldingBlob"
+                        app:layout_heightPercent="50%"
+                        app:layout_marginLeftPercent="0%"
+                        app:layout_marginTopPercent="0%"
+                        app:layout_widthPercent="50%"
+                        tools:ignore="ImageContrastCheck" />
 
-                        <ImageView
-                            android:id="@+id/vaermeldingSky"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:contentDescription="@string/solBildeAltTekst"
-                            android:scaleType="fitStart"
-                            android:src="@drawable/solskyh"
-                            app:layout_constraintBottom_toBottomOf="@id/vaermeldingBlob"
-                            app:layout_constraintEnd_toEndOf="@id/vaermeldingBlob"
-                            app:layout_constraintStart_toStartOf="@id/vaermeldingBlob"
-                            app:layout_constraintTop_toTopOf="@id/vaermeldingBlob"
-                            app:layout_heightPercent="50%"
-                            app:layout_marginLeftPercent="0%"
-                            app:layout_marginTopPercent="0%"
-                            app:layout_widthPercent="50%"
-                            tools:ignore="ImageContrastCheck" />
-
-                    </androidx.percentlayout.widget.PercentRelativeLayout>
+                </androidx.percentlayout.widget.PercentRelativeLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -525,6 +528,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.45"
         android:translationY="1100dp">
+
+        <ProgressBar
+            android:id="@+id/progressBar4"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/searchQueryRecycler"
+            app:layout_constraintStart_toStartOf="@+id/searchQueryRecycler"
+            app:layout_constraintTop_toTopOf="@+id/resetCityButton" />
 
         <EditText
             android:id="@+id/EditTextAddress"
