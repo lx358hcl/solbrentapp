@@ -141,6 +141,12 @@ import kotlin.math.roundToLong
 
             //Show toast message that location has been reset
             Toast.makeText(context, "Location has been reset", Toast.LENGTH_LONG).show()
+
+            //Reset recycler view
+            searchQueryRecycler.adapter = SearchAdapter(mutableListOf()) //Reset recycler view
+
+            //Start app again
+            startApp()
         }
 
         //Sett solkrem
@@ -223,6 +229,7 @@ import kotlin.math.roundToLong
             //Ingen debouncing atm, så ikke bruk denne for mye ellers får vi kvote-kjeft
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 homeViewModel.fetchPlaces(s.toString())
+                startApp()
             }
         })
     }
