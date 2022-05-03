@@ -15,7 +15,7 @@
 
     <string name="extendedTaBildeFAB">Ta bilde</string>
     <string name="innstillingerString">Innstillinger</string>
-    <string name="solforhold">Solforhold</string>
+    <string name="solforhold">UV-forhold</string>
 
     <string name="søkButtonString">Søk</string>
     <string name="søkefelthint">Skriv inn en adresse...</string>
@@ -50,6 +50,9 @@
     <string name="avbryt_ingen_sol">avbryt, ingen sol</string>
     <string name="pne_app">Åpne app</string>
     <string name="neste_side">Neste side</string>
+    <string name="uv_pr_time">UV pr. time</string>
+    <string name="spf">SPF</string>
+    <string name="min_posisjon">Min posisjon</string>
 
     <string-array name="spfSpinnerValues">
         <item>Velg SPF</item>

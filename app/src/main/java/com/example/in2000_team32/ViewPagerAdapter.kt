@@ -1,7 +1,6 @@
 package com.example.in2000_team32
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.viewpager.widget.PagerAdapter
-import com.google.android.material.internal.ContextUtils.getActivity
-import kotlinx.coroutines.Dispatchers.Main
-import java.security.AccessController.getContext
 
 class ViewPagerAdapter(val context: Context) : PagerAdapter() {
     var layoutInflater: LayoutInflater? = null
@@ -25,7 +20,7 @@ class ViewPagerAdapter(val context: Context) : PagerAdapter() {
     )
 
     val headArray = arrayOf(
-        "Solbrent?",
+        "Silent?",
         "Posisjon",
         "Hudfarge"
     )
@@ -62,13 +57,6 @@ class ViewPagerAdapter(val context: Context) : PagerAdapter() {
         txt_head.text = headArray[position]
         txt_desc.text = descriptionArray[position]
         button.text = buttonText[position]
-
-        /*
-        button.setOnClickListener{
-            val intent = Intent (this@ViewPagerAdapter.context, Main::class.java)
-            startActivity(context)
-        }
-        */
 
 
         container.addView(view)

@@ -52,32 +52,32 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ImageContrastCheck" />
 
-                    <androidx.percentlayout.widget.PercentRelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
+                <androidx.percentlayout.widget.PercentRelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@id/vaermeldingBlob"
+                    app:layout_constraintEnd_toEndOf="@id/vaermeldingBlob"
+                    app:layout_constraintStart_toStartOf="@id/vaermeldingBlob"
+                    app:layout_constraintTop_toTopOf="@id/vaermeldingBlob">
+
+                    <ImageView
+                        android:id="@+id/vaermeldingSky"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/solBildeAltTekst"
+                        android:scaleType="fitStart"
+                        android:src="@drawable/solskyh"
                         app:layout_constraintBottom_toBottomOf="@id/vaermeldingBlob"
                         app:layout_constraintEnd_toEndOf="@id/vaermeldingBlob"
                         app:layout_constraintStart_toStartOf="@id/vaermeldingBlob"
-                        app:layout_constraintTop_toTopOf="@id/vaermeldingBlob">
+                        app:layout_constraintTop_toTopOf="@id/vaermeldingBlob"
+                        app:layout_heightPercent="50%"
+                        app:layout_marginLeftPercent="0%"
+                        app:layout_marginTopPercent="0%"
+                        app:layout_widthPercent="50%"
+                        tools:ignore="ImageContrastCheck" />
 
-                        <ImageView
-                            android:id="@+id/vaermeldingSky"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:contentDescription="@string/solBildeAltTekst"
-                            android:scaleType="fitStart"
-                            android:src="@drawable/solskyh"
-                            app:layout_constraintBottom_toBottomOf="@id/vaermeldingBlob"
-                            app:layout_constraintEnd_toEndOf="@id/vaermeldingBlob"
-                            app:layout_constraintStart_toStartOf="@id/vaermeldingBlob"
-                            app:layout_constraintTop_toTopOf="@id/vaermeldingBlob"
-                            app:layout_heightPercent="50%"
-                            app:layout_marginLeftPercent="0%"
-                            app:layout_marginTopPercent="0%"
-                            app:layout_widthPercent="50%"
-                            tools:ignore="ImageContrastCheck" />
-
-                    </androidx.percentlayout.widget.PercentRelativeLayout>
+                </androidx.percentlayout.widget.PercentRelativeLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -128,12 +128,13 @@
 
             <TextView
                 android:id="@+id/SolforholdTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="294dp"
+                android:layout_height="61dp"
+                android:layout_centerInParent="true"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="36dp"
                 android:layout_marginBottom="16dp"
-                android:gravity="start"
+                android:gravity="center_vertical"
                 android:text="@string/solforhold"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="40sp"
@@ -414,22 +415,23 @@
                 android:id="@+id/detaljView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
                 android:layout_marginBottom="32dp"
                 app:layout_constraintBottom_toTopOf="@+id/constraintLayoutMap"
                 app:layout_constraintEnd_toEndOf="@+id/constraintLayoutMap"
                 app:layout_constraintStart_toStartOf="@+id/constraintLayoutMap"
                 app:layout_constraintTop_toBottomOf="@+id/progressBarLayout"
-                app:layout_constraintVertical_bias="0.48000002"
-                app:layout_constraintVertical_chainStyle="packed">
+                app:layout_constraintVertical_chainStyle="spread"
+                android:background="@drawable/rounded_corner_grey">
 
 
                 <TextView
                     android:id="@+id/TextViewSolFaktor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:gravity="end"
                     android:text="@string/placeholder"
@@ -439,7 +441,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/textViewUVstyrkeDetaljer"
-                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
@@ -448,9 +450,11 @@
                     android:id="@+id/textViewMangeDetaljer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="32dp"
                     android:layout_marginBottom="8dp"
-                    android:text="Lorem Ipsum dodo dada sier humpus her er det noe tekst tenker jeg kanskje muligens eller hva sier dere til det da?"
+                    android:text="@string/uv_tekst_forklaring"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -460,15 +464,30 @@
                     android:id="@+id/textViewUVstyrkeDetaljer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:text="@string/placeholder"
+                    android:text="@string/spf"
                     app:layout_constraintBottom_toBottomOf="@+id/TextViewSolFaktor"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/TextViewSolFaktor"
                     app:layout_constraintTop_toTopOf="@+id/TextViewSolFaktor" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/overskriftGraf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/uv_pr_time"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/constraintLayoutMap"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/detaljView"
+                app:layout_constraintVertical_bias="1.0" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayoutMap"
@@ -483,7 +502,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/detaljView">
-              
+
                 <com.example.in2000_team32.ui.home.UvForecastGraphView
                     android:id="@+id/uvForecastGraph"
                     android:layout_width="match_parent"
@@ -507,6 +526,16 @@
         app:layout_constraintVertical_bias="0.45"
         android:translationY="1100dp">
 
+        <ProgressBar
+            android:id="@+id/progressBar4"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/searchQueryRecycler"
+            app:layout_constraintStart_toStartOf="@+id/searchQueryRecycler"
+            app:layout_constraintTop_toTopOf="@+id/resetCityButton" />
+
         <EditText
             android:id="@+id/EditTextAddress"
             android:layout_width="wrap_content"
@@ -521,6 +550,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.13" />
+
+        <Button
+            android:id="@+id/resetCityButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/min_posisjon"
+            app:layout_constraintBottom_toTopOf="@+id/EditTextAddress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/searchQueryRecycler"

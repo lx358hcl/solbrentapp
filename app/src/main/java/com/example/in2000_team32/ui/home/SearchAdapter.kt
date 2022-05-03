@@ -1,8 +1,10 @@
 package com.example.in2000_team32.ui.home
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -14,15 +16,13 @@ import com.example.in2000_team32.api.DataSourceSharedPreferences
 import com.example.in2000_team32.api.NominatimLocationFromString
 import com.example.in2000_team32.contextOfApplication
 
-class SearchAdapter(searchQueryElements : MutableList<NominatimLocationFromString>) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
-
-    //Listen med alpacaparties
+class SearchAdapter(searchQueryElements : MutableList<NominatimLocationFromString>, context : Context?) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
     var searchQueryElements : MutableList<NominatimLocationFromString> = searchQueryElements
     var dataSourceRepository = DataSourceRepository(contextOfApplication)
+    var context : Context? = context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchAdapter.ViewHolder {
         val v : View = LayoutInflater.from(parent.context).inflate(R.layout.search_query_element, parent, false)
-        //Check if the given item is selected from before and if so, set the background color to red
         val dataSourceRepository = DataSourceRepository(contextOfApplication)
         var chosenLocation : ChosenLocation? = dataSourceRepository.getChosenLocation()
         if(chosenLocation != null) {
