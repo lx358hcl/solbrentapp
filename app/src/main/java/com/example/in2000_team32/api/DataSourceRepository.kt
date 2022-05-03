@@ -106,4 +106,27 @@ class DataSourceRepository(val context: Context) {
         dsSharedPreferences.setLocation(json)
     }
 
+    //Sets users notification preference in sharedpreferences
+    fun setNotifPref(b: Boolean) {
+        dsSharedPreferences.setNotifPref(b)
+    }
+
+    //Gets users notification preference from sharedpreferences
+    fun getNotifPref() : Boolean {
+        return dsSharedPreferences.getNotifPref()
+    }
+
+
+
+
+    // Set temperature unit
+    fun toggleTempUnit() {
+        dsSharedPreferences.toggleTempUnit()
+    }
+
+    // Get temperature unit
+    fun getTempUnit() : Boolean {
+        return dsSharedPreferences.getTempUnit()
+    }
+
 }

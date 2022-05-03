@@ -26,12 +26,13 @@ import com.example.in2000_team32.R
 import com.example.in2000_team32.databinding.FragmentMapBinding
 
 import android.widget.TextView
+import com.example.in2000_team32.api.DataSourceRepository
 import com.example.in2000_team32.databinding.FragmentHomeBinding
 import java.util.*
 
 
 class MapFragment : Fragment() {
-    private var VARSEL_TID: Long = 10000
+    private var VARSEL_TID: Long = 3600000
     private var tidText : TextView? = null
     private var cdTimer: CountDownTimer? = null
     private var cdtRunning: Boolean = false
@@ -41,6 +42,9 @@ class MapFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private lateinit var binding: FragmentMapBinding
+
+
+    private lateinit var dataSourceRepository: DataSourceRepository
 
 
     var tidGår = true
@@ -55,6 +59,8 @@ class MapFragment : Fragment() {
 
         binding = FragmentMapBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        dataSourceRepository = DataSourceRepository(requireContext())
 
         //Viser og gjemmer brent seg tips
         //Viser
@@ -118,16 +124,6 @@ class MapFragment : Fragment() {
 
         }
 
-        val spinner: Spinner = binding.spfSpinner
-        ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.spfSpinnerValues,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter
-        }
-
         binding.smurtSegButton.setOnClickListener{
             timer()
         }
@@ -136,23 +132,25 @@ class MapFragment : Fragment() {
         }
 
         createNotificationChannel()
-        val searchButton = binding.smurtSegButton
+        val smurtButton = binding.smurtSegButton
         tidText = binding.tidIgjenTid
 
 
-        searchButton.setOnClickListener {
+        smurtButton.setOnClickListener {
 
-            //Setter opp notification
-            val intent = Intent(activity, Notification::class.java)
+            if (dataSourceRepository.getNotifPref()){
+                //Setter opp notification
+                val intent = Intent(activity, Notification::class.java)
 
-            val pendingIntent = PendingIntent.getBroadcast(activity, 1, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+                val pendingIntent = PendingIntent.getBroadcast(activity, 1, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
 
-            val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-            val timeAtBtnClick = System.currentTimeMillis()
-            val tenSecondsInMillis = VARSEL_TID
+                val timeAtBtnClick = System.currentTimeMillis()
+                val secondsInMillis = VARSEL_TID
 
-            alarmManager.set(AlarmManager.RTC_WAKEUP, timeAtBtnClick + tenSecondsInMillis, pendingIntent)
+                alarmManager.set(AlarmManager.RTC_WAKEUP, timeAtBtnClick + secondsInMillis, pendingIntent)
+            }
 
 
             //Setter opp nedtelling i appen
@@ -170,14 +168,12 @@ class MapFragment : Fragment() {
 
     fun timer(){
         binding.smurtSegButton.visibility = View.GONE
-        binding.spfSpinner.visibility = View.GONE
         binding.smurtSegAvbryt.visibility = View.VISIBLE
         binding.smurtSegIgjen.visibility = View.VISIBLE
     }
 
     fun stoppTimer(){
         binding.smurtSegButton.visibility = View.VISIBLE
-        binding.spfSpinner.visibility = View.VISIBLE
         binding.smurtSegAvbryt.visibility = View.GONE
         binding.smurtSegIgjen.visibility = View.GONE
     }

@@ -8,6 +8,7 @@
 |----------------|-------------------------------|
 | metResponseDto | Cached response from MET API. |
 | fitzType       | Fitz Type as Int (0-6)        |
+| Temp Unit      | Unit used for temp. true = Celsius  |
 
 
 

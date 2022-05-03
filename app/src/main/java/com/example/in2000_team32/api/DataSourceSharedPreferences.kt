@@ -98,4 +98,31 @@ class DataSourceSharedPreferences(val context: Context) {
             apply()
         }
     }
+
+    //Returns true if not changed
+    fun getNotifPref() : Boolean {
+        return profilSharedPref.getBoolean("notif", true)
+    }
+
+    //Sets users notification preferences
+    fun setNotifPref(notifPref: Boolean) {
+        with(profilSharedPref.edit()){
+            putBoolean("notif", notifPref)
+            apply()
+        }
+    }
+
+    // Set temperature unit
+    fun toggleTempUnit() {
+        val current : Boolean = getTempUnit()
+        with (profilSharedPref.edit()) {
+            putBoolean("tempUnit", !current)
+            apply()
+        }
+    }
+
+    // Get temperature unit
+    fun getTempUnit() : Boolean {
+        return profilSharedPref.getBoolean("tempUnit", true)
+    }
 }
