@@ -496,13 +496,13 @@ class HomeFragment : Fragment() {
         }
         //Svært ekstrem
         else if(roundedUvIndex >= 8){
-            binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_50)
+            binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_50pluss)
             binding.TextViewSolFaktor.setText("50+")
         }
         //Sterk
         else if(roundedUvIndex >= 6){
-            binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_30)
-            binding.TextViewSolFaktor.setText("30")
+            binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_50)
+            binding.TextViewSolFaktor.setText("50")
         }
         //Moderat
         else if(roundedUvIndex >= 3){

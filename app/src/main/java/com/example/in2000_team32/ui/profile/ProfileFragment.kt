@@ -102,6 +102,10 @@ class ProfileFragment : Fragment() {
         unitButton.isChecked = currentUnit
         if (currentUnit) unitText.text = "Celsius" else unitText.text = "Farhenheit"
 
+        //Get fitz from sharedPreferences and set background color
+        var fitz = sharedPreferences.getFitzType()
+        binding.constraintLayout1.setBackgroundColor(homeViewModel.getColor())
+
         //Listen for click on dark mode button and change theme
         binding.darkModeButton.setOnClickListener {
             if (sharedPreferences.getThemeMode() == "light") {

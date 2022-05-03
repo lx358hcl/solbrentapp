@@ -139,10 +139,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
     //Henter farge fra sharedpreferences
     fun getColor() : Int {
         var returInt : Int = 0
-
-        viewModelScope.launch ( Dispatchers.IO ) {
-            returInt = dataSourceRepository.getColor()
-        }
+        returInt = dataSourceRepository.getColor()
         return returInt
     }
 

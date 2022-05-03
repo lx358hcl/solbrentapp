@@ -219,9 +219,7 @@ class MapFragment : Fragment() {
             } else {
                 startTimer()
             }
-
         }
-
     }
 
     private fun createNotificationChannel() {

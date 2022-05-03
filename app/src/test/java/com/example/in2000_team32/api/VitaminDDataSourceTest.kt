@@ -40,7 +40,6 @@ internal class VitaminDDataSourceTest {
         val skinTypeMultiplier = 1
 
         if (currentSeason == "winter"){
-            println("heu")
             var result = vitDDataSource.calculateVitaminDUIPerHour(skintype, "north", 1)
             assert(result == 400.0 * skinTypeMultiplier)
 
