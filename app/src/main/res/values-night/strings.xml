@@ -50,6 +50,9 @@
     <string name="avbryt_ingen_sol">avbryt, ingen sol</string>
     <string name="pne_app">Åpne app</string>
     <string name="neste_side">Neste side</string>
+    <string name="uv_pr_time">UV pr. time</string>
+    <string name="spf">SPF</string>
+    <string name="min_posisjon">Min posisjon</string>
 
     <string-array name="spfSpinnerValues">
         <item>Velg SPF</item>

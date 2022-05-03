@@ -414,22 +414,23 @@
                 android:id="@+id/detaljView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
+                android:padding="16dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
                 android:layout_marginBottom="32dp"
                 app:layout_constraintBottom_toTopOf="@+id/constraintLayoutMap"
                 app:layout_constraintEnd_toEndOf="@+id/constraintLayoutMap"
                 app:layout_constraintStart_toStartOf="@+id/constraintLayoutMap"
                 app:layout_constraintTop_toBottomOf="@+id/progressBarLayout"
-                app:layout_constraintVertical_bias="0.48000002"
-                app:layout_constraintVertical_chainStyle="packed">
+                app:layout_constraintVertical_chainStyle="spread"
+                android:background="@drawable/rounded_corner_grey">
 
 
                 <TextView
                     android:id="@+id/TextViewSolFaktor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:gravity="end"
                     android:text="@string/placeholder"
@@ -439,7 +440,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/textViewUVstyrkeDetaljer"
-                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
@@ -448,7 +449,9 @@
                     android:id="@+id/textViewMangeDetaljer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="32dp"
                     android:layout_marginBottom="8dp"
                     android:text="@string/uv_tekst_forklaring"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -460,9 +463,7 @@
                     android:id="@+id/textViewUVstyrkeDetaljer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:text="@string/placeholder"
+                    android:text="@string/spf"
                     app:layout_constraintBottom_toBottomOf="@+id/TextViewSolFaktor"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -474,16 +475,18 @@
                 android:id="@+id/overskriftGraf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="UV pr. time"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/uv_pr_time"
                 android:textColor="?android:textColorPrimary"
-                android:textStyle="bold"
                 android:textSize="32sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/constraintLayoutMap"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/detaljView" />
+                app:layout_constraintTop_toBottomOf="@+id/detaljView"
+                app:layout_constraintVertical_bias="1.0" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayoutMap"
@@ -498,7 +501,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/detaljView">
-              
+
                 <com.example.in2000_team32.ui.home.UvForecastGraphView
                     android:id="@+id/uvForecastGraph"
                     android:layout_width="match_parent"
@@ -541,7 +544,7 @@
             android:id="@+id/resetCityButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nullstill"
+            android:text="@string/min_posisjon"
             app:layout_constraintBottom_toTopOf="@+id/EditTextAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
