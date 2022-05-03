@@ -34,8 +34,7 @@ class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
     private var selectedColor: Int = ColorSheet.NO_COLOR
@@ -76,8 +75,6 @@ class ProfileFragment : Fragment() {
             sharedPreferences.setThemeMode("light")
         }
         //Update buttons based on sharedPreferences data
-        //Print out the current dark mode
-        println(sharedPreferences.getThemeMode());
         if (sharedPreferences.getThemeMode() == "dark"){
             darkModeButtonTextLower.text = "Mørk"
             //Uncheck the switchMaterial button
@@ -105,12 +102,8 @@ class ProfileFragment : Fragment() {
         unitButton.isChecked = currentUnit
         if (currentUnit) unitText.text = "Celsius" else unitText.text = "Farhenheit"
 
-
-
         //Listen for click on dark mode button and change theme
         binding.darkModeButton.setOnClickListener {
-            //Print out the current theme mode
-            println("Current theme mode: ${sharedPreferences.getThemeMode()}")
             if (sharedPreferences.getThemeMode() == "light") {
                 sharedPreferences.setThemeMode("dark")
                 darkModeButtonTextLower.text = "Mørk"
@@ -158,12 +151,6 @@ class ProfileFragment : Fragment() {
                         homeViewModel.writeColor(selectedColor) //Skriver til sharedPreferences den valgte hudfargen
 
                         // Mapping av color til fitz (burde egentlig vært gjort motsatt, men det er litt jobb å fikse)
-                        // 1: -798540
-                        // 2: -1657709
-                        // 3: -2842236
-                        // 4: -2980001
-                        // 5: -6070719
-                        // 6: -12902628
                         var fitzType : Int
                         when (selectedColor) {
                             -798540 -> fitzType = 1

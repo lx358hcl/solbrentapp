@@ -23,12 +23,10 @@ class MetDataSource {
 
         try {
             val response: MetResponseDto = gson.fromJson(Fuel.get(if (!runWithDummyApi) url else "http://10.0.2.2:1000/weather").awaitString(), MetResponseDto::class.java)
-            //val tRes = Fuel.get("http://192.168.1.46:1000/weather").awaitString() // Request to test server
 
             // Setting UV index message based on UV index
             var msg: String
             when (response.properties.timeseries[0].data.instant.details.ultraviolet_index_clear_sky.toInt()) {
-                // TODO: Flytt disse tekst strengene til en XML fil
                 0 -> msg = contextOfApplication.getString(R.string.uv_msg_0)
                 1 -> msg = contextOfApplication.getString(R.string.uv_msg_1)
                 2 -> msg = contextOfApplication.getString(R.string.uv_msg_2)
@@ -46,17 +44,10 @@ class MetDataSource {
                 }
             }
             response.properties.timeseries[0].data.instant.details.weather_msg = msg
-
-            println("-------------------")
-            println(response) // Actual server
-            //println(tRes) // Test server
-            println("-------------------")
-
             return response
 
         } catch (exception: Exception) {
             Log.d("fetchMetWeatherForecast", "Something went wrong on API call: [" + exception + "]")
-
             return null
         }
     }

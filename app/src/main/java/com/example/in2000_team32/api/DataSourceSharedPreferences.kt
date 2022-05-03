@@ -17,10 +17,9 @@ class DataSourceSharedPreferences(val context: Context) {
      * Function takes in a MetResponseDto, and stores it
      * in shared preferences on android device.
      */
+
     fun writeMetCache(metResponseDto: MetResponseDto?) {
         // Saving an object in saved preferences
-        // https://stackoverflow.com/questions/7145606/how-do-you-save-store-objects-in-sharedpreferences-on-android
-
         val prefsEditor: SharedPreferences.Editor = sharedPref.edit()
         val gson: Gson = Gson()
 
@@ -57,7 +56,6 @@ class DataSourceSharedPreferences(val context: Context) {
     }
 
     fun writeFitzType(f: Int) {
-
         val prefsEditor: SharedPreferences.Editor = sharedPref.edit()
 
         prefsEditor.putString("fitzType", f.toString())
@@ -84,7 +82,6 @@ class DataSourceSharedPreferences(val context: Context) {
         val chosenLocation: ChosenLocation? = gson.fromJson(json, ChosenLocation::class.java)
         return chosenLocation
     }
-
 
     //Get theme mode
     fun getThemeMode() : String? {

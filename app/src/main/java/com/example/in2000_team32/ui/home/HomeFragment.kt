@@ -49,7 +49,7 @@ import java.util.*
 import kotlin.math.roundToInt
 
 
-@Suppress("DEPRECATION") class HomeFragment : Fragment() {
+class HomeFragment : Fragment() {
     var show = false
     private val current: LocalDateTime = LocalDateTime.now()
     private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("HH", Locale.getDefault())
@@ -77,9 +77,7 @@ import kotlin.math.roundToInt
     //When user returns to activity
     //Se her for forklaring hvorfor den må plasseres her: https://cdn.djuices.com/djuices/activity-lifecycle.jpeg
     override fun onResume() {
-        println("Calling resume method")
         super.onResume()
-        //Dette starter opp hele applikasjonen - Vi kan pynte på syntaks og struktur senere, vi må ha det i resume fordi onCreated skjer før onResum
         //Check if permissions are granted
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             startApp()
@@ -98,7 +96,6 @@ import kotlin.math.roundToInt
         loadingSearchSpinner = binding.progressBar4
         loadingSearchSpinner.visibility = View.GONE
         searchQueryRecycler = binding.searchQueryRecycler
-        //Set location to default location
 
         //Check if user has internet connection
         if (!isNetworkAvailable()) {
@@ -109,14 +106,10 @@ import kotlin.math.roundToInt
         }
 
         //SearchAdapter
-        //Vars som trengs
         //RecyclerView initialisering og setting av adapter
         searchQueryRecycler.layoutManager = LinearLayoutManager(this.context)
         homeViewModel.getPlaces().observe(viewLifecycleOwner) {
             if (it != null) {
-                println("Trigger warning!!!")
-                //Check if it is not null and if it is not empty
-
                 //Check if it is not null
                 if (loadingSearchSpinner != null) {
                     //Check if it is visible
@@ -126,11 +119,9 @@ import kotlin.math.roundToInt
                     }
                 }
                 if (it.isNotEmpty()) {
-                    println("Warning triggered")
                     //Set adapter
                     searchQueryRecycler?.adapter = SearchAdapter(it as MutableList<NominatimLocationFromString>, this.context)
                 }
-                println(it)
             }
         }
 
@@ -143,7 +134,6 @@ import kotlin.math.roundToInt
                 showSearch()
             }
         }
-        //End of if som åpner og lukker søkefeltet
 
         //Listen for button click on resetCityButton
         val resetCityButton = binding.resetCityButton
@@ -167,7 +157,6 @@ import kotlin.math.roundToInt
         }
 
         //Sett solkrem
-        //
         binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_50pluss)
 
         //End of sett solkrem
@@ -203,11 +192,8 @@ import kotlin.math.roundToInt
         if(chosenLocation == null) {
             mPermissionResult.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             //Make toast that user has to choose a city
-            println("User has to choose a city")
         }
         else{
-            println(chosenLocation)
-            println("HURRA")
             if(chosenLocation == null){
                 chosenLocation = ChosenLocation("", 0.0, 0.0)
             }
@@ -236,11 +222,11 @@ import kotlin.math.roundToInt
         //Listen for input from EditTextAddress and print it to console
         binding.EditTextAddress.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                println("Text: $s")
+                //Not used
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
+                //Not used
             }
 
             //Ingen debouncing atm, så ikke bruk denne for mye ellers får vi kvote-kjeft
@@ -249,15 +235,8 @@ import kotlin.math.roundToInt
                 //Check if loadingSearchSpinner and searchQueryRecyler is not null
                 if(loadingSearchSpinner != null && searchQueryRecycler != null) {
                     //If so, show loading spinner and hide recycler
-
                     loadingSearchSpinner.visibility = View.VISIBLE
-
                     searchQueryRecycler.adapter = SearchAdapter(mutableListOf(), activity)
-                }
-
-                //Wait for fetchPlaces to finish
-                homeViewModel.getPlaces().observe(viewLifecycleOwner) { it ->
-                    println("Places: $it")
                 }
                 startApp()
             }
@@ -280,34 +259,21 @@ import kotlin.math.roundToInt
 
     val mPermissionResult = registerForActivityResult(RequestPermission()) { result ->
         if (result) {
-            Log.e(TAG, "onActivityResult: PERMISSION GRANTED")
-            println("Getting permissions")
             getLocation()
         }
         else {
-            Log.e(TAG, "onActivityResult: PERMISSION DENIED")
-            println("Permission denied")
-            //Make a toast that the user has denied permission to use location
-            Toast.makeText(context, "Du må tillate bruk av lokasjon for å bruke appen", Toast.LENGTH_LONG).show()
             //Vis en melding som sier at man bør ha stedsposisijoner på eller etlerann
+            Toast.makeText(context, "Du må tillate bruk av lokasjon for å bruke appen", Toast.LENGTH_LONG).show()
         }
     }
 
     val locationListener = LocationListener { l ->
         location = l
-        println("Received a location")
-        println(location)
-
         var chosenLocation : ChosenLocation? = dataSourceRepository.getChosenLocation()
-
         if(chosenLocation == null) {
             mPermissionResult.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-            //Make toast that user has to choose a city
-            println("User has to choose a city")
         }
         else{
-            println(chosenLocation)
-            println("HURRA")
             if(chosenLocation == null){
                 chosenLocation = ChosenLocation("", 0.0, 0.0)
             }
@@ -329,7 +295,6 @@ import kotlin.math.roundToInt
                         startObserverne(ChosenLocation("", 0.0, 0.0))
                         observersStarted = true
                     }
-                    //User has not chosen
                 }
 
             }
@@ -394,15 +359,8 @@ import kotlin.math.roundToInt
             } != PackageManager.PERMISSION_GRANTED && currentActivity?.let {
                 ActivityCompat.checkSelfPermission(it, Manifest.permission.ACCESS_COARSE_LOCATION)
             } != PackageManager.PERMISSION_GRANTED) {
-            println("Permissions arent grranted")
-
-            //Show Dialog that user needs to grant permissions for the app to work
-
 
             return
-        } else {
-            println("Permissions are granted mofo")
-            //Gå videre nedover
         }
 
         //Get Locationmanager
@@ -413,85 +371,61 @@ import kotlin.math.roundToInt
         var wifiEnabled = locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER)
 
         fun useWifi(){
-            println("wifi is enabled")
             //Make toast with message that wifi is enabled and that the app will not work without gps
-
-            Toast.makeText(context, "Wifi is WUBBA WUBBA", Toast.LENGTH_LONG).show()
             var l = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
             if (l != null) {
-                println("wifi is enabled and location is not null")
                 location = l
                 grabInfo(ChosenLocation("", 0.0, 0.0))
-            } else {
-                println("wifi is enabled and location is null")
             }
             locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0, 0f, locationListener)
         }
 
-        //Check if internet is available and if gps is enabled if not ask user to enable it or use network provider if available and if not ask user to enable
+        //Sjekk om internet tilgjengelig
         if (!isNetworkAvailable()) {
-            //If this happens just add a spinner to the entire page and make it impossible to use because no internet is present
-            println("No internet")
-
-            //Show toast that no internet is available and that the app will not work without internet access and that the user should enable internet access
             Toast.makeText(context, "No internet available", Toast.LENGTH_LONG).show()
         }
         else {
-            println("Internet is available")
             if (networkEnabled) {
-                println("Gps is not enabled but network is available")
                 var l = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
                 if (l != null) {
-                    println("Gps is not enabled but network is available and location is not null")
                     location = l
                     grabInfo(ChosenLocation("", 0.0, 0.0))
                 } else {
-                    println("Gps is not enabled but network is available and location is null")
                     useWifi();
                 }
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, locationListener)
             }
             else if (gpsEnabled) {
-                println("Gps is enabled")
                 var l = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                 if (l != null) {
-                    println("Gps is enabled and location is not null")
                     location = l
                     grabInfo(ChosenLocation("", 0.0, 0.0))
                 } else {
-                    println("Gps is enabled and location is null")
                     useWifi();
                 }
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener)
             } else if(wifiEnabled){
-                println("wifi is enabled")
                 //Make toast with message that wifi is enabled and that the app will not work without gps
-                Toast.makeText(context, "Wifi is WUBBA WUBBA", Toast.LENGTH_LONG).show()
                 var l = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
                 if (l != null) {
-                    println("wifi is enabled and location is not null")
                     location = l
                     grabInfo(ChosenLocation("", 0.0, 0.0))
                 } else {
-                    println("wifi is enabled and location is null")
                     useWifi();
                 }
                 locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0, 0f, locationListener)
             }
             else{
                 //Show AlertDialog that LocationServices is disabled and that the user should enable it in settings or dismiss if they dont want to enable it
-                println("Gps is not enabled and network is not available")
                 var alertDialog = AlertDialog.Builder(context)
-                alertDialog.setTitle("Location Services Disabled")
-                alertDialog.setMessage("Please enable Location Services in settings")
-                alertDialog.setPositiveButton("Enable", DialogInterface.OnClickListener { dialog, which ->
-                    println("User wants to enable location services")
+                alertDialog.setTitle("Stedstjenester")
+                alertDialog.setMessage("Vennligst slå på stedstjenester i innstillingene dine.")
+                alertDialog.setPositiveButton("Tillat", DialogInterface.OnClickListener { dialog, which ->
                     val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                     startActivity(intent)
-
                 })
-                alertDialog.setNegativeButton("No", DialogInterface.OnClickListener { dialog, which ->
-                    println("User does not want to enable location services")
+                alertDialog.setNegativeButton("Nei", DialogInterface.OnClickListener { dialog, which ->
+                    //Ingenting skjer hvis nei.
                 })
                 alertDialog.show()
 
@@ -549,10 +483,6 @@ import kotlin.math.roundToInt
         var sunBurnRes = vitaminDDataSource.calculateTimeTillSunBurn(fitztype.toFloat(), uvindex.toFloat())
         var vitaminDRes = vitaminDDataSource.calculateVitaminDUIPerHour(fitztype.toFloat(), hemisphere, uvindex.toFloat())
 
-        println(uvindex.toFloat())
-        println(sunBurnRes)
-        println(vitaminDRes)
-        
         binding.timeTillSunburn.setText(sunBurnRes.toString())
         binding.vitaminDPerHour.setText(vitaminDRes.toString())
     }
@@ -662,8 +592,6 @@ import kotlin.math.roundToInt
         //Update cloud-picture
         getActivity()?.let {
             homeViewModel.getCurrentSky().observe(it) { sky ->
-
-                println("Sky status er : " + sky)
                 var lightMode = true
 
                 when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {

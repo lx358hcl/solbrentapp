@@ -42,10 +42,7 @@ class MapFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private lateinit var binding: FragmentMapBinding
-
-
     private lateinit var dataSourceRepository: DataSourceRepository
-
 
     var tidGår = true
 
@@ -63,7 +60,6 @@ class MapFragment : Fragment() {
         dataSourceRepository = DataSourceRepository(requireContext())
 
         //Viser og gjemmer brent seg tips
-        //Viser
         binding.brentSegShow.setOnClickListener() {
             // previously invisible view
             val myView: View = binding.brentSegTips
@@ -152,7 +148,6 @@ class MapFragment : Fragment() {
                 alarmManager.set(AlarmManager.RTC_WAKEUP, timeAtBtnClick + secondsInMillis, pendingIntent)
             }
 
-
             //Setter opp nedtelling i appen
             if (cdtRunning) {
                 restartTimer()
@@ -232,7 +227,7 @@ class MapFragment : Fragment() {
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = "Solbrent notification"
-            val descriptionText = "påminner bruker om å ta på mer solkrem"
+            val descriptionText = "Husk på å ta på mer solkrem"
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel("notifySolbrent", name, importance).apply {
                 description = descriptionText

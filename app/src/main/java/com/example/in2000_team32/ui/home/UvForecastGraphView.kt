@@ -7,7 +7,6 @@ import android.view.View
 import androidx.core.graphics.toColor
 import com.example.in2000_team32.R
 
-// https://www.youtube.com/watch?v=Gkk5nJpGzwM&list=PLpZQVidZ65jPz-XIHdWi1iCra8TU9h_kU&index=5
 class UvForecastGraphView(context: Context?, attrs: AttributeSet?): View(context, attrs) {
     private val DATALENGTH = 25
 
@@ -16,13 +15,10 @@ class UvForecastGraphView(context: Context?, attrs: AttributeSet?): View(context
     private var canvasHeight: Float = 400f
 
     private var data = MutableList(25) { 0f } // Init list with all zeros
-    //private var data = mutableListOf<Float>(4f, 5f, 6f, 7f, 6f, 6f, 10f, 11f, 3f, 2f, 1f, 0f, 1f, 1f, 0f, 0f, 1f, 4f, 5f, 7f, 3f, 1f, 1f, 3f, 4f)
     private var startTime: Int = 12 // Default start time is 12
 
     init {
         paint.color = Color.rgb(200, 10, 10)
-        //canvasWidth = resources.displayMetrics.widthPixels.toFloat()
-        //canvasHeight = resources.displayMetrics.heightPixels.toFloat()
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -36,7 +32,6 @@ class UvForecastGraphView(context: Context?, attrs: AttributeSet?): View(context
      * @param t: The hour of the first forecast in d.
      */
     fun addData(d: List<Double>, t: Int) {
-        // TODO make sure list is of length 25
         for (i in 0 until DATALENGTH) {
             data[i] = d[i].toFloat()
         }
