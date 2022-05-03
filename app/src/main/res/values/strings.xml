@@ -6,12 +6,12 @@
     <string name="search_title">Søk</string>
     <string name="search_hint">Skriv inn en adresse</string>
     <string name="MorgenTekst">God Morgen</string>
-    <string name="searchButtonHelpText">Skriv inn og søk på en addresse</string>
+    <string name="searchButtonHelpText">Skriv inn og søk på en adresse</string>
     <string name="solBildeAltTekst">Bilde av en sol</string>
-    <string name="placeholder">placeholder</string>
+    <string name="placeholder"></string>
     <string name="detaljertInfo">Detaljer</string>
     <string name="backdrop_content">Here is your content</string>
-
+    <string name="uv_tekst_forklaring">Mye sol og solarium kan være helsefarlig og gi deg hudkreft. For å redusere hudkreftrisikoen kan du beskytte deg med klær og solkrem og begrense tiden du er ute når sola skinner sterkest.</string>
     <string name="extendedTaBildeFAB">Ta bilde</string>
     <string name="innstillingerString">Innstillinger</string>
     <string name="solforhold">Solforhold</string>
