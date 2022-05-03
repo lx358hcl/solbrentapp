@@ -65,7 +65,7 @@ class UvForecastGraphView(context: Context?, attrs: AttributeSet?): View(context
         // Y axis
         val yP: Paint = Paint()
         yP.setColor(Color.GRAY)
-        yP.strokeWidth = 0.5f
+        yP.strokeWidth = 1.0f
         yP.textSize = 20f
 
         var y: Float

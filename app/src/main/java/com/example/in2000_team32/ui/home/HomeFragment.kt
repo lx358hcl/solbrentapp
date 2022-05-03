@@ -512,22 +512,27 @@ import kotlin.math.roundToLong
         //Ekstrem
         if(roundedUvIndex >= 11){
             binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_50pluss)
+            binding.TextViewSolFaktor.text = "50+"
         }
         //Svært ekstrem
         else if(roundedUvIndex >= 8){
             binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_50)
+            binding.TextViewSolFaktor.text = "50"
         }
         //Sterk
         else if(roundedUvIndex >= 6){
             binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_30)
+            binding.TextViewSolFaktor.text = "30"
         }
         //Moderat
         else if(roundedUvIndex >= 3){
             binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_30)
+            binding.TextViewSolFaktor.text = "30"
         }
         //Lav
         else if(roundedUvIndex >= 0){
             binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_25)
+            binding.TextViewSolFaktor.text = "25"
         }
     }
 

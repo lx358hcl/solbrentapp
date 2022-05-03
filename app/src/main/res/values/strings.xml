@@ -6,7 +6,7 @@
     <string name="search_title">Søk</string>
     <string name="search_hint">Skriv inn en adresse</string>
     <string name="MorgenTekst">God Morgen</string>
-    <string name="searchButtonHelpText">Skriv inn og søk på en adresse</string>
+    <string name="searchButtonHelpText">Skriv inn og søk på en by</string>
     <string name="solBildeAltTekst">Bilde av en sol</string>
     <string name="placeholder"></string>
     <string name="detaljertInfo">Detaljer</string>
@@ -78,7 +78,9 @@
     <string name="uv_msg_10">"svært sterk stråling"</string>
     <string name="uv_msg_11">"ekstrem stråling!"</string>
     <string name="uv_msg_12">"ekstrem stråling!"</string>
-
+    <string name="uv_pr_time">UV prognose</string>
+    <string name="spf">SPF</string>
+    <string name="min_posisjon">Min posisjon</string>
 
 
 </resources>
