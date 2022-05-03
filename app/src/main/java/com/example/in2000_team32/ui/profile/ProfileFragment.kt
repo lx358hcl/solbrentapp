@@ -1,6 +1,7 @@
 package com.example.in2000_team32.ui.profile
 
 import android.content.Context
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.in2000_team32.R
@@ -179,6 +181,9 @@ class ProfileFragment : Fragment() {
         val farge = homeViewModel.getColor()
         if(farge != 0) {
             binding.constraintLayout1.setBackgroundColor(homeViewModel.getColor())
+        } else {
+            var background = ResourcesCompat.getDrawable(this.resources, R.drawable.bg_gradient, null) as GradientDrawable
+            binding.constraintLayout1.setBackgroundDrawable(background)
         }
 
         return root
