@@ -14,7 +14,8 @@
         android:text="@string/innstillingerString"
         android:textSize="32sp"
         android:layout_centerHorizontal="true"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/textForklaring"
@@ -26,7 +27,7 @@
         android:autoSizeTextType="uniform"
         android:gravity="center"
         android:text="@string/OppsummeringTekst"
-        android:textColor="@color/grey"
+        android:textColor="@color/dark_grey"
         android:textSize="20sp"
         android:textStyle="normal" />
 </RelativeLayout>

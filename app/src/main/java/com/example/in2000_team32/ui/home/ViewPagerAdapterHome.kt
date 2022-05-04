@@ -62,6 +62,7 @@ class ViewPagerAdapterHome(val context: Context) : PagerAdapter() {
         txt_desc.text = descriptionArray[position]
 
 
+
         container.addView(view)
 
         return view
