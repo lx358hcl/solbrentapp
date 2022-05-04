@@ -27,7 +27,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/vaermeldingLayout"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="32dp"
@@ -129,14 +129,16 @@
 
             <TextView
                 android:id="@+id/SolforholdTextView"
-                android:layout_width="294dp"
-                android:layout_height="61dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="36dp"
                 android:layout_marginBottom="16dp"
                 android:gravity="center_vertical"
                 android:text="@string/solforhold"
+                android:autoSizeTextType="uniform"
+                android:maxLines="1"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="40sp"
                 android:textStyle="bold"
@@ -288,7 +290,6 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/detaljView"
                 app:layout_constraintTop_toBottomOf="@+id/detaljerTemperatur"
-                app:layout_constraintVertical_bias="0.23000002"
                 app:layout_constraintVertical_chainStyle="spread_inside">
 
 
@@ -345,6 +346,7 @@
                         android:fontFamily="@font/nexa_regular"
                         android:gravity="center"
                         android:maxLines="1"
+                        android:autoSizeTextType="uniform"
                         android:text="0.0"
                         android:textSize="30sp"
                         android:textStyle="bold"
@@ -450,7 +452,8 @@
                         android:id="@+id/viewpager"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_above="@+id/bottom_layout" />
+                        android:layout_above="@+id/bottom_layout"
+                        android:layout_marginBottom="8dp"/>
 
                     <FrameLayout
                         android:id="@+id/bottom_layout"
