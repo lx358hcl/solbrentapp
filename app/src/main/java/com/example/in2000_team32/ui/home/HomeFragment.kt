@@ -3,13 +3,13 @@ package com.example.in2000_team32.ui.home
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.graphics.drawable.AnimationDrawable
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -21,13 +21,11 @@ import android.os.Bundle
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
@@ -38,6 +36,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.percentlayout.widget.PercentRelativeLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
 import com.example.in2000_team32.R
 import com.example.in2000_team32.api.*
 import com.example.in2000_team32.databinding.FragmentHomeBinding
@@ -52,7 +51,8 @@ import kotlin.math.roundToInt
 class HomeFragment : Fragment() {
     var show = false
     private val current: LocalDateTime = LocalDateTime.now()
-    private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("HH", Locale.getDefault())
+    private val formatter: DateTimeFormatter =
+        DateTimeFormatter.ofPattern("HH", Locale.getDefault())
     private val formatted: Double = current.format(formatter).toDouble()
     private var uvBar = 50
     private var uvIndex = 0
@@ -64,9 +64,11 @@ class HomeFragment : Fragment() {
     // This property is only valid between onCreateView and onDestroyView.
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var dataSourceRepository : DataSourceRepository
-    private lateinit var loadingSearchSpinner : ProgressBar
-    private lateinit var searchQueryRecycler : RecyclerView
+    private lateinit var dataSourceRepository: DataSourceRepository
+    private lateinit var loadingSearchSpinner: ProgressBar
+    private lateinit var searchQueryRecycler: RecyclerView
+    private lateinit var viewPager: ViewPager
+    private lateinit var viewPagerAdapterHome: ViewPagerAdapterHome
 
     //OnPause are used to check if the app is in the foreground or not
     override fun onPause() {
@@ -74,21 +76,32 @@ class HomeFragment : Fragment() {
         appVisible = false
     }
 
+
     //When user returns to activity
     //Se her for forklaring hvorfor den må plasseres her: https://cdn.djuices.com/djuices/activity-lifecycle.jpeg
     override fun onResume() {
         super.onResume()
         //Check if permissions are granted
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             startApp()
-        }
-        else{
+        } else {
             //Start app
             startApp()
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         var root: View
@@ -120,7 +133,8 @@ class HomeFragment : Fragment() {
                 }
                 if (it.isNotEmpty()) {
                     //Set adapter
-                    searchQueryRecycler?.adapter = SearchAdapter(it as MutableList<NominatimLocationFromString>, this.context)
+                    searchQueryRecycler?.adapter =
+                        SearchAdapter(it as MutableList<NominatimLocationFromString>, this.context)
                 }
             }
         }
@@ -147,7 +161,8 @@ class HomeFragment : Fragment() {
             Toast.makeText(context, "Location has been reset", Toast.LENGTH_LONG).show()
 
             //Reset recycler view
-            searchQueryRecycler.adapter = SearchAdapter(mutableListOf(),this.context) //Reset recycler view
+            searchQueryRecycler.adapter =
+                SearchAdapter(mutableListOf(), this.context) //Reset recycler view
 
             //Close keyboard and hide search
             hideSearch()
@@ -182,19 +197,29 @@ class HomeFragment : Fragment() {
         //Start textlistener for senere
         startSearchListener()
 
+
+        //Dot slider view kode.
+        val relativeLayout = binding.layout1
+        val dotsIndicator = binding.dotsIndicator
+
+        viewPager = binding.viewpager
+        viewPagerAdapterHome = ViewPagerAdapterHome(requireContext())
+        viewPager.adapter = viewPagerAdapterHome
+
+        dotsIndicator.setViewPager(viewPager)
         return root
     }
 
+
     fun startApp() {
         //Check if city is null in shared preferences
-        var chosenLocation : ChosenLocation? = dataSourceRepository.getChosenLocation()
+        var chosenLocation: ChosenLocation? = dataSourceRepository.getChosenLocation()
 
-        if(chosenLocation == null) {
+        if (chosenLocation == null) {
             mPermissionResult.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             //Make toast that user has to choose a city
-        }
-        else{
-            if(chosenLocation == null){
+        } else {
+            if (chosenLocation == null) {
                 chosenLocation = ChosenLocation("", 0.0, 0.0)
             }
             grabInfo(chosenLocation)
@@ -233,7 +258,7 @@ class HomeFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 homeViewModel.fetchPlaces(s.toString())
                 //Check if loadingSearchSpinner and searchQueryRecyler is not null
-                if(loadingSearchSpinner != null && searchQueryRecycler != null) {
+                if (loadingSearchSpinner != null && searchQueryRecycler != null) {
                     //If so, show loading spinner and hide recycler
                     loadingSearchSpinner.visibility = View.VISIBLE
                     searchQueryRecycler.adapter = SearchAdapter(mutableListOf(), activity)
@@ -248,45 +273,53 @@ class HomeFragment : Fragment() {
     }
 
     fun Context.hideKeyboard(view: View) {
-        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager =
+            getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     fun showKeyboard(activity: FragmentActivity) {
-        val inputMethodManager = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.toggleSoftInputFromWindow(activity.currentFocus!!.windowToken, InputMethodManager.SHOW_FORCED, 0)
+        val inputMethodManager =
+            activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.toggleSoftInputFromWindow(
+            activity.currentFocus!!.windowToken,
+            InputMethodManager.SHOW_FORCED,
+            0
+        )
     }
 
     val mPermissionResult = registerForActivityResult(RequestPermission()) { result ->
         if (result) {
             getLocation()
-        }
-        else {
+        } else {
             //Vis en melding som sier at man bør ha stedsposisijoner på eller etlerann
-            Toast.makeText(context, "Du må tillate bruk av lokasjon for å bruke appen", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                context,
+                "Du må tillate bruk av lokasjon for å bruke appen",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
     val locationListener = LocationListener { l ->
         location = l
-        var chosenLocation : ChosenLocation? = dataSourceRepository.getChosenLocation()
-        if(chosenLocation == null) {
+        var chosenLocation: ChosenLocation? = dataSourceRepository.getChosenLocation()
+        if (chosenLocation == null) {
             mPermissionResult.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-        }
-        else{
-            if(chosenLocation == null){
+        } else {
+            if (chosenLocation == null) {
                 chosenLocation = ChosenLocation("", 0.0, 0.0)
             }
             grabInfo(chosenLocation)
         }
     }
 
-    fun grabInfo(chosenLocation : ChosenLocation) {
+    fun grabInfo(chosenLocation: ChosenLocation) {
         var currentActivity = getActivity()
         if (currentActivity != null) {
-            if(chosenLocation.city == ""){
+            if (chosenLocation.city == "") {
                 //Check if location is not null
-                if(location != null && location.latitude != null && location.longitude != null) {
+                if (location != null && location.latitude != null && location.longitude != null) {
                     //If so, get city and country from location
                     homeViewModel.fetchLocationData(location.latitude, location.longitude)
                     homeViewModel.fetchWeatherData(location.latitude, location.longitude)
@@ -297,8 +330,7 @@ class HomeFragment : Fragment() {
                     }
                 }
 
-            }
-            else {
+            } else {
                 //Print out chosen location
                 var lat = chosenLocation.lat
                 var lon = chosenLocation.lon
@@ -331,8 +363,7 @@ class HomeFragment : Fragment() {
                     }
                 }
             }
-        }
-        else {
+        } else {
             if (cm != null) {
                 val activeNetwork = cm.activeNetworkInfo
                 if (activeNetwork != null) {
@@ -365,26 +396,31 @@ class HomeFragment : Fragment() {
 
         //Get Locationmanager
         //Gpsenabled og networkenabled er egentlig litt feil å si, det betyr egentlig mer typ hva som er tilgjengelig og ikke om den er enabled eller ikke
-        locationManager = currentActivity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        locationManager =
+            currentActivity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         var gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
         var networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
         var wifiEnabled = locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER)
 
-        fun useWifi(){
+        fun useWifi() {
             //Make toast with message that wifi is enabled and that the app will not work without gps
             var l = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
             if (l != null) {
                 location = l
                 grabInfo(ChosenLocation("", 0.0, 0.0))
             }
-            locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0, 0f, locationListener)
+            locationManager.requestLocationUpdates(
+                LocationManager.PASSIVE_PROVIDER,
+                0,
+                0f,
+                locationListener
+            )
         }
 
         //Sjekk om internet tilgjengelig
         if (!isNetworkAvailable()) {
             Toast.makeText(context, "No internet available", Toast.LENGTH_LONG).show()
-        }
-        else {
+        } else {
             if (networkEnabled) {
                 var l = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
                 if (l != null) {
@@ -393,9 +429,13 @@ class HomeFragment : Fragment() {
                 } else {
                     useWifi();
                 }
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, locationListener)
-            }
-            else if (gpsEnabled) {
+                locationManager.requestLocationUpdates(
+                    LocationManager.NETWORK_PROVIDER,
+                    0,
+                    0f,
+                    locationListener
+                )
+            } else if (gpsEnabled) {
                 var l = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                 if (l != null) {
                     location = l
@@ -403,8 +443,13 @@ class HomeFragment : Fragment() {
                 } else {
                     useWifi();
                 }
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener)
-            } else if(wifiEnabled){
+                locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    0,
+                    0f,
+                    locationListener
+                )
+            } else if (wifiEnabled) {
                 //Make toast with message that wifi is enabled and that the app will not work without gps
                 var l = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
                 if (l != null) {
@@ -413,20 +458,28 @@ class HomeFragment : Fragment() {
                 } else {
                     useWifi();
                 }
-                locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0, 0f, locationListener)
-            }
-            else{
+                locationManager.requestLocationUpdates(
+                    LocationManager.PASSIVE_PROVIDER,
+                    0,
+                    0f,
+                    locationListener
+                )
+            } else {
                 //Show AlertDialog that LocationServices is disabled and that the user should enable it in settings or dismiss if they dont want to enable it
                 var alertDialog = AlertDialog.Builder(context)
                 alertDialog.setTitle("Stedstjenester")
                 alertDialog.setMessage("Vennligst slå på stedstjenester i innstillingene dine.")
-                alertDialog.setPositiveButton("Tillat", DialogInterface.OnClickListener { dialog, which ->
-                    val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                    startActivity(intent)
-                })
-                alertDialog.setNegativeButton("Nei", DialogInterface.OnClickListener { dialog, which ->
-                    //Ingenting skjer hvis nei.
-                })
+                alertDialog.setPositiveButton(
+                    "Tillat",
+                    DialogInterface.OnClickListener { dialog, which ->
+                        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                        startActivity(intent)
+                    })
+                alertDialog.setNegativeButton(
+                    "Nei",
+                    DialogInterface.OnClickListener { dialog, which ->
+                        //Ingenting skjer hvis nei.
+                    })
                 alertDialog.show()
 
             }
@@ -447,7 +500,7 @@ class HomeFragment : Fragment() {
         val params = view.layoutParams as PercentRelativeLayout.LayoutParams
         val info = params.percentLayoutInfo
 
-        if(d>11.0){
+        if (d > 11.0) {
             info.startMarginPercent = f - 0.02f
             binding.textViewUvPinTall.setText("11+")
         } else if (d >= 10.5 && d <= 11.0) {
@@ -469,55 +522,55 @@ class HomeFragment : Fragment() {
         setUvPinTekst(f, d)
     }
 
-    fun calculateHemisphere(latitude: Number) : String{
+    fun calculateHemisphere(latitude: Number): String {
         var hemisphere = "N"
-        if(latitude.toDouble() < 0){
+        if (latitude.toDouble() < 0) {
             hemisphere = "S"
         }
         return hemisphere
     }
 
-    fun updateVitaminDInfo(fitztype : Number, uvindex: Int, latitude: Double, longitude: Double){
+    fun updateVitaminDInfo(fitztype: Number, uvindex: Int, latitude: Double, longitude: Double) {
         var vitaminDDataSource = VitaminDDataSource()
         var hemisphere = calculateHemisphere(latitude)
-        var sunBurnRes = vitaminDDataSource.calculateTimeTillSunBurn(fitztype.toFloat(), uvindex.toFloat())
-        var vitaminDRes = vitaminDDataSource.calculateVitaminDUIPerHour(fitztype.toFloat(), hemisphere, uvindex.toFloat())
+        var sunBurnRes =
+            vitaminDDataSource.calculateTimeTillSunBurn(fitztype.toFloat(), uvindex.toFloat())
+        var vitaminDRes = vitaminDDataSource.calculateVitaminDUIPerHour(
+            fitztype.toFloat(),
+            hemisphere,
+            uvindex.toFloat()
+        )
 
         binding.timeTillSunburn.setText(sunBurnRes.toString())
         binding.vitaminDPerHour.setText(vitaminDRes.toString())
     }
 
-    fun updateSunscreen(uvIndex : Number){
+    fun updateSunscreen(uvIndex: Number) {
         var roundedUvIndex = uvIndex.toDouble().roundToInt()
         //Ekstrem
-        if(roundedUvIndex >= 11){
+        if (roundedUvIndex >= 11) {
             binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_50pluss)
-            binding.TextViewSolFaktor.setText("50+")
         }
         //Svært ekstrem
-        else if(roundedUvIndex >= 8){
+        else if (roundedUvIndex >= 8) {
             binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_50pluss)
-            binding.TextViewSolFaktor.setText("50+")
         }
         //Sterk
-        else if(roundedUvIndex >= 6){
+        else if (roundedUvIndex >= 6) {
             binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_50)
-            binding.TextViewSolFaktor.setText("50")
         }
         //Moderat
-        else if(roundedUvIndex >= 3){
+        else if (roundedUvIndex >= 3) {
             binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_30)
-            binding.TextViewSolFaktor.setText("30")
         }
         //Lav
-        else if(roundedUvIndex >= 0){
+        else if (roundedUvIndex >= 0) {
             binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_25)
-            binding.TextViewSolFaktor.setText("25")
         }
     }
 
     fun setUvBar(uv: Int, d: Double) {
-        when (uv){
+        when (uv) {
             0 -> setUvAlle(0.0f, d)
             1 -> setUvAlle(0.0818f, d)
             2 -> setUvAlle(0.1636f, d)
@@ -534,7 +587,7 @@ class HomeFragment : Fragment() {
     }
 
     //End of set UV pin og UV tekst
-    fun startObserverne(chosenLocation : ChosenLocation) {
+    fun startObserverne(chosenLocation: ChosenLocation) {
         var chosenLocation = chosenLocation
         // Get UV data
         getActivity()?.let {
@@ -543,7 +596,8 @@ class HomeFragment : Fragment() {
                 setUvBar(it.roundToInt(), it)
                 uvIndex = it.roundToInt()
                 updateSunscreen(uvIndex)
-                var fitztype = dataSourceRepository.getFitzType() // Henter hudtype fra shared preferences, gir 0 hvis ikke satt
+                var fitztype =
+                    dataSourceRepository.getFitzType() // Henter hudtype fra shared preferences, gir 0 hvis ikke satt
                 updateVitaminDInfo(fitztype, uvIndex, chosenLocation.lat, chosenLocation.lon)
             }
         }
@@ -562,8 +616,8 @@ class HomeFragment : Fragment() {
 
         // Update UV forecast graph
         getActivity()?.let {
-        homeViewModel.getUvForecastData().observe(it) { uvDataForecast ->
-            homeViewModel.getUvForecastStartTime().observe(it) { startTime ->
+            homeViewModel.getUvForecastData().observe(it) { uvDataForecast ->
+                homeViewModel.getUvForecastStartTime().observe(it) { startTime ->
                     // Call UvForecastGraphView addData
                     val gv = binding.uvForecastGraph
                     gv.addData(uvDataForecast, startTime)
@@ -607,8 +661,8 @@ class HomeFragment : Fragment() {
                 }
 
                 //Oppdater sky-bilde, alle mulige verdier sky kan være: https://api.met.no/weatherapi/weathericon/2.0/documentation#!/data/get_legends_format
-                if (lightMode){
-                    when(sky){
+                if (lightMode) {
+                    when (sky) {
                         "clearsky_day" -> binding.vaermeldingSky.setImageResource(R.drawable.sol)
                         "clearsky_night" -> binding.vaermeldingSky.setImageResource(R.drawable.maane)
                         "clearsky_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.sol)
@@ -621,14 +675,28 @@ class HomeFragment : Fragment() {
                         "heavysnowandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
                         "heavysnowshowers_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
                         "heavysnowshowers_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                        "heavysnowshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                        "heavysnowshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                        "heavysnowshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                        "heavysnowshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
+                        "heavysnowshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.snoskyh
+                        )
+                        "heavysnowshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.snoskyh
+                        )
+                        "heavysnowshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.snoskyh
+                        )
+                        "heavysnowshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.snoskyh
+                        )
                         "lightrainandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
-                        "lightrainshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
-                        "lightrainshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
-                        "lightrainshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
+                        "lightrainshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordenskyh
+                        )
+                        "lightrainshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordenskyh
+                        )
+                        "lightrainshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordenskyh
+                        )
                         "lightsleetandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
                         "lightsnow_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
                         "lightsnow_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
@@ -636,13 +704,27 @@ class HomeFragment : Fragment() {
                         "lightsnowandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
                         "lightsnowshowers_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
                         "lightsnowshowers_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                        "lightsnowshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                        "lightssleetshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
-                        "lightssleetshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
-                        "lightssleetshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
-                        "lightssnowshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
-                        "lightssnowshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
-                        "lightssnowshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
+                        "lightsnowshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.snoskyh
+                        )
+                        "lightssleetshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordenskyh
+                        )
+                        "lightssleetshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordenskyh
+                        )
+                        "lightssleetshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordenskyh
+                        )
+                        "lightssnowshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordenskyh
+                        )
+                        "lightssnowshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordenskyh
+                        )
+                        "lightssnowshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordenskyh
+                        )
                         "partlycloudy_day" -> binding.vaermeldingSky.setImageResource(R.drawable.solskyh)
                         "partlycloudy_night" -> binding.vaermeldingSky.setImageResource(R.drawable.maaneskyh)
                         "partlycloudy_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.solskyh)
@@ -653,13 +735,15 @@ class HomeFragment : Fragment() {
                         "snowshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
                         "snowshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
                         "snowshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                        "snowshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
+                        "snowshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.snoskyh
+                        )
                         else -> {
                             binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
                         }
                     }
                 } else {
-                    when(sky){
+                    when (sky) {
                         "clearsky_day" -> binding.vaermeldingSky.setImageResource(R.drawable.sol)
                         "clearsky_night" -> binding.vaermeldingSky.setImageResource(R.drawable.maane)
                         "clearsky_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.sol)
@@ -672,14 +756,28 @@ class HomeFragment : Fragment() {
                         "heavysnowandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
                         "heavysnowshowers_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
                         "heavysnowshowers_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
-                        "heavysnowshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
-                        "heavysnowshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
-                        "heavysnowshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
-                        "heavysnowshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
+                        "heavysnowshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.snosky
+                        )
+                        "heavysnowshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.snosky
+                        )
+                        "heavysnowshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.snosky
+                        )
+                        "heavysnowshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.snosky
+                        )
                         "lightrainandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.tordensky)
-                        "lightrainshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(R.drawable.tordensky)
-                        "lightrainshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(R.drawable.tordensky)
-                        "lightrainshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.tordensky)
+                        "lightrainshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordensky
+                        )
+                        "lightrainshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordensky
+                        )
+                        "lightrainshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordensky
+                        )
                         "lightsleetandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.tordensky)
                         "lightsnow_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
                         "lightsnow_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
@@ -687,13 +785,27 @@ class HomeFragment : Fragment() {
                         "lightsnowandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.tordensky)
                         "lightsnowshowers_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
                         "lightsnowshowers_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
-                        "lightsnowshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
-                        "lightssleetshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(R.drawable.tordensky)
-                        "lightssleetshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(R.drawable.tordensky)
-                        "lightssleetshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.tordensky)
-                        "lightssnowshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(R.drawable.tordensky)
-                        "lightssnowshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(R.drawable.tordensky)
-                        "lightssnowshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.tordensky)
+                        "lightsnowshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.snosky
+                        )
+                        "lightssleetshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordensky
+                        )
+                        "lightssleetshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordensky
+                        )
+                        "lightssleetshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordensky
+                        )
+                        "lightssnowshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordensky
+                        )
+                        "lightssnowshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordensky
+                        )
+                        "lightssnowshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordensky
+                        )
                         "partlycloudy_day" -> binding.vaermeldingSky.setImageResource(R.drawable.skysol)
                         "partlycloudy_night" -> binding.vaermeldingSky.setImageResource(R.drawable.maanesky)
                         "partlycloudy_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.skysol)
@@ -704,7 +816,9 @@ class HomeFragment : Fragment() {
                         "snowshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
                         "snowshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
                         "snowshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
-                        "snowshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
+                        "snowshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.snosky
+                        )
                         else -> {
                             binding.vaermeldingSky.setImageResource(R.drawable.regnsky)
                         }
@@ -745,3 +859,5 @@ class HomeFragment : Fragment() {
         }
     }
 }
+
+

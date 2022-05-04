@@ -330,18 +330,21 @@
                 <androidx.percentlayout.widget.PercentRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
+
                     <TextView
                         android:id="@+id/textViewUvPinTall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nexa_regular"
                         android:gravity="center"
-                        android:text="4.0"
                         android:maxLines="1"
+                        android:text="4.0"
                         android:textSize="30sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -368,14 +371,16 @@
 
             <TextView
                 android:id="@+id/detaljerAddresse"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginBottom="16dp"
-                android:gravity="start"
+                android:gravity="start|center_vertical"
                 android:text="@string/placeholder"
                 android:textColor="?android:textColorPrimary"
-                android:textSize="40sp"
+                android:maxLines="1"
+                android:ellipsize="marquee"
+                android:textSize="36sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/detaljerTemperatur"
@@ -415,7 +420,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/detaljView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:padding="16dp"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
@@ -429,24 +434,54 @@
                 android:background="@drawable/rounded_corner_grey">
 
 
-                <TextView
-                    android:id="@+id/TextViewSolFaktor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:gravity="end"
-                    android:text="@string/placeholder"
-                    android:textColor="@color/grey"
-                    android:textSize="40sp"
-                    android:textStyle="bold"
+                <RelativeLayout
+                    android:id="@+id/layout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/textViewUVstyrkeDetaljer"
-                    app:layout_constraintHorizontal_chainStyle="spread_inside"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
+                    tools:context="com.example.in2000_team32.MainActivity">
 
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/viewpager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_above="@+id/bottom_layout" />
+
+                    <FrameLayout
+                        android:id="@+id/bottom_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        app:layout_constraintBottom_toBottomOf="parent">
+
+                        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                            android:id="@+id/dots_indicator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            app:dotsColor="@color/white"
+                            app:dotsCornerRadius="8dp"
+                            app:dotsSize="16dp"
+                            app:dotsSpacing="4dp"
+                            app:dotsWidthFactor="2.5"
+                            app:progressMode="true"
+                            app:selectedDotColor="@color/black">
+
+
+                        </com.tbuonomo.viewpagerdotsindicator.DotsIndicator>
+
+                    </FrameLayout>
+
+                </RelativeLayout>
+
+
+
+
+                <!---
                 <TextView
                     android:id="@+id/textViewMangeDetaljer"
                     android:layout_width="wrap_content"
@@ -455,24 +490,15 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="32dp"
                     android:layout_marginBottom="8dp"
-                    android:textColor="@color/grey"
                     android:text="@string/uv_tekst_forklaring"
+                    android:textColor="@color/grey"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/TextViewSolFaktor" />
+                    -->
 
-                <TextView
-                    android:id="@+id/textViewUVstyrkeDetaljer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/grey"
-                    android:text="@string/spf"
-                    app:layout_constraintBottom_toBottomOf="@+id/TextViewSolFaktor"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/TextViewSolFaktor"
-                    app:layout_constraintTop_toTopOf="@+id/TextViewSolFaktor" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
@@ -496,9 +522,9 @@
                 android:id="@+id/constraintLayoutMap"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="32dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="24dp"
                 android:layout_marginBottom="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -509,7 +535,7 @@
                 <com.example.in2000_team32.ui.home.UvForecastGraphView
                     android:id="@+id/uvForecastGraph"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
