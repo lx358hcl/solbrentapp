@@ -280,9 +280,9 @@
                 android:id="@+id/progressBarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="0dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="0dp"
                 android:layout_marginBottom="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -320,7 +320,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_heightPercent="10%"
                         app:layout_marginBottomPercent="0%"
-                        app:layout_marginLeftPercent="8.18%"
+                        app:layout_marginLeftPercent="0%"
                         app:layout_widthPercent="10%"
                         app:srcCompat="@drawable/uvpin"/>
 
@@ -344,7 +344,7 @@
                         android:fontFamily="@font/nexa_regular"
                         android:gravity="center"
                         android:maxLines="1"
-                        android:text="4.0"
+                        android:text="0.0"
                         android:textSize="30sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -352,7 +352,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_marginBottomPercent="14%"
-                        app:layout_marginLeftPercent="27.72%"
+                        app:layout_marginLeftPercent="0.0%"
                         app:layout_widthPercent="20%" />
                 </androidx.percentlayout.widget.PercentRelativeLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
