@@ -503,9 +503,11 @@ class HomeFragment : Fragment() {
         if (d > 11.0) {
             info.startMarginPercent = f - 0.02f
             binding.textViewUvPinTall.setText("11+")
+            binding.textViewUvPinTall.gravity = Gravity.END
         } else if (d >= 10.5 && d <= 11.0) {
             info.startMarginPercent = f - 0.05f
             binding.textViewUvPinTall.setText(d.toString())
+            binding.textViewUvPinTall.gravity = Gravity.CENTER
         } else if (d <= 0.4) {
             info.startMarginPercent = 0.0f
             binding.textViewUvPinTall.gravity = Gravity.START
@@ -513,6 +515,7 @@ class HomeFragment : Fragment() {
         } else {
             info.startMarginPercent = f - 0.05f
             binding.textViewUvPinTall.setText(d.toString())
+            binding.textViewUvPinTall.gravity = Gravity.CENTER
         }
         view.requestLayout()
     }

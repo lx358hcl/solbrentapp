@@ -9,7 +9,6 @@ import android.content.Context.MODE_PRIVATE
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -17,22 +16,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.in2000_team32.R
-import com.example.in2000_team32.databinding.FragmentMapBinding
-
-import android.widget.TextView
 import com.example.in2000_team32.api.DataSourceRepository
-import com.example.in2000_team32.databinding.FragmentHomeBinding
+import com.example.in2000_team32.databinding.FragmentMapBinding
 import java.util.*
 
 
 class MapFragment : Fragment() {
-    private var VARSEL_TID: Long = 3600000*2
+    private var VARSEL_TID: Long = 3600000
     private var tidText : TextView? = null
     private var cdTimer: CountDownTimer? = null
     private var cdtRunning: Boolean = false
