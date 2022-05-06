@@ -8,14 +8,14 @@
         android:id="@+id/textHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:autoSizeTextType="uniform"
         android:gravity="end"
         android:maxLines="1"
         android:text="@string/innstillingerString"
+        android:textColor="@color/black"
         android:textSize="32sp"
-        android:layout_centerHorizontal="true"
-        android:textStyle="bold"
-        android:textColor="@color/black"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textForklaring"
