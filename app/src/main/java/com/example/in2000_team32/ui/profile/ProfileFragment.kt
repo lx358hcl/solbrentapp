@@ -174,6 +174,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
+
     //Function to change theme to dark mode or light mode when the user clicks on the button
     fun changeTheme(view: View) {
         val currentTheme = sharedPreferences?.getThemeMode()
