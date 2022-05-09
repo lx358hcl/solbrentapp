@@ -7,22 +7,24 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\luka_\.android\avd\Pixel_5_API_30.avd" />
+            <value value="C:\Users\ErikS\.android\avd\Pixel_5_API_31_1.avd" />
           </Key>
         </deviceKey>
       </Target>
     </targetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2022-04-22T23:11:12.224768300Z" />
-    <targetsSelectedWithDialog>
+    <timeTargetWasSelectedWithDropDown value="2022-05-06T18:37:54.119815600Z" />
+    <runningDeviceTargetsSelectedWithDialog>
       <Target>
-        <type value="QUICK_BOOT_TARGET" />
+        <type value="RUNNING_DEVICE_TARGET" />
         <deviceKey>
           <Key>
-            <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\ErikS\.android\avd\Nexus_S_480X800_31.avd" />
+            <type value="SERIAL_NUMBER" />
+            <value value="adb-R5CRB0JF3FD-U6SK1W._adb-tls-connect._tcp" />
           </Key>
         </deviceKey>
       </Target>
+    </runningDeviceTargetsSelectedWithDialog>
+    <targetsSelectedWithDialog>
       <Target>
         <type value="QUICK_BOOT_TARGET" />
         <deviceKey>

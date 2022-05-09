@@ -17,10 +17,9 @@ class DataSourceSharedPreferences(val context: Context) {
      * Function takes in a MetResponseDto, and stores it
      * in shared preferences on android device.
      */
+
     fun writeMetCache(metResponseDto: MetResponseDto?) {
         // Saving an object in saved preferences
-        // https://stackoverflow.com/questions/7145606/how-do-you-save-store-objects-in-sharedpreferences-on-android
-
         val prefsEditor: SharedPreferences.Editor = sharedPref.edit()
         val gson: Gson = Gson()
 
@@ -57,7 +56,6 @@ class DataSourceSharedPreferences(val context: Context) {
     }
 
     fun writeFitzType(f: Int) {
-
         val prefsEditor: SharedPreferences.Editor = sharedPref.edit()
 
         prefsEditor.putString("fitzType", f.toString())
@@ -85,7 +83,6 @@ class DataSourceSharedPreferences(val context: Context) {
         return chosenLocation
     }
 
-
     //Get theme mode
     fun getThemeMode() : String? {
         return profilSharedPref.getString("theme", null)
@@ -97,5 +94,32 @@ class DataSourceSharedPreferences(val context: Context) {
             putString("theme", theme)
             apply()
         }
+    }
+
+    //Returns true if not changed
+    fun getNotifPref() : Boolean {
+        return profilSharedPref.getBoolean("notif", true)
+    }
+
+    //Sets users notification preferences
+    fun setNotifPref(notifPref: Boolean) {
+        with(profilSharedPref.edit()){
+            putBoolean("notif", notifPref)
+            apply()
+        }
+    }
+
+    // Set temperature unit
+    fun toggleTempUnit() {
+        val current : Boolean = getTempUnit()
+        with (profilSharedPref.edit()) {
+            putBoolean("tempUnit", !current)
+            apply()
+        }
+    }
+
+    // Get temperature unit
+    fun getTempUnit() : Boolean {
+        return profilSharedPref.getBoolean("tempUnit", true)
     }
 }

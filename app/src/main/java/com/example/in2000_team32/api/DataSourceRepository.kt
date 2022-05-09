@@ -15,7 +15,6 @@ class DataSourceRepository(val context: Context) {
     private val metDataSource = MetDataSource()
     private val locationDataSource = LocationDataSource()
     private val dsSharedPreferences = DataSourceSharedPreferences(context)
-    //private val sharedPreferences = getDefaultSharedPreferences
 
     /**
      * Gets data from API or cache.
@@ -27,25 +26,21 @@ class DataSourceRepository(val context: Context) {
         var hasCache: Boolean = false // Is set to true once the app has loaded some data
         var updateIsDue: Boolean = true
 
+        // Vi hadde ikke tid til å løse caching, men har lagt opp til at det skal være lett
+        // å implementere her.
         if (!hasCache || updateIsDue) { // Test if we have to cache
             val response = metDataSource.fetchMetWeatherForecast(latitude, longitude)
             // Save cache
             dsSharedPreferences.writeMetCache(response)
-
             return response
         }
-
-        // https://stackoverflow.com/questions/7145606/how-do-you-save-store-objects-in-sharedpreferences-on-android
-
         return null
     }
 
     suspend fun getLocationData(latitude : Double, longitude : Double): String? {
         var locationData = locationDataSource.findLocationNameFromLatLong(latitude, longitude)
-        println("LOKASJON");
         if (locationData != null) {
             if(locationData.address?.city != null){
-                println("This is the city: " + locationData.address?.city)
                 return locationData.address?.city
             }
             else{
@@ -63,7 +58,6 @@ class DataSourceRepository(val context: Context) {
 
     suspend fun getLocationNamesBasedOnString(searchQuery : String): List<NominatimLocationFromString>? {
         var locationData = locationDataSource.findLocationNamesFromString(searchQuery)
-        println("Searching from datarepository")
         return locationData
     }
 
@@ -91,7 +85,6 @@ class DataSourceRepository(val context: Context) {
     fun getChosenLocation() : ChosenLocation? {
         //Turn json string into object of type ChosenLocation
         val chosenLocation = dsSharedPreferences.getChosenLocation()
-        //If chosenLocation is not null, return city
         if(chosenLocation != null){
             return chosenLocation
         }
@@ -100,10 +93,29 @@ class DataSourceRepository(val context: Context) {
 
     //Set chosen location in sharedpreferences to chosen city
     fun setChosenLocation(chosenLocation : ChosenLocation?){
-        //Turn object into JSON
         val gson = Gson()
         val json = gson.toJson(chosenLocation)
         dsSharedPreferences.setLocation(json)
+    }
+
+    //Sets users notification preference in sharedpreferences
+    fun setNotifPref(b: Boolean) {
+        dsSharedPreferences.setNotifPref(b)
+    }
+
+    //Gets users notification preference from sharedpreferences
+    fun getNotifPref() : Boolean {
+        return dsSharedPreferences.getNotifPref()
+    }
+
+    // Set temperature unit
+    fun toggleTempUnit() {
+        dsSharedPreferences.toggleTempUnit()
+    }
+
+    // Get temperature unit
+    fun getTempUnit() : Boolean {
+        return dsSharedPreferences.getTempUnit()
     }
 
 }

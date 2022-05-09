@@ -95,9 +95,9 @@ class VitaminDDataSource {
         if (f in 1..2) {
             VitaminDUIPerHour = VitaminDUIPerHour
         } else if (f in 3..4) {
-            VitaminDUIPerHour = VitaminDUIPerHour * 2
+            VitaminDUIPerHour = VitaminDUIPerHour / 2
         } else if (f in 5..6) {
-            VitaminDUIPerHour = VitaminDUIPerHour * 5
+            VitaminDUIPerHour = VitaminDUIPerHour / 5
         }
 
         return VitaminDUIPerHour
@@ -107,7 +107,6 @@ class VitaminDDataSource {
         //Calculate time till sunburn
         var timeTillSunburn = 0.0
 
-        println(uvindex)
         when (uvindex.toInt()) {
             1 -> timeTillSunburn = 150.0
             2 -> timeTillSunburn = 100.0

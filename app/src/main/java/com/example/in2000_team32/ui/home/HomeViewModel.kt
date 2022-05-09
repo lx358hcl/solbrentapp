@@ -20,16 +20,6 @@ import kotlin.time.Duration.Companion.hours
 import kotlin.time.hours
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) { // Had to change to AndroidViewModel to be able to get context
-/*
-    private var currentDate: String = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
-    private var currentTime: String = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
-
-    private val _textHome = MutableLiveData<String>().apply {
-        value = "God\nmorgen"
-    }
-    val textHome: LiveData<String> = _textHome
- */
-
     // Connect Data Source Repo. to HomeViewModel
     private val dataSourceRepository = DataSourceRepository(getApplication<Application>().applicationContext)
     private val uvData: MutableLiveData<Double> = MutableLiveData<Double>()
@@ -44,10 +34,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
     private val places : MutableLiveData<List<NominatimLocationFromString>> = MutableLiveData<List<NominatimLocationFromString>>()
     private var searchJob: Job? = null
 
-
-    /**
-     * @return Current UV data. One single Double value.
-     */
     fun getUvData(): LiveData<Double> {
         return uvData
     }
@@ -88,7 +74,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
     }
 
     // Fetch location-area-data
-    @Suppress("DEPRECATION")
     fun fetchWeatherData(latitude : Double, longitude: Double) {
         // Do an asynchronous operation to fetch users
         viewModelScope.launch(Dispatchers.IO) {
@@ -116,7 +101,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
                 val formatter: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
                 val date = formatter.parse(rawStartTime.toString())
                 val startHour = date.hours.toInt()
-                //println("-------------> raw: $rawStartTime, startHour: $startHour")
                 uvStartTimeForecast.postValue(startHour)
 
                 // Post current temp
@@ -133,10 +117,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
     // Fetch met-data
     fun fetchLocationData(latitude : Double, longitude : Double) {
         // Do an asynchronous operation to fetch users
-        println("SKjera brusjan")
         viewModelScope.launch(Dispatchers.IO) {
             dataSourceRepository.getLocationData(latitude, longitude)?.also {
-                println("Her kommer anusen min" + it.toString())
                 locationName.postValue(it)
             }
         }
@@ -150,9 +132,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
             delay(500)
             dataSourceRepository.getLocationNamesBasedOnString(searchQuery) ?.also {
                 places.postValue(it)
-                println("HERE IT COMES biiiiiiiiitch")
-                println(it)
-                println("The length of IT is " + it.size)
             }
         }
     }
@@ -160,9 +139,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
     //Henter farge fra sharedpreferences
     fun getColor() : Int {
         var returInt : Int = 0
-        runBlocking {
-            returInt = dataSourceRepository.getColor()
-        }
+        returInt = dataSourceRepository.getColor()
         return returInt
     }
 

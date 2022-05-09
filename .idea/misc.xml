@@ -48,11 +48,18 @@
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/Gruppeoppgpave/in2000/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/border_set.xml" value="0.5675" />
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/drawable/ic_baseline_fire_extinguisher_24.xml" value="0.3295" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/activity_main.xml" value="0.2702009405728944" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/activity_onboarding.xml" value="0.2689183411714408" />
         <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/cardextended.xml" value="0.3973468098547063" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/fragment_home.xml" value="0.14" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/fragment_map.xml" value="0.2875" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/fragment_profile.xml" value="0.26849080803762293" />
-        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/menu/bottom_nav_menu.xml" value="0.26849080803762293" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/fragment_home.xml" value="0.3428815733219325" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/fragment_map.xml" value="0.33" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/fragment_profile.xml" value="0.33" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/search_query_element.xml" value="0.4719965797349295" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/slider.xml" value="0.4719965797349295" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/sliderHome.xml" value="0.4719965797349295" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/slider_home.xml" value="0.34459170585720394" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/layout/tips_kladd.xml" value="0.34416417272338606" />
+        <entry key="..\:/Users/ErikS/AndroidStudioProjects/in2000/app/src/main/res/menu/bottom_nav_menu.xml" value="0.4626424651751794" />
         <entry key="..\:/Users/luka_/Desktop/in2000_etterMerge/in2000/app/src/main/res/drawable-v24/ic_suncream_20.xml" value="0.213" />
         <entry key="..\:/Users/luka_/Desktop/in2000_etterMerge/in2000/app/src/main/res/drawable-v24/ic_suncream_30.xml" value="0.213" />
         <entry key="..\:/Users/luka_/Desktop/in2000_etterMerge/in2000/app/src/main/res/drawable-v24/ic_suncream_50pluss.xml" value="0.213" />
@@ -81,7 +88,6 @@
         <entry key="..\:/Users/magnu/AndroidStudioProjects/in2000/app/src/main/res/drawable/ic_baseline_wb_sunny_24_sunny.xml" value="0.196" />
         <entry key="..\:/Users/magnu/AndroidStudioProjects/in2000/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.196" />
         <entry key="..\:/Users/magnu/AndroidStudioProjects/in2000/app/src/main/res/layout/fragment_home.xml" value="0.18802083333333333" />
-        <entry key="..\:/Users/magnu/AndroidStudioProjects/in2000/app/src/main/res/layout/fragment_profile.xml" value="0.358695652173913" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.182518115942029" />
         <entry key="app/src/main/res/layout/cardextended.xml" value="0.14311043566362716" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1875" />

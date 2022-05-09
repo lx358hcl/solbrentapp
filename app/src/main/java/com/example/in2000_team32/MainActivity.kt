@@ -101,7 +101,6 @@ class MainActivity : AppCompatActivity() {
         val networkCallback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
                 super.onAvailable(network)
-                println("Internet is available")
                 runOnUiThread {
                     //Internet is back bitch
                     if(internetLost) {
@@ -117,7 +116,6 @@ class MainActivity : AppCompatActivity() {
 
             override fun onLost(network: Network) {
                 super.onLost(network)
-                println("Internet is lost")
                 internetLost = true
                 runOnUiThread {
                     //If current fragment is home fragment
@@ -139,15 +137,12 @@ class MainActivity : AppCompatActivity() {
                     R.id.navigation_home -> {
                         //Check if internet is
                         progressBar.visibility = View.VISIBLE
-                        println("Home")
                     }
                     R.id.navigation_profile -> {
                         progressBar.visibility = View.GONE
-                        println("Profile")
                     }
                     R.id.navigation_map -> {
                         progressBar.visibility = View.GONE
-                        println("Map")
                     }
                 }
             }
@@ -155,23 +150,5 @@ class MainActivity : AppCompatActivity() {
                 progressBar.visibility = View.GONE
             }
         }
-
-        //Check if the user has internet connection and if not show a Toast message to the user and show the progress bar and hide the navigation bar and the bottom navigation bar and the toolbar
-        if(!isNetworkAvailable()){
-            Toast.makeText(this, "No FUCKING internet connection", Toast.LENGTH_LONG).show()
-        }
-        //If user has internet connection
-        else{
-            //Hide the progress bar and show the navigation bar and the bottom navigation bar and the toolbar
-            progressBar.visibility  = View.GONE
-
-            //Show toast that user has internet connection
-            Toast.makeText(this, "You have internet connection", Toast.LENGTH_LONG).show()
-
-        }
-
-
-
     }
-
 }

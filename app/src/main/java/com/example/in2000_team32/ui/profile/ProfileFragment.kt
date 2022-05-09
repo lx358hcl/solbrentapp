@@ -2,6 +2,7 @@ package com.example.in2000_team32.ui.profile
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.core.widget.ImageViewCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.in2000_team32.R
@@ -21,6 +23,7 @@ import com.example.in2000_team32.api.DataSourceRepository
 import com.example.in2000_team32.api.DataSourceSharedPreferences
 import com.example.in2000_team32.databinding.FragmentProfileBinding
 import com.example.in2000_team32.ui.home.HomeViewModel
+import com.google.android.gms.common.annotation.KeepForSdkWithFieldsAndMethods
 import com.google.android.material.switchmaterial.SwitchMaterial
 import dev.sasikanth.colorsheet.ColorSheet
 
@@ -35,8 +38,7 @@ class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
     private var selectedColor: Int = ColorSheet.NO_COLOR
@@ -66,14 +68,17 @@ class ProfileFragment : Fragment() {
         //Buttons from settinsg page
         var darkModeButtonTextLower : TextView = root.findViewById(R.id.darkModeButtonTextLower)
         var darkModeButton : SwitchMaterial = root.findViewById(R.id.darkModeButton)
+        val varslerButtonTextLower : TextView = root.findViewById(R.id.VarslerButtonTextLower)
+        val varslerButton : SwitchMaterial = root.findViewById(R.id.VarslerButton)
+        val unitButton : SwitchMaterial = root.findViewById(R.id.unitSettingsButton)
+        val unitText : TextView = root.findViewById(R.id.unitSettingsText)
+
 
         //Check if sharedPreferences has a value for darkMode
         if(sharedPreferences.getThemeMode() == null){
             sharedPreferences.setThemeMode("light")
         }
         //Update buttons based on sharedPreferences data
-        //Print out the current dark mode
-        println(sharedPreferences.getThemeMode());
         if (sharedPreferences.getThemeMode() == "dark"){
             darkModeButtonTextLower.text = "Mørk"
             //Uncheck the switchMaterial button
@@ -87,11 +92,26 @@ class ProfileFragment : Fragment() {
             darkModeButton.isChecked = false
             AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
         }
+        if (dataSourceRepository.getNotifPref()) {
+            varslerButtonTextLower.text = "På"
+            varslerButton.isChecked = true
+        }
+        else {
+            varslerButtonTextLower.text = "Av"
+            varslerButton.isChecked = false
+        }
+
+        // Set temp unit based on shared preferences
+        val currentUnit = sharedPreferences.getTempUnit()
+        unitButton.isChecked = currentUnit
+        if (currentUnit) unitText.text = "Celsius" else unitText.text = "Farhenheit"
+
+        //Get fitz from sharedPreferences and set background color
+        var fitz = sharedPreferences.getFitzType()
+        binding.constraintLayout1.setBackgroundColor(homeViewModel.getColor())
 
         //Listen for click on dark mode button and change theme
         binding.darkModeButton.setOnClickListener {
-            //Print out the current theme mode
-            println("Current theme mode: ${sharedPreferences.getThemeMode()}")
             if (sharedPreferences.getThemeMode() == "light") {
                 sharedPreferences.setThemeMode("dark")
                 darkModeButtonTextLower.text = "Mørk"
@@ -101,6 +121,29 @@ class ProfileFragment : Fragment() {
                 sharedPreferences.setThemeMode("light")
                 darkModeButtonTextLower.text = "Lys"
                 AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
+            }
+        }
+
+        //Listen for click on dark mode button and change theme
+        binding.VarslerButton.setOnClickListener {
+            if (dataSourceRepository.getNotifPref()) {
+                dataSourceRepository.setNotifPref(false)
+                varslerButtonTextLower.text = "Av"
+            }
+            else {
+                dataSourceRepository.setNotifPref(true)
+                varslerButtonTextLower.text = "På"
+            }
+        }
+
+        // Change temperature units
+        binding.unitSettingsButton.setOnClickListener {
+            sharedPreferences.toggleTempUnit()
+            val currentUnit : Boolean = sharedPreferences.getTempUnit()
+            if (currentUnit) {
+                unitText.text = getString(R.string.celsius)
+            } else {
+                unitText.text = getString(R.string.fahrenheit)
             }
         }
 
@@ -116,12 +159,6 @@ class ProfileFragment : Fragment() {
                         homeViewModel.writeColor(selectedColor) //Skriver til sharedPreferences den valgte hudfargen
 
                         // Mapping av color til fitz (burde egentlig vært gjort motsatt, men det er litt jobb å fikse)
-                        // 1: -798540
-                        // 2: -1657709
-                        // 3: -2842236
-                        // 4: -2980001
-                        // 5: -6070719
-                        // 6: -12902628
                         var fitzType : Int
                         when (selectedColor) {
                             -798540 -> fitzType = 1
@@ -146,6 +183,9 @@ class ProfileFragment : Fragment() {
         val farge = homeViewModel.getColor()
         if(farge != 0) {
             binding.constraintLayout1.setBackgroundColor(homeViewModel.getColor())
+        } else {
+            var background = ResourcesCompat.getDrawable(this.resources, R.drawable.bg_gradient, null) as GradientDrawable
+            binding.constraintLayout1.setBackgroundDrawable(background)
         }
 
         return root

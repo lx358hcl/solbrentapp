@@ -17,13 +17,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="64dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detaljerAddresse"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintBottom_toTopOf="@+id/detaljView"
+            app:layout_constraintEnd_toEndOf="@+id/detaljView"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/detaljView"
+            app:layout_constraintTop_toBottomOf="@+id/detaljerTemperatur"
+            app:layout_constraintVertical_chainStyle="spread_inside">
 
 
             <ImageView
@@ -55,7 +56,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_heightPercent="10%"
                     app:layout_marginBottomPercent="0%"
-                    app:layout_marginLeftPercent="8.81%"
+                    app:layout_marginLeftPercent="0%"
                     app:layout_widthPercent="10%"
                     app:srcCompat="@drawable/uvpin" />
 
@@ -74,10 +75,11 @@
                     android:id="@+id/textViewUvPinTall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:autoSizeTextType="uniform"
                     android:fontFamily="@font/nexa_regular"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:text="4.0"
+                    android:text="0.0"
                     android:textSize="30sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -85,7 +87,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_marginBottomPercent="14%"
-                    app:layout_marginLeftPercent="3.18%"
+                    app:layout_marginLeftPercent="0%"
                     app:layout_widthPercent="20%" />
             </androidx.percentlayout.widget.PercentRelativeLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -104,14 +106,16 @@
 
         <TextView
             android:id="@+id/detaljerAddresse"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginBottom="16dp"
-            android:gravity="start"
+            android:ellipsize="marquee"
+            android:gravity="start|center_vertical"
+            android:maxLines="1"
             android:text="@string/placeholder"
             android:textColor="?android:textColorPrimary"
-            android:textSize="40sp"
+            android:textSize="36sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/detaljerTemperatur"
@@ -124,12 +128,10 @@
             android:id="@+id/detaljerTemperatur"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginBottom="12dp"
             android:gravity="top"
             android:text="69°C"
-            android:textSize="28sp"
+            android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/detaljerAddresse"
             app:layout_constraintEnd_toEndOf="parent"
@@ -153,81 +155,131 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/detaljView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
             android:layout_marginBottom="32dp"
-            app:layout_constraintBottom_toTopOf="@+id/constraintLayoutMap"
-            app:layout_constraintEnd_toEndOf="@+id/constraintLayoutMap"
-            app:layout_constraintStart_toStartOf="@+id/constraintLayoutMap"
+            android:background="@drawable/rounded_corner_grey"
+            android:padding="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+            app:layout_constraintEnd_toEndOf="@+id/constraintLayout2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/constraintLayout2"
             app:layout_constraintTop_toBottomOf="@+id/progressBarLayout"
-            app:layout_constraintVertical_bias="0.48000002"
-            app:layout_constraintVertical_chainStyle="packed">
+            app:layout_constraintVertical_chainStyle="spread">
 
 
-            <TextView
-                android:id="@+id/TextViewSolFaktor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:gravity="end"
-                android:text="@string/placeholder"
-                android:textColor="?android:textColorPrimary"
-                android:textSize="40sp"
-                android:textStyle="bold"
+            <RelativeLayout
+                android:id="@+id/layout1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/textViewUVstyrkeDetaljer"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                tools:context="com.example.in2000_team32.MainActivity">
 
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/bottom_layout"
+                    android:layout_marginBottom="8dp" />
+
+                <FrameLayout
+                    android:id="@+id/bottom_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                        android:id="@+id/dots_indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:dotsColor="@color/white"
+                        app:dotsCornerRadius="8dp"
+                        app:dotsSize="16dp"
+                        app:dotsSpacing="4dp"
+                        app:dotsWidthFactor="2.5"
+                        app:progressMode="true"
+                        app:selectedDotColor="@color/black">
+
+
+                    </com.tbuonomo.viewpagerdotsindicator.DotsIndicator>
+
+                </FrameLayout>
+
+            </RelativeLayout>
+
+
+            <!---
             <TextView
                 android:id="@+id/textViewMangeDetaljer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
                 android:layout_marginBottom="8dp"
-                android:text="Lorem Ipsum dodo dada sier humpus her er det noe tekst tenker jeg kanskje muligens eller hva sier dere til det da?"
+                android:text="@string/uv_tekst_forklaring"
+                android:textColor="@color/grey"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/TextViewSolFaktor" />
+                -->
 
-            <TextView
-                android:id="@+id/textViewUVstyrkeDetaljer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/placeholder"
-                app:layout_constraintBottom_toBottomOf="@+id/TextViewSolFaktor"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/TextViewSolFaktor"
-                app:layout_constraintTop_toTopOf="@+id/TextViewSolFaktor" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayoutMap"
+            android:id="@+id/constraintLayout2"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detaljView">
 
-            <com.example.in2000_team32.ui.home.UvForecastGraphView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/overskriftGraf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/uv_pr_time"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/constraintLayoutMap"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayoutMap"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/overskriftGraf">
+
+                <com.example.in2000_team32.ui.home.UvForecastGraphView
+                    android:id="@+id/uvForecastGraph"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

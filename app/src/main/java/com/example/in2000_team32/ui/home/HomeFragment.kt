@@ -3,16 +3,17 @@ package com.example.in2000_team32.ui.home
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.graphics.drawable.AnimationDrawable
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.location.LocationManager.PASSIVE_PROVIDER
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
@@ -20,12 +21,12 @@ import android.os.Bundle
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.core.app.ActivityCompat
@@ -35,23 +36,27 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.percentlayout.widget.PercentRelativeLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
 import com.example.in2000_team32.R
 import com.example.in2000_team32.api.*
 import com.example.in2000_team32.databinding.FragmentHomeBinding
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.math.roundToInt
-import kotlin.math.roundToLong
 
-@Suppress("DEPRECATION") class HomeFragment : Fragment() {
+
+class HomeFragment : Fragment() {
     var show = false
     private val current: LocalDateTime = LocalDateTime.now()
-    private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("HH", Locale.getDefault())
+    private val formatter: DateTimeFormatter =
+        DateTimeFormatter.ofPattern("HH", Locale.getDefault())
     private val formatted: Double = current.format(formatter).toDouble()
     private var uvBar = 50
     private var uvIndex = 0
-    private lateinit var location: Location
+    private var location: Location = Location(PASSIVE_PROVIDER)
     private var observersStarted = false
     private lateinit var locationManager: LocationManager
     var appVisible = false
@@ -59,7 +64,11 @@ import kotlin.math.roundToLong
     // This property is only valid between onCreateView and onDestroyView.
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var dataSourceRepository : DataSourceRepository
+    private lateinit var dataSourceRepository: DataSourceRepository
+    private lateinit var loadingSearchSpinner: ProgressBar
+    private lateinit var searchQueryRecycler: RecyclerView
+    private lateinit var viewPager: ViewPager
+    private lateinit var viewPagerAdapterHome: ViewPagerAdapterHome
 
     //OnPause are used to check if the app is in the foreground or not
     override fun onPause() {
@@ -67,34 +76,39 @@ import kotlin.math.roundToLong
         appVisible = false
     }
 
+
     //When user returns to activity
     //Se her for forklaring hvorfor den må plasseres her: https://cdn.djuices.com/djuices/activity-lifecycle.jpeg
     override fun onResume() {
-        println("Calling resume method")
         super.onResume()
-        //Dette starter opp hele applikasjonen - Vi kan pynte på syntaks og struktur senere, vi må ha det i resume fordi onCreated skjer før onResum
         //Check if permissions are granted
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             startApp()
-        }
-        else{
+        } else {
             //Start app
             startApp()
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         var root: View
         dataSourceRepository = DataSourceRepository(requireContext())
-
-        /*
-        * Slett koden under etterpå
-        * */
-        //val response = homeViewModel.fetchWeatherData(59.9, 10.7)
-        //val sky = homeViewModel.getCurrentSky()
-        //startObserverne()
+        loadingSearchSpinner = binding.progressBar4
+        loadingSearchSpinner.visibility = View.GONE
+        searchQueryRecycler = binding.searchQueryRecycler
 
         //Check if user has internet connection
         if (!isNetworkAvailable()) {
@@ -105,24 +119,23 @@ import kotlin.math.roundToLong
         }
 
         //SearchAdapter
-        //Vars som trengs
-        var searchQueryRecycler: RecyclerView = binding.searchQueryRecycler
-
         //RecyclerView initialisering og setting av adapter
         searchQueryRecycler.layoutManager = LinearLayoutManager(this.context)
-        searchQueryRecycler.adapter = SearchAdapter(mutableListOf())
-
-        //Observator for RecyclerViewModellen
         homeViewModel.getPlaces().observe(viewLifecycleOwner) {
             if (it != null) {
-                println("Trigger warning!!!")
-                //Check if it is not null and if it is not empty
-                if (it.isNotEmpty()) {
-                    println("Warning triggered")
-                    //Set adapter
-                    searchQueryRecycler?.adapter = SearchAdapter(it as MutableList<NominatimLocationFromString>)
+                //Check if it is not null
+                if (loadingSearchSpinner != null) {
+                    //Check if it is visible
+                    if (loadingSearchSpinner.visibility == View.VISIBLE) {
+                        //Hide loading spinner
+                        loadingSearchSpinner.visibility = View.GONE
+                    }
                 }
-                println(it)
+                if (it.isNotEmpty()) {
+                    //Set adapter
+                    searchQueryRecycler?.adapter =
+                        SearchAdapter(it as MutableList<NominatimLocationFromString>, this.context)
+                }
             }
         }
 
@@ -135,7 +148,6 @@ import kotlin.math.roundToLong
                 showSearch()
             }
         }
-        //End of if som åpner og lukker søkefeltet
 
         //Listen for button click on resetCityButton
         val resetCityButton = binding.resetCityButton
@@ -147,10 +159,19 @@ import kotlin.math.roundToLong
 
             //Show toast message that location has been reset
             Toast.makeText(context, "Location has been reset", Toast.LENGTH_LONG).show()
+
+            //Reset recycler view
+            searchQueryRecycler.adapter =
+                SearchAdapter(mutableListOf(), this.context) //Reset recycler view
+
+            //Close keyboard and hide search
+            hideSearch()
+
+            //Start app again
+            startApp()
         }
 
         //Sett solkrem
-        //
         binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_50pluss)
 
         //End of sett solkrem
@@ -176,22 +197,29 @@ import kotlin.math.roundToLong
         //Start textlistener for senere
         startSearchListener()
 
+
+        //Dot slider view kode.
+        val relativeLayout = binding.layout1
+        val dotsIndicator = binding.dotsIndicator
+
+        viewPager = binding.viewpager
+        viewPagerAdapterHome = ViewPagerAdapterHome(requireContext())
+        viewPager.adapter = viewPagerAdapterHome
+
+        dotsIndicator.setViewPager(viewPager)
         return root
     }
 
+
     fun startApp() {
         //Check if city is null in shared preferences
-        var chosenLocation : ChosenLocation? = dataSourceRepository.getChosenLocation()
+        var chosenLocation: ChosenLocation? = dataSourceRepository.getChosenLocation()
 
-        if(chosenLocation == null) {
+        if (chosenLocation == null) {
             mPermissionResult.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             //Make toast that user has to choose a city
-            println("User has to choose a city")
-        }
-        else{
-            println(chosenLocation)
-            println("HURRA")
-            if(chosenLocation == null){
+        } else {
+            if (chosenLocation == null) {
                 chosenLocation = ChosenLocation("", 0.0, 0.0)
             }
             grabInfo(chosenLocation)
@@ -203,7 +231,7 @@ import kotlin.math.roundToLong
         binding.EditTextAddress.requestFocus()
         activity?.let { showKeyboard(it) }
         binding.searchLayout1.animate().translationY(0F)
-        binding.searchButton.setImageResource(R.drawable.ic_baseline_close_24)
+        binding.searchButton.setImageResource(R.drawable.ic_baseline_check_24)
     }
 
     fun hideSearch() {
@@ -219,16 +247,23 @@ import kotlin.math.roundToLong
         //Listen for input from EditTextAddress and print it to console
         binding.EditTextAddress.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                println("Text: $s")
+                //Not used
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
+                //Not used
             }
 
             //Ingen debouncing atm, så ikke bruk denne for mye ellers får vi kvote-kjeft
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 homeViewModel.fetchPlaces(s.toString())
+                //Check if loadingSearchSpinner and searchQueryRecyler is not null
+                if (loadingSearchSpinner != null && searchQueryRecycler != null) {
+                    //If so, show loading spinner and hide recycler
+                    loadingSearchSpinner.visibility = View.VISIBLE
+                    searchQueryRecycler.adapter = SearchAdapter(mutableListOf(), activity)
+                }
+                startApp()
             }
         })
     }
@@ -238,51 +273,64 @@ import kotlin.math.roundToLong
     }
 
     fun Context.hideKeyboard(view: View) {
-        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager =
+            getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     fun showKeyboard(activity: FragmentActivity) {
-        val inputMethodManager = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.toggleSoftInputFromWindow(activity.currentFocus!!.windowToken, InputMethodManager.SHOW_FORCED, 0)
+        val inputMethodManager =
+            activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.toggleSoftInputFromWindow(
+            activity.currentFocus!!.windowToken,
+            InputMethodManager.SHOW_FORCED,
+            0
+        )
     }
 
     val mPermissionResult = registerForActivityResult(RequestPermission()) { result ->
         if (result) {
-            Log.e(TAG, "onActivityResult: PERMISSION GRANTED")
-            println("Getting permissions")
             getLocation()
-        }
-        else {
-            Log.e(TAG, "onActivityResult: PERMISSION DENIED")
-            println("Permission denied")
-            //Make a toast that the user has denied permission to use location
-            Toast.makeText(context, "Du må tillate bruk av lokasjon for å bruke appen", Toast.LENGTH_LONG).show()
+        } else {
             //Vis en melding som sier at man bør ha stedsposisijoner på eller etlerann
+            Toast.makeText(
+                context,
+                "Du må tillate bruk av lokasjon for å bruke appen",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
     val locationListener = LocationListener { l ->
         location = l
-        println("Received a location")
-        println(location)
-        grabInfo(ChosenLocation("", 0.0, 0.0))
+        var chosenLocation: ChosenLocation? = dataSourceRepository.getChosenLocation()
+        if (chosenLocation == null) {
+            mPermissionResult.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        } else {
+            if (chosenLocation == null) {
+                chosenLocation = ChosenLocation("", 0.0, 0.0)
+            }
+            grabInfo(chosenLocation)
+        }
     }
 
-    fun grabInfo(chosenLocation : ChosenLocation) {
+    fun grabInfo(chosenLocation: ChosenLocation) {
         var currentActivity = getActivity()
         if (currentActivity != null) {
-            if(chosenLocation.city == ""){
-                homeViewModel.fetchLocationData(location.latitude, location.longitude)
-                homeViewModel.fetchWeatherData(location.latitude, location.longitude)
+            if (chosenLocation.city == "") {
+                //Check if location is not null
+                if (location != null && location.latitude != null && location.longitude != null) {
+                    //If so, get city and country from location
+                    homeViewModel.fetchLocationData(location.latitude, location.longitude)
+                    homeViewModel.fetchWeatherData(location.latitude, location.longitude)
 
-                if (observersStarted == false) {
-                    startObserverne(ChosenLocation("", 0.0, 0.0))
-                    observersStarted = true
+                    if (observersStarted == false) {
+                        startObserverne(ChosenLocation("", 0.0, 0.0))
+                        observersStarted = true
+                    }
                 }
-                //User has not chosen
-            }
-            else {
+
+            } else {
                 //Print out chosen location
                 var lat = chosenLocation.lat
                 var lon = chosenLocation.lon
@@ -315,8 +363,7 @@ import kotlin.math.roundToLong
                     }
                 }
             }
-        }
-        else {
+        } else {
             if (cm != null) {
                 val activeNetwork = cm.activeNetworkInfo
                 if (activeNetwork != null) {
@@ -343,105 +390,96 @@ import kotlin.math.roundToLong
             } != PackageManager.PERMISSION_GRANTED && currentActivity?.let {
                 ActivityCompat.checkSelfPermission(it, Manifest.permission.ACCESS_COARSE_LOCATION)
             } != PackageManager.PERMISSION_GRANTED) {
-            println("Permissions arent grranted")
-
-            //Show Dialog that user needs to grant permissions for the app to work
-
 
             return
-        } else {
-            println("Permissions are granted mofo")
-            //Gå videre nedover
         }
 
         //Get Locationmanager
         //Gpsenabled og networkenabled er egentlig litt feil å si, det betyr egentlig mer typ hva som er tilgjengelig og ikke om den er enabled eller ikke
-        locationManager = currentActivity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        locationManager =
+            currentActivity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         var gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
         var networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
         var wifiEnabled = locationManager.isProviderEnabled(LocationManager.PASSIVE_PROVIDER)
 
-        fun useWifi(){
-            println("wifi is enabled")
+        fun useWifi() {
             //Make toast with message that wifi is enabled and that the app will not work without gps
-
-            Toast.makeText(context, "Wifi is WUBBA WUBBA", Toast.LENGTH_LONG).show()
             var l = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
             if (l != null) {
-                println("wifi is enabled and location is not null")
                 location = l
                 grabInfo(ChosenLocation("", 0.0, 0.0))
-            } else {
-                println("wifi is enabled and location is null")
             }
-            locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0, 0f, locationListener)
+            locationManager.requestLocationUpdates(
+                LocationManager.PASSIVE_PROVIDER,
+                0,
+                0f,
+                locationListener
+            )
         }
 
-        //Check if internet is available and if gps is enabled if not ask user to enable it or use network provider if available and if not ask user to enable
+        //Sjekk om internet tilgjengelig
         if (!isNetworkAvailable()) {
-            //If this happens just add a spinner to the entire page and make it impossible to use because no internet is present
-            println("No internet")
-
-            //Show toast that no internet is available and that the app will not work without internet access and that the user should enable internet access
             Toast.makeText(context, "No internet available", Toast.LENGTH_LONG).show()
-        }
-        else {
-            println("Internet is available")
+        } else {
             if (networkEnabled) {
-                println("Gps is not enabled but network is available")
                 var l = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
                 if (l != null) {
-                    println("Gps is not enabled but network is available and location is not null")
                     location = l
                     grabInfo(ChosenLocation("", 0.0, 0.0))
                 } else {
-                    println("Gps is not enabled but network is available and location is null")
                     useWifi();
                 }
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, locationListener)
-            }
-            else if (gpsEnabled) {
-                println("Gps is enabled")
+                locationManager.requestLocationUpdates(
+                    LocationManager.NETWORK_PROVIDER,
+                    0,
+                    0f,
+                    locationListener
+                )
+            } else if (gpsEnabled) {
                 var l = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                 if (l != null) {
-                    println("Gps is enabled and location is not null")
                     location = l
                     grabInfo(ChosenLocation("", 0.0, 0.0))
                 } else {
-                    println("Gps is enabled and location is null")
                     useWifi();
                 }
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener)
-            } else if(wifiEnabled){
-                println("wifi is enabled")
+                locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    0,
+                    0f,
+                    locationListener
+                )
+            } else if (wifiEnabled) {
                 //Make toast with message that wifi is enabled and that the app will not work without gps
-                Toast.makeText(context, "Wifi is WUBBA WUBBA", Toast.LENGTH_LONG).show()
                 var l = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
                 if (l != null) {
-                    println("wifi is enabled and location is not null")
                     location = l
                     grabInfo(ChosenLocation("", 0.0, 0.0))
                 } else {
-                    println("wifi is enabled and location is null")
                     useWifi();
                 }
-                locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 0, 0f, locationListener)
-            }
-            else{
+                locationManager.requestLocationUpdates(
+                    LocationManager.PASSIVE_PROVIDER,
+                    0,
+                    0f,
+                    locationListener
+                )
+            } else {
                 //Show AlertDialog that LocationServices is disabled and that the user should enable it in settings or dismiss if they dont want to enable it
-                println("Gps is not enabled and network is not available")
                 var alertDialog = AlertDialog.Builder(context)
-                alertDialog.setTitle("Location Services Disabled")
-                alertDialog.setMessage("Please enable Location Services in settings")
-                alertDialog.setPositiveButton("Enable", DialogInterface.OnClickListener { dialog, which ->
-                    println("User wants to enable location services")
-                    val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                    startActivity(intent)
-
-                })
-                alertDialog.setNegativeButton("No", DialogInterface.OnClickListener { dialog, which ->
-                    println("User does not want to enable location services")
-                })
+                alertDialog.setTitle("Stedstjenester")
+                alertDialog.setMessage("Vennligst slå på stedstjenester i innstillingene dine.")
+                alertDialog.setPositiveButton(
+                    "Tillat",
+                    DialogInterface.OnClickListener { dialog, which ->
+                        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                        startActivity(intent)
+                    })
+                alertDialog.setNegativeButton(
+                    "Nei",
+                    DialogInterface.OnClickListener { dialog, which ->
+                        //Ingenting skjer hvis nei.
+                    })
                 alertDialog.show()
 
             }
@@ -462,19 +500,22 @@ import kotlin.math.roundToLong
         val params = view.layoutParams as PercentRelativeLayout.LayoutParams
         val info = params.percentLayoutInfo
 
-        if(d>11.0){
+        if (d > 11.0) {
             info.startMarginPercent = f - 0.02f
-            binding.textViewUvPinTall.text = "11+"
+            binding.textViewUvPinTall.setText("11+")
+            binding.textViewUvPinTall.gravity = Gravity.END
         } else if (d >= 10.5 && d <= 11.0) {
             info.startMarginPercent = f - 0.05f
-            binding.textViewUvPinTall.text = d.toString()
+            binding.textViewUvPinTall.setText(d.toString())
+            binding.textViewUvPinTall.gravity = Gravity.CENTER
         } else if (d <= 0.4) {
             info.startMarginPercent = 0.0f
             binding.textViewUvPinTall.gravity = Gravity.START
-            binding.textViewUvPinTall.text = d.toString()
+            binding.textViewUvPinTall.setText(d.toString())
         } else {
             info.startMarginPercent = f - 0.05f
-            binding.textViewUvPinTall.text = d.toString()
+            binding.textViewUvPinTall.setText(d.toString())
+            binding.textViewUvPinTall.gravity = Gravity.CENTER
         }
         view.requestLayout()
     }
@@ -484,54 +525,55 @@ import kotlin.math.roundToLong
         setUvPinTekst(f, d)
     }
 
-    fun calculateHemisphere(latitude: Number) : String{
+    fun calculateHemisphere(latitude: Number): String {
         var hemisphere = "N"
-        if(latitude.toDouble() < 0){
+        if (latitude.toDouble() < 0) {
             hemisphere = "S"
         }
         return hemisphere
     }
 
-    fun updateVitaminDInfo(fitztype : Number, uvindex: Int, latitude: Double, longitude: Double){
+    fun updateVitaminDInfo(fitztype: Number, uvindex: Int, latitude: Double, longitude: Double) {
         var vitaminDDataSource = VitaminDDataSource()
         var hemisphere = calculateHemisphere(latitude)
-        var sunBurnRes = vitaminDDataSource.calculateTimeTillSunBurn(fitztype.toFloat(), uvindex.toFloat())
-        var vitaminDRes = vitaminDDataSource.calculateVitaminDUIPerHour(fitztype.toFloat(), hemisphere, uvindex.toFloat())
+        var sunBurnRes =
+            vitaminDDataSource.calculateTimeTillSunBurn(fitztype.toFloat(), uvindex.toFloat())
+        var vitaminDRes = vitaminDDataSource.calculateVitaminDUIPerHour(
+            fitztype.toFloat(),
+            hemisphere,
+            uvindex.toFloat()
+        )
 
-        println(uvindex.toFloat())
-        println(sunBurnRes)
-        println(vitaminDRes)
-        
-        binding.timeTillSunburn.text = sunBurnRes.toString()
-        binding.vitaminDPerHour.text = vitaminDRes.toString()
+        binding.timeTillSunburn.setText(sunBurnRes.toString())
+        binding.vitaminDPerHour.setText(vitaminDRes.toString())
     }
 
-    fun updateSunscreen(uvIndex : Number){
+    fun updateSunscreen(uvIndex: Number) {
         var roundedUvIndex = uvIndex.toDouble().roundToInt()
         //Ekstrem
-        if(roundedUvIndex >= 11){
+        if (roundedUvIndex >= 11) {
             binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_50pluss)
         }
         //Svært ekstrem
-        else if(roundedUvIndex >= 8){
-            binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_50)
+        else if (roundedUvIndex >= 8) {
+            binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_50pluss)
         }
         //Sterk
-        else if(roundedUvIndex >= 6){
-            binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_30)
+        else if (roundedUvIndex >= 6) {
+            binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_50)
         }
         //Moderat
-        else if(roundedUvIndex >= 3){
+        else if (roundedUvIndex >= 3) {
             binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_30)
         }
         //Lav
-        else if(roundedUvIndex >= 0){
+        else if (roundedUvIndex >= 0) {
             binding.imageViewSolkrem.setImageResource(R.drawable.solkrem_lang_25)
         }
     }
 
     fun setUvBar(uv: Int, d: Double) {
-        when (uv){
+        when (uv) {
             0 -> setUvAlle(0.0f, d)
             1 -> setUvAlle(0.0818f, d)
             2 -> setUvAlle(0.1636f, d)
@@ -548,7 +590,7 @@ import kotlin.math.roundToLong
     }
 
     //End of set UV pin og UV tekst
-    fun startObserverne(chosenLocation : ChosenLocation) {
+    fun startObserverne(chosenLocation: ChosenLocation) {
         var chosenLocation = chosenLocation
         // Get UV data
         getActivity()?.let {
@@ -557,7 +599,8 @@ import kotlin.math.roundToLong
                 setUvBar(it.roundToInt(), it)
                 uvIndex = it.roundToInt()
                 updateSunscreen(uvIndex)
-                var fitztype = dataSourceRepository.getFitzType() // Henter hudtype fra shared preferences, gir 0 hvis ikke satt
+                var fitztype =
+                    dataSourceRepository.getFitzType() // Henter hudtype fra shared preferences, gir 0 hvis ikke satt
                 updateVitaminDInfo(fitztype, uvIndex, chosenLocation.lat, chosenLocation.lon)
             }
         }
@@ -576,8 +619,8 @@ import kotlin.math.roundToLong
 
         // Update UV forecast graph
         getActivity()?.let {
-        homeViewModel.getUvForecastData().observe(it) { uvDataForecast ->
-            homeViewModel.getUvForecastStartTime().observe(it) { startTime ->
+            homeViewModel.getUvForecastData().observe(it) { uvDataForecast ->
+                homeViewModel.getUvForecastStartTime().observe(it) { startTime ->
                     // Call UvForecastGraphView addData
                     val gv = binding.uvForecastGraph
                     gv.addData(uvDataForecast, startTime)
@@ -588,7 +631,17 @@ import kotlin.math.roundToLong
         // Update current temp in card
         getActivity()?.let {
             homeViewModel.getCurrentTemp().observe(it) { temp ->
-                val formatedTemp: String = "$temp °C"
+                var formatedTemp: String
+                // Adjust chosen unit
+                if (dataSourceRepository.getTempUnit()) {
+                    formatedTemp = "$temp °C"
+                } else {
+                    val f_temp = (temp * 1.8) + 32
+                    val df = DecimalFormat("#.#")
+                    df.roundingMode = RoundingMode.DOWN
+                    val t = df.format(f_temp)
+                    formatedTemp = "$t °F"
+                }
                 binding.detaljerTemperatur.setText(formatedTemp)
             }
         }
@@ -596,97 +649,182 @@ import kotlin.math.roundToLong
         //Update cloud-picture
         getActivity()?.let {
             homeViewModel.getCurrentSky().observe(it) { sky ->
+                var lightMode = true
 
-                println("Sky status er : " + sky)
+                when (context?.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+                    Configuration.UI_MODE_NIGHT_YES -> {
+                        lightMode = false
+                    }
+                    Configuration.UI_MODE_NIGHT_NO -> {
+                        lightMode = true
+                    }
+                    Configuration.UI_MODE_NIGHT_UNDEFINED -> {
+                        lightMode = true
+                    }
+                }
+
                 //Oppdater sky-bilde, alle mulige verdier sky kan være: https://api.met.no/weatherapi/weathericon/2.0/documentation#!/data/get_legends_format
-                when(sky){
-                    "clearsky_day" -> binding.vaermeldingSky.setImageResource(R.drawable.sol)
-                    "clearsky_night" -> binding.vaermeldingSky.setImageResource(R.drawable.sol) //Finner ingen bilde for natt
-                    "clearsky_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.sol) //usikker med polartwilight
-                    "cloudy" -> binding.vaermeldingSky.setImageResource(R.drawable.overskyeth)
-                    "fair_day" -> binding.vaermeldingSky.setImageResource(R.drawable.solskyh)
-                    "fair_night" -> binding.vaermeldingSky.setImageResource(R.drawable.solskyh) //Mangler bilde for natt
-                    "fair_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.solskyh)
-                    "fog" -> binding.vaermeldingSky.setImageResource(R.drawable.overskyeth) //Ingen fog funnet
-                    "heavyrain" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "heavyrainandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh) //Kanskje en med lyn og regn?
-                    "heavyrainshowers_day" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "heavyrainshowers_night" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "heavyrainshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "heavyrainshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "heavyrainshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "heavyrainshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "heavysleet" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh) //Sludd
-                    "heavysleetandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "heavysleetshowers_day" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "heavysleetshowers_night" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "heavysleetshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "heavysleetshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "heavysleetshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "heavysleetshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "heavysnow" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                    "heavysnowandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                    "heavysnowshowers_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                    "heavysnowshowers_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                    "heavysnowshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                    "heavysnowshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                    "heavysnowshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                    "heavysnowshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                    "lightrain" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "lightrainandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
-                    "lightrainshowers_day" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "lightrainshowers_night" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "lightrainshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "lightrainshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
-                    "lightrainshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
-                    "lightrainshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
-                    "lightsleet" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "lightsleetandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
-                    "lightsleetshowers_day" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "lightsleetshowers_night" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "lightsleetshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "lightsnow_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                    "lightsnow_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                    "lightsnow_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                    "lightsnowandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
-                    "lightsnowshowers_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                    "lightsnowshowers_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                    "lightsnowshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                    "lightssleetshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
-                    "lightssleetshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
-                    "lightssleetshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
-                    "lightssnowshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
-                    "lightssnowshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
-                    "lightssnowshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
-                    "partlycloudy_day" -> binding.vaermeldingSky.setImageResource(R.drawable.solskyh)
-                    "partlycloudy_night" -> binding.vaermeldingSky.setImageResource(R.drawable.solskyh)
-                    "partlycloudy_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.solskyh)
-                    "rain" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "rainandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh) //kanskje tordensky?
-                    "rainshowers_day" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "rainshowers_night" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "rainshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "rainshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh) //kanskje tordensky
-                    "rainshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "rainshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "sleet" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "sleetandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "sleetshowers_day" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "sleetshowers_night" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "sleetshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "sleetshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "sleetshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "sleetshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
-                    "snow" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                    "snowandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                    "snowshowers_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                    "snowshowers_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                    "snowshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                    "snowshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                    "snowshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                    "snowshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
-                    else -> {
-                        binding.vaermeldingSky.setImageResource(R.drawable.sol)
+                if (lightMode) {
+                    when (sky) {
+                        "clearsky_day" -> binding.vaermeldingSky.setImageResource(R.drawable.sol)
+                        "clearsky_night" -> binding.vaermeldingSky.setImageResource(R.drawable.maane)
+                        "clearsky_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.sol)
+                        "cloudy" -> binding.vaermeldingSky.setImageResource(R.drawable.overskyeth)
+                        "fair_day" -> binding.vaermeldingSky.setImageResource(R.drawable.solskyh)
+                        "fair_night" -> binding.vaermeldingSky.setImageResource(R.drawable.maaneskyh)
+                        "fair_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.solskyh)
+                        "fog" -> binding.vaermeldingSky.setImageResource(R.drawable.overskyeth)
+                        "heavysnow" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
+                        "heavysnowandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
+                        "heavysnowshowers_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
+                        "heavysnowshowers_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
+                        "heavysnowshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.snoskyh
+                        )
+                        "heavysnowshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.snoskyh
+                        )
+                        "heavysnowshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.snoskyh
+                        )
+                        "heavysnowshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.snoskyh
+                        )
+                        "lightrainandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
+                        "lightrainshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordenskyh
+                        )
+                        "lightrainshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordenskyh
+                        )
+                        "lightrainshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordenskyh
+                        )
+                        "lightsleetandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
+                        "lightsnow_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
+                        "lightsnow_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
+                        "lightsnow_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
+                        "lightsnowandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.tordenskyh)
+                        "lightsnowshowers_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
+                        "lightsnowshowers_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
+                        "lightsnowshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.snoskyh
+                        )
+                        "lightssleetshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordenskyh
+                        )
+                        "lightssleetshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordenskyh
+                        )
+                        "lightssleetshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordenskyh
+                        )
+                        "lightssnowshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordenskyh
+                        )
+                        "lightssnowshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordenskyh
+                        )
+                        "lightssnowshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordenskyh
+                        )
+                        "partlycloudy_day" -> binding.vaermeldingSky.setImageResource(R.drawable.solskyh)
+                        "partlycloudy_night" -> binding.vaermeldingSky.setImageResource(R.drawable.maaneskyh)
+                        "partlycloudy_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.solskyh)
+                        "snow" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
+                        "snowandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
+                        "snowshowers_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
+                        "snowshowers_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
+                        "snowshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
+                        "snowshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
+                        "snowshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snoskyh)
+                        "snowshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.snoskyh
+                        )
+                        else -> {
+                            binding.vaermeldingSky.setImageResource(R.drawable.regnskyh)
+                        }
+                    }
+                } else {
+                    when (sky) {
+                        "clearsky_day" -> binding.vaermeldingSky.setImageResource(R.drawable.sol)
+                        "clearsky_night" -> binding.vaermeldingSky.setImageResource(R.drawable.maane)
+                        "clearsky_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.sol)
+                        "cloudy" -> binding.vaermeldingSky.setImageResource(R.drawable.overskyet)
+                        "fair_day" -> binding.vaermeldingSky.setImageResource(R.drawable.skysol)
+                        "fair_night" -> binding.vaermeldingSky.setImageResource(R.drawable.maanesky)
+                        "fair_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.skysol)
+                        "fog" -> binding.vaermeldingSky.setImageResource(R.drawable.overskyet)
+                        "heavysnow" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
+                        "heavysnowandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
+                        "heavysnowshowers_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
+                        "heavysnowshowers_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
+                        "heavysnowshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.snosky
+                        )
+                        "heavysnowshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.snosky
+                        )
+                        "heavysnowshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.snosky
+                        )
+                        "heavysnowshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.snosky
+                        )
+                        "lightrainandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.tordensky)
+                        "lightrainshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordensky
+                        )
+                        "lightrainshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordensky
+                        )
+                        "lightrainshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordensky
+                        )
+                        "lightsleetandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.tordensky)
+                        "lightsnow_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
+                        "lightsnow_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
+                        "lightsnow_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
+                        "lightsnowandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.tordensky)
+                        "lightsnowshowers_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
+                        "lightsnowshowers_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
+                        "lightsnowshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.snosky
+                        )
+                        "lightssleetshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordensky
+                        )
+                        "lightssleetshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordensky
+                        )
+                        "lightssleetshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordensky
+                        )
+                        "lightssnowshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordensky
+                        )
+                        "lightssnowshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordensky
+                        )
+                        "lightssnowshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.tordensky
+                        )
+                        "partlycloudy_day" -> binding.vaermeldingSky.setImageResource(R.drawable.skysol)
+                        "partlycloudy_night" -> binding.vaermeldingSky.setImageResource(R.drawable.maanesky)
+                        "partlycloudy_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.skysol)
+                        "snow" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
+                        "snowandthunder" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
+                        "snowshowers_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
+                        "snowshowers_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
+                        "snowshowers_polartwilight" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
+                        "snowshowersandthunder_day" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
+                        "snowshowersandthunder_night" -> binding.vaermeldingSky.setImageResource(R.drawable.snosky)
+                        "snowshowersandthunder_polartwilight" -> binding.vaermeldingSky.setImageResource(
+                            R.drawable.snosky
+                        )
+                        else -> {
+                            binding.vaermeldingSky.setImageResource(R.drawable.regnsky)
+                        }
                     }
                 }
             }
@@ -724,3 +862,5 @@ import kotlin.math.roundToLong
         }
     }
 }
+
+
