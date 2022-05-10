@@ -37,7 +37,7 @@ class MapFragment : Fragment() {
     private lateinit var binding: FragmentMapBinding
     private lateinit var dataSourceRepository: DataSourceRepository
 
-    var tidGår = true
+    var tidGaar = true
 
     override fun onCreateView(
         inflater: LayoutInflater,

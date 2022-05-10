@@ -1,9 +1,6 @@
 package com.example.in2000_team32.api
 
-import android.app.PendingIntent.getActivity
 import android.content.Context
-import android.content.SharedPreferences
-import android.preference.PreferenceManager.getDefaultSharedPreferences
 import com.google.gson.Gson
 
 /*

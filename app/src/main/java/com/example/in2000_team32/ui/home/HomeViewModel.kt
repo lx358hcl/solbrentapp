@@ -1,23 +1,18 @@
 package com.example.in2000_team32.ui.home
 
-import android.app.Activity
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import android.app.Application
-import android.app.PendingIntent.getActivity
-import android.content.Context
-import android.widget.TextView
-import androidx.lifecycle.*
 import com.example.in2000_team32.api.DataSourceRepository
 import com.example.in2000_team32.api.NominatimLocationFromString
 import com.example.in2000_team32.api.TimeSeries
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.time.Duration.Companion.hours
-import kotlin.time.hours
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) { // Had to change to AndroidViewModel to be able to get context
     // Connect Data Source Repo. to HomeViewModel
