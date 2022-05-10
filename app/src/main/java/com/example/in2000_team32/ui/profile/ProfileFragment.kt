@@ -1,20 +1,15 @@
 package com.example.in2000_team32.ui.profile
 
-import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
-import androidx.core.widget.ImageViewCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -23,10 +18,8 @@ import com.example.in2000_team32.api.DataSourceRepository
 import com.example.in2000_team32.api.DataSourceSharedPreferences
 import com.example.in2000_team32.databinding.FragmentProfileBinding
 import com.example.in2000_team32.ui.home.HomeViewModel
-import com.google.android.gms.common.annotation.KeepForSdkWithFieldsAndMethods
 import com.google.android.material.switchmaterial.SwitchMaterial
 import dev.sasikanth.colorsheet.ColorSheet
-
 
 
 class ProfileFragment : Fragment() {
@@ -200,15 +193,6 @@ class ProfileFragment : Fragment() {
     private fun setColor(@ColorInt color: Int) {
         if (color != ColorSheet.NO_COLOR) {
             binding.constraintLayout1.setBackgroundColor(color)
-            when (color) {
-                -798540 -> binding.imageViewArt.setColorFilter(-12902628)
-                -1657709 -> binding.imageViewArt.setColorFilter(-6070719)
-                -2842236 -> binding.imageViewArt.setColorFilter(-2980001)
-                -2980001 -> binding.imageViewArt.setColorFilter(-2842236)
-                -6070719 -> binding.imageViewArt.setColorFilter(-1657709)
-                -12902628 -> binding.imageViewArt.setColorFilter(-798540)
-                else -> binding.imageViewArt.setColorFilter(-12902628)
-            }
         } else {
             binding.constraintLayout1.setBackgroundColor(R.drawable.bg_gradient)
         }

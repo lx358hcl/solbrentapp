@@ -1,8 +1,5 @@
 package com.example.in2000_team32.api
 
-import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.coroutines.awaitString
-import com.google.gson.Gson
 import java.util.*
 
 //Finds location based on lat-long and finds lat-long from location

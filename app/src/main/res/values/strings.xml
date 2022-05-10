@@ -28,14 +28,14 @@
     <string name="tid_til_neste_p_sm_ring">Tid til neste påsmøring:</string>
     <string name="klokkeplaceholder">02:00.00</string>
     <string name="p_f_r_alltid_ny_solkrem_etter_bading">Påfør alltid ny solkrem etter bading</string>
-    <string name="ta_en_kj_lig_dusj">Ta en kjølig dusj.</string>
-    <string name="bruk_kj_lende_kremer_for_eksempel_aftersun_eller_aloe_vera_for_lindre_plager">Bruk kjølende kremer, for eksempel aftersun eller aloe vera, for å lindre plager.</string>
-    <string name="legg_gjerne_p_kalde_omslag_for_eksempel_v_te_h_ndkl_r">Legg gjerne på kalde omslag, for eksempel våte håndklær.</string>
-    <string name="xylocain_er_en_reseptfri_lokalbed_vende_salve_som_demper_smerte_og_kl_e_og_kan_brukes_noen_f_dager_ved_st_rre_plager_kan_brukes_av_voksne_og_barn">Xylocain er en reseptfri, lokalbedøvende salve som demper smerte og kløe, og kan brukes noen få dager ved større plager. Kan brukes av voksne og barn.</string>
-    <string name="hydrokortison_er_en_reseptfri_kortisonkrem_som_kan_brukes_for_dempe_betennelse_i_huden_hydrokortison_kan_p_sm_res_i_tynt_lag_1_2_ganger_daglig_i_en_kort_periode">Hydrokortison er en reseptfri kortisonkrem som kan brukes for å dempe betennelse i huden. Hydrokortison kan påsmøres i tynt lag 1–2 ganger daglig i en kort periode.</string>
-    <string name="metode_mentolsalve_kan_brukes_for_lindre_smerter_og_ubehag">Metode mentolsalve kan brukes for å lindre smerter og ubehag.</string>
-    <string name="er_smertene_store_kan_du_eventuelt_bruke_smertestillende_midler_i_en_kort_periode_f_rstevalget_er_smertestillende_som_inneholder_paracetamol_kontakt_legen_hvis_smertene_ikke_gir_seg">Er smertene store kan du eventuelt bruke smertestillende midler i en kort periode. Førstevalget er smertestillende som inneholder paracetamol. Kontakt legen hvis smertene ikke gir seg.</string>
-    <string name="i_dagene_etter_at_du_har_blitt_solbrent_b_r_du_holde_deg_unna_sola_i_noen_dager_hvis_du_m_ut_i_sola_b_r_du_dekke_deg_til_med_kl_r_og_bruke_h_y_solfaktor">I dagene etter at du har blitt solbrent bør du holde deg unna sola i noen dager. Hvis du må ut i sola bør du dekke deg til med klær og bruke høy solfaktor.</string>
+    <string name="ta_en_kj_lig_dusj">Ta en <b>kjølig</b> dusj.</string>
+    <string name="bruk_kj_lende_kremer_for_eksempel_aftersun_eller_aloe_vera_for_lindre_plager">Bruk kjølende kremer, for eksempel aftersun eller aloe vera, for å <b>lindre plager</b>.</string>
+    <string name="legg_gjerne_p_kalde_omslag_for_eksempel_v_te_h_ndkl_r">Legg gjerne på <b>kalde</b> omslag, for eksempel våte håndklær.</string>
+    <string name="xylocain_er_en_reseptfri_lokalbed_vende_salve_som_demper_smerte_og_kl_e_og_kan_brukes_noen_f_dager_ved_st_rre_plager_kan_brukes_av_voksne_og_barn">Xylocain er en <b>reseptfri</b>, lokalbedøvende salve som demper <b>smerte</b> og kløe, og kan brukes noen få dager ved større plager. Kan brukes av voksne og barn.</string>
+    <string name="hydrokortison_er_en_reseptfri_kortisonkrem_som_kan_brukes_for_dempe_betennelse_i_huden_hydrokortison_kan_p_sm_res_i_tynt_lag_1_2_ganger_daglig_i_en_kort_periode"><b>Hydrokortsin</b> er en reseptfri kortisonkrem som kan brukes for å dempe <b>betennelse</b> i huden. Hydrokortison kan påsmøres i tynt lag 1–2 ganger daglig i en kort periode.</string>
+    <string name="metode_mentolsalve_kan_brukes_for_lindre_smerter_og_ubehag">Metode <b>mentolsalve</b> kan brukes for å lindre <b>smerter</b> og ubehag.</string>
+    <string name="er_smertene_store_kan_du_eventuelt_bruke_smertestillende_midler_i_en_kort_periode_f_rstevalget_er_smertestillende_som_inneholder_paracetamol_kontakt_legen_hvis_smertene_ikke_gir_seg">Er smertene store kan du eventuelt bruke <b>smertestillende</b> midler i en kort periode. Førstevalget er smertestillende som inneholder paracetamol. Kontakt <b>legen</b> hvis smertene ikke gir seg.</string>
+    <string name="i_dagene_etter_at_du_har_blitt_solbrent_b_r_du_holde_deg_unna_sola_i_noen_dager_hvis_du_m_ut_i_sola_b_r_du_dekke_deg_til_med_kl_r_og_bruke_h_y_solfaktor">I dagene etter at du har blitt <b>solbrent</b> bør du holde deg unna sola i noen dager. Hvis du må ut i sola bør du dekke deg til med klær og bruke <b>høy solfaktor</b>.</string>
     <string name="vitamin_d_pr_time">Vitamin-D pr. time (UI)</string>
     <string name="vitamin_d_pr_time_riktig">Vitamin-D pr. time (UI)</string>
     <string name="tid_for_solbrent">Tid for solbrent (min)</string>
@@ -86,6 +86,16 @@
     <string name="min_posisjon">Min posisjon</string>
     <string name="solkrem_p_minnelse">Solkrem påminnelse</string>
     <string name="laster">Laster</string>
+    <string name="bilde_av_solkremflaske_med_uv_anbefaling">Bilde av solkremflaske med UV-anbefaling</string>
+    <string name="bilde_av_en_fargerike_vannrett_linje">Bilde av en fargerike vannrett linje</string>
+    <string name="bilde_av_en_pin_som_ligger_opp_en_linje_for_vise_uv_styrke">Bilde av en pin som ligger oppå en linje for å vise UV styrke</string>
+    <string name="h_ndtak_for_pne_detaljer_skuffen">Håndtak for å åpne detaljer skuffen</string>
+    <string name="strekillustrasjon_av_en_sol_skyer_og_landskap">Strekillustrasjon av en sol, skyer og landskap.</string>
+    <string name="m_leenhet">Måleenhet</string>
+    <string name="m_rkt_tema">Mørkt tema</string>
+    <string name="m_rk">Mørk</string>
+    <string name="varsler">Varsler</string>
+    <string name="p">På</string>
 
 
 </resources>

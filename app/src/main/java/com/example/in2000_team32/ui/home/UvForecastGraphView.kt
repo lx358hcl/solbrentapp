@@ -1,10 +1,12 @@
 package com.example.in2000_team32.ui.home
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
-import androidx.core.graphics.toColor
 import com.example.in2000_team32.R
 
 class UvForecastGraphView(context: Context?, attrs: AttributeSet?): View(context, attrs) {

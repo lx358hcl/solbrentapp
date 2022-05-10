@@ -9,7 +9,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.graphics.drawable.AnimationDrawable
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -38,7 +37,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.example.in2000_team32.R
-import com.example.in2000_team32.api.*
+import com.example.in2000_team32.api.ChosenLocation
+import com.example.in2000_team32.api.DataSourceRepository
+import com.example.in2000_team32.api.NominatimLocationFromString
+import com.example.in2000_team32.api.VitaminDDataSource
 import com.example.in2000_team32.databinding.FragmentHomeBinding
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -54,7 +56,7 @@ class HomeFragment : Fragment() {
     private val formatter: DateTimeFormatter =
         DateTimeFormatter.ofPattern("HH", Locale.getDefault())
     private val formatted: Double = current.format(formatter).toDouble()
-    private var uvBar = 50
+    //private var uvBar = 50
     private var uvIndex = 0
     private var location: Location = Location(PASSIVE_PROVIDER)
     private var observersStarted = false

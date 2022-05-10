@@ -6,19 +6,20 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".ui.profile.ProfileFragment">
-    android:id="@+id/profileFragment"
+
     <Button
         android:id="@+id/edit_skin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:text="@string/endreHudfarge"
+        android:textColor="#424242"
         app:elevation="6dp"
         app:icon="@drawable/ic_baseline_edit_24"
+        app:layout_constraintBottom_toTopOf="@+id/InnstillingerHeader"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout1"
-        app:layout_constraintBottom_toTopOf="@+id/InnstillingerHeader"/>
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout1" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout1"
@@ -39,7 +40,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/strekillustrasjon_av_en_sol_skyer_og_landskap" />
 
         <TextView
             android:id="@+id/minProfilText"
@@ -109,7 +111,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:gravity="top"
-                    android:text="Måleenhet"
+                    android:text="@string/m_leenhet"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -128,7 +130,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="8dp"
                     android:gravity="bottom"
-                    android:text="Celsius"
+                    android:text="@string/celsius"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -141,12 +143,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="16dp"
+                    android:checked="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:checked="true"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="DuplicateSpeakableTextCheck" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -163,7 +166,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:gravity="top"
-                    android:text="Mørkt tema"
+                    android:text="@string/m_rkt_tema"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -182,7 +185,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="8dp"
                     android:gravity="bottom"
-                    android:text="Mørk"
+                    android:text="@string/m_rk"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -217,7 +220,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:gravity="top"
-                    android:text="Varsler"
+                    android:text="@string/varsler"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -236,7 +239,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="8dp"
                     android:gravity="bottom"
-                    android:text="På"
+                    android:text="@string/p"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"

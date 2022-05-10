@@ -53,7 +53,7 @@
             app:layout_constraintStart_toStartOf="@+id/tidIgjenTid"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5"
-            app:layout_constraintVertical_chainStyle="packed" />
+            app:layout_constraintVertical_chainStyle="packed"/>
 
         <TextView
             android:id="@+id/tidIgjenTid"
@@ -63,6 +63,7 @@
             android:layout_marginBottom="32dp"
             android:gravity="center"
             android:text="@string/klokkeplaceholder"
+            android:textColor="#2E7D32"
             android:textSize="48sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -76,6 +77,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/jeg_har_smurt_meg"
+            android:textColor="#424242"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -122,6 +124,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="@string/p_f_r_alltid_ny_solkrem_etter_bading"
+            android:textColor="#1B5E20"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -137,8 +140,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/jeg_har_brent_meg"
         android:backgroundTint="@color/light_red"
+        android:text="@string/jeg_har_brent_meg"
+        android:textColor="#424242"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
