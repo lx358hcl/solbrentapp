@@ -176,6 +176,7 @@
             android:text="@string/jeg_har_brent_meg"
             android:textSize="38sp"
             android:textStyle="bold"
+            android:textColor="#754E43"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
