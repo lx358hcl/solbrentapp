@@ -115,8 +115,8 @@
 
             <ImageButton
                 android:id="@+id/searchButton"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_marginEnd="16dp"
                 android:background="@color/transparent"
                 android:contentDescription="@string/searchButtonHelpText"
@@ -169,7 +169,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@string/vitamin_d_pr_time_riktig"
-                    android:textColor="@color/grey"
+                    android:textColor="#546E7A"
                     android:textStyle="normal"
                     app:layout_constraintBottom_toTopOf="@+id/vitaminDPerHour"
                     app:layout_constraintEnd_toEndOf="@+id/vitaminDPerHour"
@@ -218,7 +218,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@string/tid_for_solbrent_riktig"
-                    android:textColor="@color/grey"
+                    android:textColor="#546E7A"
                     android:textStyle="normal"
                     app:layout_constraintBottom_toTopOf="@+id/timeTillSunburn"
                     app:layout_constraintEnd_toEndOf="@+id/timeTillSunburn"
@@ -267,7 +267,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:contentDescription="@string/bilde_av_solkremflaske_med_uv_anbefaling" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -301,7 +302,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/uvslider" />
+                    app:srcCompat="@drawable/uvslider"
+                    android:contentDescription="@string/bilde_av_en_fargerike_vannrett_linje" />
 
                 <androidx.percentlayout.widget.PercentRelativeLayout
                     android:layout_width="match_parent"
@@ -324,7 +326,8 @@
                         app:layout_marginBottomPercent="0%"
                         app:layout_marginLeftPercent="0%"
                         app:layout_widthPercent="10%"
-                        app:srcCompat="@drawable/uvpin" />
+                        app:srcCompat="@drawable/uvpin"
+                        android:contentDescription="@string/bilde_av_en_pin_som_ligger_opp_en_linje_for_vise_uv_styrke" />
 
 
                 </androidx.percentlayout.widget.PercentRelativeLayout>
@@ -345,7 +348,7 @@
                         android:fontFamily="@font/nexa_regular"
                         android:gravity="center"
                         android:maxLines="1"
-                        android:text="0.0"
+                        android:text="@string/placeholder"
                         android:textSize="30sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -368,7 +371,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@android:drawable/button_onoff_indicator_off" />
+                app:srcCompat="@android:drawable/button_onoff_indicator_off"
+                android:contentDescription="@string/h_ndtak_for_pne_detaljer_skuffen" />
 
             <TextView
                 android:id="@+id/detaljerAddresse"
@@ -396,7 +400,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="32dp"
                 android:gravity="top"
-                android:text="69°C"
+                android:text="@string/placeholder"
                 android:textSize="30sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/detaljerAddresse"
@@ -588,7 +592,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.13" />
+            app:layout_constraintVertical_bias="0.13"
+            android:autofillHints="postalAddress"
+            android:inputType="text" />
 
         <Button
             android:id="@+id/resetCityButton"

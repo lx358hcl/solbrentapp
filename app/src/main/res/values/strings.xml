@@ -86,6 +86,16 @@
     <string name="min_posisjon">Min posisjon</string>
     <string name="solkrem_p_minnelse">Solkrem påminnelse</string>
     <string name="laster">Laster</string>
+    <string name="bilde_av_solkremflaske_med_uv_anbefaling">Bilde av solkremflaske med UV-anbefaling</string>
+    <string name="bilde_av_en_fargerike_vannrett_linje">Bilde av en fargerike vannrett linje</string>
+    <string name="bilde_av_en_pin_som_ligger_opp_en_linje_for_vise_uv_styrke">Bilde av en pin som ligger oppå en linje for å vise UV styrke</string>
+    <string name="h_ndtak_for_pne_detaljer_skuffen">Håndtak for å åpne detaljer skuffen</string>
+    <string name="strekillustrasjon_av_en_sol_skyer_og_landskap">Strekillustrasjon av en sol, skyer og landskap.</string>
+    <string name="m_leenhet">Måleenhet</string>
+    <string name="m_rkt_tema">Mørkt tema</string>
+    <string name="m_rk">Mørk</string>
+    <string name="varsler">Varsler</string>
+    <string name="p">På</string>
 
 
 </resources>
