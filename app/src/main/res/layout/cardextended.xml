@@ -35,7 +35,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/uvslider" />
+                app:srcCompat="@drawable/uvslider"
+                android:contentDescription="@string/bilde_av_en_fargerike_vannrett_linje" />
 
             <androidx.percentlayout.widget.PercentRelativeLayout
                 android:layout_width="match_parent"
@@ -58,7 +59,8 @@
                     app:layout_marginBottomPercent="0%"
                     app:layout_marginLeftPercent="0%"
                     app:layout_widthPercent="10%"
-                    app:srcCompat="@drawable/uvpin" />
+                    app:srcCompat="@drawable/uvpin"
+                    android:contentDescription="@string/bilde_av_en_pin_som_ligger_opp_en_linje_for_vise_uv_styrke" />
 
 
             </androidx.percentlayout.widget.PercentRelativeLayout>
@@ -79,7 +81,7 @@
                     android:fontFamily="@font/nexa_regular"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:text="0.0"
+                    android:text="@string/placeholder"
                     android:textSize="30sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -97,12 +99,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:contentDescription="@string/h_ndtak_for_pne_detaljer_skuffen"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@android:drawable/button_onoff_indicator_off" />
+            app:srcCompat="@android:drawable/button_onoff_indicator_off"
+            tools:ignore="ImageContrastCheck" />
 
         <TextView
             android:id="@+id/detaljerAddresse"
@@ -113,7 +117,7 @@
             android:ellipsize="marquee"
             android:gravity="start|center_vertical"
             android:maxLines="1"
-            android:text="@string/placeholder"
+            android:text="@string/laster"
             android:textColor="?android:textColorPrimary"
             android:textSize="36sp"
             android:textStyle="bold"
@@ -130,7 +134,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="32dp"
             android:gravity="top"
-            android:text="69°C"
+            android:text="@string/placeholder"
             android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/detaljerAddresse"
@@ -156,10 +160,10 @@
             android:id="@+id/detaljView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/rounded_corner_grey"
             android:padding="16dp"
             app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
@@ -185,7 +189,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_above="@+id/bottom_layout"
-                    android:layout_marginBottom="8dp" />
+                    android:layout_marginBottom="8dp"
+                    android:contentDescription="@string/informasjon_om_str_ling_og_sm_ring"/>
 
                 <FrameLayout
                     android:id="@+id/bottom_layout"
@@ -199,7 +204,7 @@
                         android:id="@+id/dots_indicator"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_gravity="center|bottom"
                         app:dotsColor="@color/white"
                         app:dotsCornerRadius="8dp"
                         app:dotsSize="16dp"
@@ -250,6 +255,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/uv_pr_time"
                 android:textColor="?android:textColorPrimary"
@@ -265,9 +271,9 @@
                 android:id="@+id/constraintLayoutMap"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="32dp"
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

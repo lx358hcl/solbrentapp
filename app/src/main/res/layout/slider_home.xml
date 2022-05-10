@@ -10,20 +10,19 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:autoSizeTextType="uniform"
-        android:gravity="end"
+        android:gravity="center_horizontal"
         android:maxLines="1"
         android:text="@string/innstillingerString"
         android:textColor="@color/black"
-        android:textSize="32sp"
-        android:textStyle="bold" />
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"/>
 
     <TextView
         android:id="@+id/textForklaring"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/textHeader"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:autoSizeTextType="uniform"
         android:gravity="center"
         android:text="@string/OppsummeringTekst"

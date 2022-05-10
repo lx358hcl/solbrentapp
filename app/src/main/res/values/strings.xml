@@ -96,6 +96,9 @@
     <string name="m_rk">Mørk</string>
     <string name="varsler">Varsler</string>
     <string name="p">På</string>
+    <string name="jeg_har_brent_meg_button">Jeg har brent meg button</string>
+    <string name="informasjon_om_uv_str_ling_og_solkrem">Informasjon om UV stråling og solkrem</string>
+    <string name="informasjon_om_str_ling_og_sm_ring">Informasjon om stråling og smøring</string>
 
 
 </resources>
