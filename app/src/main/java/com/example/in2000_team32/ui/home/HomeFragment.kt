@@ -213,7 +213,6 @@ class HomeFragment : Fragment() {
         var chosenLocation: ChosenLocation? = dataSourceRepository.getChosenLocation()
         val dataSourceRepository = DataSourceRepository(requireContext())
         val permissionAskedBefore = dataSourceRepository.getPermissionAskedBefore()
-        println(permissionAskedBefore)
 
         if (chosenLocation == null && (permissionAskedBefore == null || !permissionAskedBefore)) {
             dataSourceRepository.setPermissionAskedBefore(true)
