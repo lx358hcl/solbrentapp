@@ -37,15 +37,11 @@ class MapFragment : Fragment() {
     private lateinit var binding: FragmentMapBinding
     private lateinit var dataSourceRepository: DataSourceRepository
 
-    var tidGaar = true
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel =
-            ViewModelProvider(this).get(MapViewModel::class.java)
 
         binding = FragmentMapBinding.inflate(inflater, container, false)
         val root: View = binding.root

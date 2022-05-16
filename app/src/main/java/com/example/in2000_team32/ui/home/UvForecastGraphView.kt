@@ -44,13 +44,13 @@ class UvForecastGraphView(context: Context?, attrs: AttributeSet?): View(context
 
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
-        var numberOfBars = DATALENGTH
+        val numberOfBars = DATALENGTH
 
         var timeXaxis = startTime
 
-        var margin = 5f
+        val margin = 5f
         val leftMargin = 30f
-        var boxWidth = ((canvasWidth - margin - leftMargin) / numberOfBars)
+        val boxWidth = ((canvasWidth - margin - leftMargin) / numberOfBars)
 
         // User specified
         var barHeight = 0f

@@ -6,8 +6,8 @@ import java.util.*
 class VitaminDDataSource {
     fun calculateVitaminDUIPerHour(fitztype: Number, hemisphere : String, uvindex: Number) : Double {
         var VitaminDUIPerHour = 0.0
-        var currentSeason = ""
-        var hemisphere = hemisphere.toString()
+        val currentSeason: String
+        val hemisphere = hemisphere.toString()
         var currentMonth = Calendar.getInstance().get(Calendar.MONTH)
 
         //Calculate vitamin d production in ug/hour
@@ -90,7 +90,7 @@ class VitaminDDataSource {
         val f: Int = fitztype.toInt()
 
         if (f in 1..2) {
-            VitaminDUIPerHour = VitaminDUIPerHour
+            VitaminDUIPerHour = VitaminDUIPerHour * 1
         } else if (f in 3..4) {
             VitaminDUIPerHour = VitaminDUIPerHour / 2
         } else if (f in 5..6) {
@@ -126,7 +126,7 @@ class VitaminDDataSource {
 
         //Check skin type and adjust timeTillSunburn
         if (f in 1..2) {
-            timeTillSunburn = timeTillSunburn
+            timeTillSunburn = timeTillSunburn * 1
         } else if (f in 3..4) {
             timeTillSunburn = timeTillSunburn * 2
         } else if (f in 5..6) {

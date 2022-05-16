@@ -5,13 +5,8 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 
 class DataSourceSharedPreferences(val context: Context) {
-    private var sharedPref: SharedPreferences
-    private var profilSharedPref: SharedPreferences
-
-    init {
-        sharedPref = context.getSharedPreferences("metCache", 0)
-        profilSharedPref = context.getSharedPreferences("profilData", Context.MODE_PRIVATE)
-    }
+    private var sharedPref: SharedPreferences = context.getSharedPreferences("metCache", 0)
+    private var profilSharedPref: SharedPreferences = context.getSharedPreferences("profilData", Context.MODE_PRIVATE)
 
     /**
      * Function takes in a MetResponseDto, and stores it
@@ -21,13 +16,13 @@ class DataSourceSharedPreferences(val context: Context) {
     fun writeMetCache(metResponseDto: MetResponseDto?) {
         // Saving an object in saved preferences
         val prefsEditor: SharedPreferences.Editor = sharedPref.edit()
-        val gson: Gson = Gson()
+        val gson = Gson()
 
         // Convert object to json
         val json: String = gson.toJson(metResponseDto)
 
         prefsEditor.putString("metResponseDto", json)
-        prefsEditor.commit()
+        prefsEditor.apply()
     }
 
     /**
@@ -35,7 +30,7 @@ class DataSourceSharedPreferences(val context: Context) {
      * shared preferences, and returns it if found.
      */
     fun getMetCache(): MetResponseDto? {
-        val gson: Gson = Gson()
+        val gson = Gson()
         val json: String? = sharedPref.getString("metResponseDto", "")
         val metResponseDto: MetResponseDto? = gson.fromJson(json, MetResponseDto::class.java)
 
@@ -59,7 +54,7 @@ class DataSourceSharedPreferences(val context: Context) {
         val prefsEditor: SharedPreferences.Editor = sharedPref.edit()
 
         prefsEditor.putString("fitzType", f.toString())
-        prefsEditor.commit()
+        prefsEditor.apply()
     }
 
     // Returns 0 if not found
@@ -77,7 +72,7 @@ class DataSourceSharedPreferences(val context: Context) {
 
     //Get chosen city from sharedpreferences. Return null if not found
     fun getChosenLocation() : ChosenLocation? {
-        val gson: Gson = Gson()
+        val gson = Gson()
         val json: String? = profilSharedPref.getString("location", "")
         val chosenLocation: ChosenLocation? = gson.fromJson(json, ChosenLocation::class.java)
         return chosenLocation
@@ -121,5 +116,18 @@ class DataSourceSharedPreferences(val context: Context) {
     // Get temperature unit
     fun getTempUnit() : Boolean {
         return profilSharedPref.getBoolean("tempUnit", true)
+    }
+
+    //Save permissionAskedBefore state to sharedpreferences
+    fun setPermissionAskedBefore(state: Boolean) {
+        with(profilSharedPref.edit()){
+            putBoolean("permissionAskedBefore", state)
+            apply()
+        }
+    }
+
+    //Get permissionAskedBefore state from sharedpreferences
+    fun getPermissionAskedBefore() : Boolean {
+        return profilSharedPref.getBoolean("permissionAskedBefore", false)
     }
 }

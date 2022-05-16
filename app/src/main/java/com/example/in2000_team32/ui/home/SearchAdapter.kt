@@ -4,15 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.in2000_team32.MainActivity
 import com.example.in2000_team32.R
 import com.example.in2000_team32.api.ChosenLocation
 import com.example.in2000_team32.api.DataSourceRepository
-import com.example.in2000_team32.api.DataSourceSharedPreferences
 import com.example.in2000_team32.api.NominatimLocationFromString
 import com.example.in2000_team32.contextOfApplication
 
@@ -66,8 +62,8 @@ class SearchAdapter(searchQueryElements : MutableList<NominatimLocationFromStrin
                 val position = adapterPosition
                 if(position != RecyclerView.NO_POSITION){
                     //Save selected item in sharedPreferences for later use
-                    var chosenLocation = searchQueryElements[position]
-                    var chosenLocationObject = ChosenLocation(chosenLocation.address?.city ?: "", chosenLocation.lat?.toDouble() ?: 0.0, chosenLocation.lon?.toDouble() ?: 0.0)
+                    val chosenLocation = searchQueryElements[position]
+                    val chosenLocationObject = ChosenLocation(chosenLocation.address?.city ?: "", chosenLocation.lat?.toDouble() ?: 0.0, chosenLocation.lon?.toDouble() ?: 0.0)
 
                     dataSourceRepository.setChosenLocation(chosenLocationObject)
 

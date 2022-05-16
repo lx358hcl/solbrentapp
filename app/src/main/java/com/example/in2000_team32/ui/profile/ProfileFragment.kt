@@ -100,7 +100,6 @@ class ProfileFragment : Fragment() {
         if (currentUnit) unitText.text = "Celsius" else unitText.text = "Farhenheit"
 
         //Get fitz from sharedPreferences and set background color
-        var fitz = sharedPreferences.getFitzType()
         binding.constraintLayout1.setBackgroundColor(homeViewModel.getColor())
 
         //Listen for click on dark mode button and change theme
@@ -201,13 +200,13 @@ class ProfileFragment : Fragment() {
 
     //Function to change theme to dark mode or light mode when the user clicks on the button
     fun changeTheme(view: View) {
-        val currentTheme = sharedPreferences?.getThemeMode()
+        val currentTheme = sharedPreferences.getThemeMode()
         if (currentTheme == "light") {
-            sharedPreferences?.setThemeMode("dark")
+            sharedPreferences.setThemeMode("dark")
             activity?.recreate()
         }
         else {
-            sharedPreferences?.setThemeMode("light")
+            sharedPreferences.setThemeMode("light")
             activity?.recreate()
         }
     }
