@@ -83,20 +83,17 @@ class HomeFragment : Fragment() {
     //Se her for forklaring hvorfor den må plasseres her: https://cdn.djuices.com/djuices/activity-lifecycle.jpeg
     override fun onResume() {
         super.onResume()
-        //Check if permissions are granted
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            startApp()
-        } else {
-            //Start app
+        val requiredPermission = Manifest.permission.READ_CONTACTS
+        val checkVal = context?.checkCallingOrSelfPermission(requiredPermission)
+
+        //Check if permissions are granted and if not, request them
+        if (checkVal == PackageManager.PERMISSION_DENIED) {
             startApp()
         }
+        else{
+            startApp()
+        }
+
     }
 
     override fun onCreateView(
@@ -216,13 +213,18 @@ class HomeFragment : Fragment() {
     fun startApp() {
         //Check if city is null in shared preferences
         var chosenLocation: ChosenLocation? = dataSourceRepository.getChosenLocation()
+        var dataSourceRepository = DataSourceRepository(requireContext())
+        var permissionAskedBefore = dataSourceRepository.getPermissionAskedBefore()
+        println(permissionAskedBefore)
 
-        if (chosenLocation == null) {
+        if (chosenLocation == null && (permissionAskedBefore == null || !permissionAskedBefore)) {
+            dataSourceRepository.setPermissionAskedBefore(true)
             mPermissionResult.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             //Make toast that user has to choose a city
-        } else {
+        }
+        else {
             if (chosenLocation == null) {
-                chosenLocation = ChosenLocation("", 0.0, 0.0)
+                chosenLocation = ChosenLocation("Oslo", 59.9158595, 10.7188505)
             }
             grabInfo(chosenLocation)
         }
@@ -306,13 +308,13 @@ class HomeFragment : Fragment() {
     val locationListener = LocationListener { l ->
         location = l
         var chosenLocation: ChosenLocation? = dataSourceRepository.getChosenLocation()
-        if (chosenLocation == null) {
-            mPermissionResult.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-        } else {
+        if (chosenLocation != null) {
             if (chosenLocation == null) {
                 chosenLocation = ChosenLocation("", 0.0, 0.0)
             }
             grabInfo(chosenLocation)
+        } else {
+            mPermissionResult.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }
     }
 

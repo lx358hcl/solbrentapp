@@ -19,13 +19,13 @@ class MetDataSource {
         val url = baseUrl + path
         val gson = Gson()
 
-        val runWithDummyApi: Boolean = false // Choose weather to get data from MET or Dummy API
+        val runWithDummyApi = false // Choose weather to get data from MET or Dummy API
 
         try {
             val response: MetResponseDto = gson.fromJson(Fuel.get(if (!runWithDummyApi) url else "http://10.0.2.2:1000/weather").awaitString(), MetResponseDto::class.java)
 
             // Setting UV index message based on UV index
-            var msg: String
+            val msg: String
             when (response.properties.timeseries[0].data.instant.details.ultraviolet_index_clear_sky.toInt()) {
                 0 -> msg = contextOfApplication.getString(R.string.uv_msg_0)
                 1 -> msg = contextOfApplication.getString(R.string.uv_msg_1)

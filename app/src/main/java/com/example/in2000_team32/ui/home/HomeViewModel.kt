@@ -93,9 +93,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
                 // Post start time
                 // Set start time variable
                 val rawStartTime: String = it.properties.timeseries[0].time
-                val formatter: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
                 val date = formatter.parse(rawStartTime.toString())
-                val startHour = date.hours.toInt()
+                val startHour = date.hours
                 uvStartTimeForecast.postValue(startHour)
 
                 // Post current temp
@@ -133,7 +133,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) { 
 
     //Henter farge fra sharedpreferences
     fun getColor() : Int {
-        var returInt : Int = 0
+        val returInt: Int
         returInt = dataSourceRepository.getColor()
         return returInt
     }
