@@ -1,4 +1,4 @@
-# IN2000 Project Solbrent
+# IN2000 Project Solbrent 🏆
 
 ## Important naming and stuff
 
