@@ -1,5 +1,7 @@
 # IN2000 Project Solbrent 🏆
 
+Vinneren av "Visuelt Slående" prisen i IN2000 2022 Høst
+
 ## Important naming and stuff
 
 ### Shared preference variables
